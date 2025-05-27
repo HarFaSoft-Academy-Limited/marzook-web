@@ -9,7 +9,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  output: "export",  // <=== enables static exports
+  basePath: "/marzook-web",
+  output: "export",
   reactStrictMode: true,
 }
 
