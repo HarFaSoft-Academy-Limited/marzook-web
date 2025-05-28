@@ -64,7 +64,7 @@ export default function SettingsPage() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="school-email">Email Address</Label>
-                    <Input id="school-email" type="email" defaultValue="info@elmiko.edu.ng" />
+                    <Input id="school-email" type="email" defaultValue="info@marzook.edu.ng" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="school-phone">Phone Number</Label>
@@ -172,11 +172,11 @@ export default function SettingsPage() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="principal-email">Principal's Email</Label>
-                    <Input id="principal-email" type="email" defaultValue="principal@elmiko.edu.ng" />
+                    <Input id="principal-email" type="email" defaultValue="principal@marzook.edu.ng" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="admin-email">Admin Email</Label>
-                    <Input id="admin-email" type="email" defaultValue="admin@elmiko.edu.ng" />
+                    <Input id="admin-email" type="email" defaultValue="admin@marzook.edu.ng" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="admin-phone">Admin Phone</Label>
@@ -184,11 +184,11 @@ export default function SettingsPage() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="website">School Website</Label>
-                    <Input id="website" defaultValue="https://www.elmiko.edu.ng" />
+                    <Input id="website" defaultValue="https://www.marzook.edu.ng" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="social-media">Social Media Handles</Label>
-                    <Input id="social-media" defaultValue="@ElMikoAcademy" />
+                    <Input id="social-media" defaultValue="@marzook" />
                   </div>
                 </div>
               </CardContent>

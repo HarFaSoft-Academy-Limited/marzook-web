@@ -373,7 +373,7 @@ export default function CommunicationPage() {
                     <CardContent className="space-y-4">
                       <div className="space-y-2">
                         <label className="text-sm font-medium">SMTP Server</label>
-                        <Input defaultValue="smtp.elmiko.edu.ng" />
+                        <Input defaultValue="smtp.marzook.edu.ng" />
                       </div>
                       <div className="space-y-2">
                         <label className="text-sm font-medium">SMTP Port</label>
@@ -381,7 +381,7 @@ export default function CommunicationPage() {
                       </div>
                       <div className="space-y-2">
                         <label className="text-sm font-medium">Email Address</label>
-                        <Input defaultValue="info@elmiko.edu.ng" />
+                        <Input defaultValue="info@marzook.edu.ng" />
                       </div>
                       <div className="space-y-2">
                         <label className="text-sm font-medium">Password</label>

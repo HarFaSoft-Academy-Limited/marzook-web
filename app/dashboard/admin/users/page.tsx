@@ -78,28 +78,28 @@ export default function UsersPage() {
                     {[
                       {
                         name: "Ahmad Ibrahim",
-                        email: "ahmad@elmiko.edu.ng",
+                        email: "ahmad@marzook.edu.ng",
                         role: "Admin",
                         section: "All",
                         status: "Active",
                       },
                       {
                         name: "Fatima Usman",
-                        email: "fatima@elmiko.edu.ng",
+                        email: "fatima@marzook.edu.ng",
                         role: "Staff",
                         section: "Primary",
                         status: "Active",
                       },
                       {
                         name: "Musa Abdullahi",
-                        email: "musa@elmiko.edu.ng",
+                        email: "musa@marzook.edu.ng",
                         role: "Staff",
                         section: "Islamiyya",
                         status: "Active",
                       },
                       {
                         name: "Aisha Mohammed",
-                        email: "aisha@elmiko.edu.ng",
+                        email: "aisha@marzook.edu.ng",
                         role: "Staff",
                         section: "Tahfeez",
                         status: "Active",
