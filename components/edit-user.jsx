@@ -20,31 +20,19 @@ import { sub } from "date-fns"
 import { customBaseUrl } from "@/services/http"
 import axios from "axios"
 
-export function AddUserDialog() {
+export function EditDialog({hideModal, showModal, user}) {
   const [open, setOpen] = useState(false)
+  console.log("EditDialog user:", user)
   const [userType, setUserType] = useState("staff")
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    username: "",
-    password: "",
-    sections: [1],
-    subjects: [1],
-    address: "",
-    gender: "male",
-    date_of_birth: "",
-    nationality: "",
-    religion: "",
-    marital_status: "",
-    photo: "",
-    designation: "",
+    sections: [],
+    subjects: [],
   })
 
-  const handleCreateUser = async  () => {
+  const handleUpdate = async  () => {
     // Handle user creation logic here
     console.log("Creating user with type:", formData)
-    const res = await axios.post(`${customBaseUrl.baseUrl}/api/v1/staff`,
+    const res = await axios.put(`${customBaseUrl.baseUrl}/api/v1/staff/${user?.id}`,
       formData,
       {
         headers: {
@@ -54,16 +42,16 @@ export function AddUserDialog() {
       }
     )
 
-    if (res.status !== 201) {
+    if (res.status !== 200) {
       console.error("Error creating user:", res.data)
       alert("Failed to create user. Please try again.")
       return
     }
-    alert("User created successfully!")
-    setOpen(false) // Close dialog after creation
+    alert("User updated successfully!")
+    hideModal(false) // Close dialog after creation
   }
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={showModal} onOpenChange={hideModal}>
       <DialogTrigger asChild>
         <Button className="bg-green-600 hover:bg-green-700">
           <UserPlus className="mr-2 h-4 w-4" />
@@ -72,14 +60,14 @@ export function AddUserDialog() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px] max-h-[85vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Add New User</DialogTitle>
-          <DialogDescription>Create a new user account in the system.</DialogDescription>
+          <DialogTitle>Update User</DialogTitle>
+          <DialogDescription>Update user account details in the system.</DialogDescription>
         </DialogHeader>
 
         <div className="py-4 space-y-6">
-          <div className="space-y-2">
+          <div className="space-y-2" hidden>
             <Label htmlFor="user-type">User Type</Label>
-            <Select defaultValue="staff" onValueChange={(value) => setUserType(value)}>
+            <Select defaultValue="staff" onValueChange={(value) => setUserType(value)} disabled>
               <SelectTrigger id="user-type">
                 <SelectValue placeholder="Select user type" />
               </SelectTrigger>
@@ -95,7 +83,7 @@ export function AddUserDialog() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="name">name</Label>
-                <Input id="name" placeholder="Full name" onChange={(e) => setFormData({...formData, name: e.target.value})} />
+                <Input value={formData?.name ?? user?.user?.name } id="name" placeholder="Full name" onChange={(e) => setFormData({...formData, name: e.target.value})} />
               </div>
               {/* <div className="space-y-2">
                 <Label htmlFor="last-name">Last Name</Label>
@@ -103,44 +91,45 @@ export function AddUserDialog() {
               </div> */}
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>
-                <Input id="email" type="email" placeholder="Email address" onChange={(e) => setFormData({...formData, email: e.target.value})} />
+                <Input  value={formData?.email ?? user?.user?.email} id="email" type="email" placeholder="Email address" onChange={(e) => setFormData({...formData, email: e.target.value})} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="phone">Phone Number</Label>
-                <Input id="phone" placeholder="Phone number" onChange={(e) => setFormData({...formData, phone: e.target.value})}/>
+                <Input  value={formData?.phone ?? user?.user?.email} id="phone" placeholder="Phone number" onChange={(e) => setFormData({...formData, phone: e.target.value})}/>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="address">Address</Label>
-                <Input id="address" placeholder="12  St. Luis " onChange={(e) => setFormData({...formData, address: e.target.value})}/>
+                <Input  value={formData?.address ?? user?.address} id="address" placeholder="12  St. Luis " onChange={(e) => setFormData({...formData, address: e.target.value})}/>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="nationality"></Label>
-                <Input id="nationality" placeholder="nationality" onChange={(e) => setFormData({...formData, nationality: e.target.value})}/>
+                <Input  value={formData?.nationality ?? user?.nationality} id="nationality" placeholder="nationality" onChange={(e) => setFormData({...formData, nationality: e.target.value})}/>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="gender">Gender</Label>
-                <Select defaultValue="male" onValueChange={(value) => setFormData({ ...formData, gender: value })}>
+                <Select  value={formData?.gender ?? user?.gender} defaultValue="male" onValueChange={(value) => setFormData({ ...formData, gender: value })}>
                   <SelectTrigger id="gender">
                     <SelectValue placeholder="Select gender" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="male">Male</SelectItem>
-                    <SelectItem value="female">Female</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
+                    <SelectItem value="Male">Male</SelectItem>
+                    <SelectItem value="Female">Female</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
-              <div className="space-y-2">
+              <div  className="space-y-2">
                 <Label htmlFor="date_of_birth">Date of Birth</Label>
                 <Input
                   id="date_of_birth"
                   type="date"
+                  value={formData?.date_of_birth ?? new Date(user?.date_of_birth)}
                   onChange={(e) => setFormData({ ...formData, date_of_birth: e.target.value })}
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="religion">Religion</Label>
                 <Input
+                 value={formData?.religion ?? user?.religion}
                   id="religion"
                   placeholder="Religion"
                   onChange={(e) => setFormData({ ...formData, religion: e.target.value })}
@@ -148,15 +137,15 @@ export function AddUserDialog() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="marital_status">Marital Status</Label>
-                <Select defaultValue="single" onValueChange={(value) => setFormData({ ...formData, marital_status: value })}>
+                <Select  value={formData?.marital_status ?? user?.marital_status} defaultValue="single" onValueChange={(value) => setFormData({ ...formData, marital_status: value })}>
                   <SelectTrigger id="marital_status">
                     <SelectValue placeholder="Select marital status" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="single">Single</SelectItem>
-                    <SelectItem value="married">Married</SelectItem>
-                    <SelectItem value="divorced">Divorced</SelectItem>
-                    <SelectItem value="widowed">Widowed</SelectItem>
+                    <SelectItem value="Single">Single</SelectItem>
+                    <SelectItem value="Married">Married</SelectItem>
+                    <SelectItem value="Divorced">Divorced</SelectItem>
+                    <SelectItem value="Widowed">Widowed</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -171,7 +160,7 @@ export function AddUserDialog() {
               </div> */}
               <div className="space-y-2">
                 <Label htmlFor="designation">Designation</Label>
-                <Input id="designation" placeholder="" onChange={(e) => setFormData({...formData, designation: e.target.value})}/>
+                <Input  value={formData?.designation ?? user?.designation} id="designation" placeholder="" onChange={(e) => setFormData({...formData, designation: e.target.value})}/>
               </div>
             </div>
 
@@ -281,13 +270,13 @@ export function AddUserDialog() {
                             <div key={section.id} className="flex items-center space-x-2">
                               <Checkbox
                                 id={section.label}
-                                checked={formData.sections.includes(section.id)}
+                                checked={formData?.sections?.includes(section.id)}
                                 onCheckedChange={(checked) => {
                                   setFormData((prev) => ({
                                     ...prev,
                                     sections: checked
-                                      ? [...prev.sections, section.id]
-                                      : prev.sections.filter((id) => id !== section.id),
+                                      ? [...prev?.sections, section?.id]
+                                      : prev?.sections?.filter((id) => id !== section?.id),
                                   }));
                                 }}
                               />
@@ -309,7 +298,7 @@ export function AddUserDialog() {
                             <div key={sub.id} className="flex items-center space-x-2">
                               <Checkbox
                                 id={sub.label}
-                                checked={formData.subjects.includes(sub.id)}
+                                checked={formData?.subjects?.includes(sub.id)}
                                 onCheckedChange={(checked) => {
                                   setFormData((prev) => ({
                                     ...prev,
@@ -416,11 +405,11 @@ export function AddUserDialog() {
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>
+          <Button variant="outline" onClick={() => hideModal(false)}>
             Cancel
           </Button>
-          <Button className="bg-green-600 hover:bg-green-700" onClick={handleCreateUser}>
-            Create User
+          <Button className="bg-green-600 hover:bg-green-700" onClick={handleUpdate}>
+            Update
           </Button>
         </DialogFooter>
       </DialogContent>

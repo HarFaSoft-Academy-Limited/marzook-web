@@ -1,3 +1,4 @@
+"use client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -8,8 +9,84 @@ import DashboardLayout from "@/components/dashboard-layout"
 import { Download, Edit, MoreHorizontal, Search, Trash2 } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { AddUserDialog } from "@/components/add-user-dialog"
+import { EditDialog } from "@/components/edit-user"
+import { useEffect, useState } from "react"
+import axios from "axios"
+import { customBaseUrl } from "@/services/http"
+import { set } from "date-fns"
 
 export default function UsersPage() {
+  type Staff = {
+    id: number;
+    name: string;
+    email: string;
+    role: string;
+    section: string;
+    status: string;
+    designation: string;
+    user: {
+      id: number | null;
+      name: string;
+      email: string;
+      email_verified_at: string | null;
+      created_at: string | null;
+      updated_at: string | null;
+    };
+    subjects: {
+      id: number;
+      name: string;
+      code: string;
+      description: string;
+      created_at: string;
+      updated_at: string;
+      pivot: {
+        staff_id: number;
+        subject_id: number;
+      };
+    }[];
+    sections: {
+      id: number;
+      name: string;
+      description: string;
+      created_at: string;
+      updated_at: string;
+      pivot: {
+        staff_id: number;
+        section_id: number;
+      };
+    }[];
+  };
+
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<Staff | null>(null);
+  const [staffData, setStaff] = useState<Staff[]>([]);
+  const [searchWord, setSearchWord] = useState("");
+
+  const getStaff = async () =>  {
+    try{
+      const res  = await axios.get(`${customBaseUrl.baseUrl}/api/v1/staff`,
+        {
+          headers: {
+            Authorization: 'Bearer '+ localStorage.getItem("access_token"),
+            'ngrok-skip-browser-warning': 'true' 
+          }
+        }
+      )
+      if (res.status === 200) {
+        setStaff(res.data.data);
+      } else {
+        console.error("Failed to fetch staff data:", res.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching staff data:", error);
+      // Handle error appropriately, e.g., show a notification or alert
+    }
+  }
+
+  useEffect(() =>  {
+    getStaff();
+  }, []);
+
   return (
     <DashboardLayout userType="admin">
       <div className="flex flex-col gap-4">
@@ -21,9 +98,9 @@ export default function UsersPage() {
         <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
           <div className="relative w-full md:w-80">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input type="search" placeholder="Search users..." className="w-full pl-8" />
+            <Input type="search" onChange={(e) => setSearchWord(e.target.value)} placeholder="Search users..." className="w-full pl-8" />
           </div>
-          <div className="flex gap-2 w-full md:w-auto">
+          {/* <div className="flex gap-2 w-full md:w-auto" hidden>
             <Select defaultValue="all">
               <SelectTrigger className="w-full md:w-[180px]">
                 <SelectValue placeholder="Filter by role" />
@@ -50,7 +127,7 @@ export default function UsersPage() {
             <Button variant="outline" size="icon">
               <Download className="h-4 w-4" />
             </Button>
-          </div>
+          </div> */}
         </div>
 
         <Tabs defaultValue="all" className="space-y-4">
@@ -83,41 +160,7 @@ export default function UsersPage() {
                         section: "All",
                         status: "Active",
                       },
-                      {
-                        name: "Fatima Usman",
-                        email: "fatima@marzook.edu.ng",
-                        role: "Staff",
-                        section: "Primary",
-                        status: "Active",
-                      },
-                      {
-                        name: "Musa Abdullahi",
-                        email: "musa@marzook.edu.ng",
-                        role: "Staff",
-                        section: "Islamiyya",
-                        status: "Active",
-                      },
-                      {
-                        name: "Aisha Mohammed",
-                        email: "aisha@marzook.edu.ng",
-                        role: "Staff",
-                        section: "Tahfeez",
-                        status: "Active",
-                      },
-                      {
-                        name: "Ibrahim Suleiman",
-                        email: "ibrahim@example.com",
-                        role: "Parent",
-                        section: "N/A",
-                        status: "Active",
-                      },
-                      {
-                        name: "Zainab Yusuf",
-                        email: "zainab@example.com",
-                        role: "Parent",
-                        section: "N/A",
-                        status: "Active",
-                      },
+                      
                     ].map((user) => (
                       <TableRow key={user.email}>
                         <TableCell className="font-medium">{user.name}</TableCell>
@@ -176,9 +219,77 @@ export default function UsersPage() {
                 <CardDescription>Manage staff accounts</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="h-[300px] flex items-center justify-center border rounded-md">
-                  <p className="text-muted-foreground">Staff users will be displayed here</p>
-                </div>
+              <Card>
+              <CardContent className="p-0">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Email</TableHead>
+                      <TableHead>Designation</TableHead>
+                      <TableHead>Section</TableHead>
+                      {/* <TableHead>Status</TableHead> */}
+                      <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody className="overflow-y-auto max-h-[300px]">
+                    {staffData
+                      ?.filter(
+                      (user) =>
+                        user.user.name.toLowerCase().includes(searchWord.toLowerCase()) ||
+                        user.user.email.toLowerCase().includes(searchWord.toLowerCase())
+                      )
+                      .map((user) => (
+                      <TableRow key={user?.email}>
+                        <TableCell className="font-medium">{user.user.name}</TableCell>
+                        <TableCell>{user.user.email}</TableCell>
+                        <TableCell>{user.designation}</TableCell>
+                        <TableCell>
+                        {user.sections.map((e) => (
+                          <span
+                          key={e.id}
+                          className="inline-block mr-1 px-2 py-1 bg-blue-100 text-blue-800 rounded"
+                          >
+                          {e.name}
+                          </span>
+                        ))}
+                        </TableCell>
+                        <TableCell>
+                        <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-800">
+                          {user.status ?? "N/A"}
+                        </span>
+                        </TableCell>
+                        <TableCell className="text-right">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon">
+                            <MoreHorizontal className="h-4 w-4" />
+                            <span className="sr-only">Open menu</span>
+                          </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                          <DropdownMenuItem
+                            onClick={() => {
+                            setSelectedUser(user);
+                            setEditDialogOpen(true);
+                            }}
+                          >
+                            <Edit className="mr-2 h-4 w-4" />
+                            Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            Delete
+                          </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                        </TableCell>
+                      </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
+                </CardContent>
+              </Card>
               </CardContent>
             </Card>
           </TabsContent>
@@ -197,6 +308,12 @@ export default function UsersPage() {
           </TabsContent>
         </Tabs>
       </div>
+      
+        <EditDialog
+          hideModal={setEditDialogOpen}
+          showModal={editDialogOpen}
+          user={selectedUser}
+        />
     </DashboardLayout>
   )
 }
