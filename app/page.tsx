@@ -24,7 +24,7 @@ const [data, setData] = useState({
       // Redirect to the dashboard
       localStorage.setItem("access_token", req.data.access_token);
       localStorage.setItem("user", JSON.stringify(req.data.user));
-      window.location.href = "/dashboard/admin";
+      window.location.href = "/marzook-web/dashboard/admin";
     } else {
       // Handle error
       alert("Login failed. Please try again.");
