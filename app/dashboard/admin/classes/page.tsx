@@ -27,7 +27,7 @@ export default function ClassesPage() {
         },
       });
       if (res.status === 200) {
-        setClasses(res.data.data);
+        setClasses(res.data.data.data);
       } else {
         console.error("Failed to fetch classes data:", res.statusText);
       }
@@ -73,7 +73,7 @@ export default function ClassesPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {classes
+                    {classes?.length > 0 && classes
                       .filter(
                         (cls) =>
                           cls.name.toLowerCase().includes(searchWord.toLowerCase()) ||
@@ -86,7 +86,7 @@ export default function ClassesPage() {
                           <TableCell className="font-medium">{cls.name}</TableCell>
                           <TableCell>{cls.level}</TableCell>
                           <TableCell>{cls.section}</TableCell>
-                          <TableCell>{cls.class_teacher?.name || "N/A"}</TableCell>
+                          <TableCell>{cls?.teacher?.name || "N/A"}</TableCell>
                           <TableCell className="text-right">
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>

@@ -3,7 +3,7 @@
 		"_postman_id": "67ec40e9-01e4-4036-8c12-604b5fdd4b28",
 		"name": "School Management System API",
 		"description": "Complete API collection for the School Management System including authentication, user management, class management, staff management, subject management, role & permission management, and timetable management.",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "13399467"
 	},
 	"item": [
@@ -30,15 +30,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"password\": \"password123\",\n    \"password_confirmation\": \"password123\",\n    \"role\": \"principal\"\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/register",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"register"
-							]
-						},
+						"url": "{{base_url}}/register",
 						"description": "Register a new user with a specific role. Valid roles: super-admin, principal, vice-principal, head-of-department, teacher, accountant, admin-staff, student"
 					},
 					"response": []
@@ -63,15 +55,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"email\": \"john.doe@example.com\",\n    \"password\": \"password123\"\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/login",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"login"
-							]
-						},
+						"url": "{{base_url}}/login",
 						"description": "Login with email and password to get access token"
 					},
 					"response": []
@@ -81,13 +65,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "POST",
 						"header": [
@@ -102,15 +82,7 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "{{base_url}}/logout",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"logout"
-							]
-						},
+						"url": "{{base_url}}/logout",
 						"description": "Logout and revoke all access tokens"
 					},
 					"response": []
@@ -126,13 +98,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "GET",
 						"header": [
@@ -147,15 +115,7 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "{{base_url}}/users",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"users"
-							]
-						},
+						"url": "{{base_url}}/users",
 						"description": "Get all users with pagination, search, filtering, and sorting. Requires super-admin or principal role."
 					},
 					"response": []
@@ -165,13 +125,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "POST",
 						"header": [
@@ -195,15 +151,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"Jane Smith\",\n    \"email\": \"jane.smith1@example.com\",\n    \"password\": \"password123\",\n    \"password_confirmation\": \"password123\",\n    \"role\": \"teacher\"\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/users",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"users"
-							]
-						},
+						"url": "{{base_url}}/users",
 						"description": "Create a new user with a specific role. Requires super-admin or principal role."
 					},
 					"response": []
@@ -213,13 +161,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "GET",
 						"header": [
@@ -234,16 +178,7 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "{{base_url}}/users/22",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"users",
-								"22"
-							]
-						},
+						"url": "{{base_url}}/users/22",
 						"description": "Get a specific user by ID with roles and permissions. Requires super-admin or principal role."
 					},
 					"response": []
@@ -253,13 +188,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "PUT",
 						"header": [
@@ -283,16 +214,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"Jane Smith Updated\",\n    \"email\": \"jane.updated@example.com\",\n    \"password\": \"newpassword123\",\n    \"password_confirmation\": \"newpassword123\",\n    \"role\": \"teacher\"\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/users/7",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"users",
-								"7"
-							]
-						},
+						"url": "{{base_url}}/users/7",
 						"description": "Update an existing user. All fields are optional. Requires super-admin or principal role."
 					},
 					"response": []
@@ -302,13 +224,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "DELETE",
 						"header": [
@@ -323,16 +241,7 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "{{base_url}}/users/1",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"users",
-								"1"
-							]
-						},
+						"url": "{{base_url}}/users/1",
 						"description": "Delete a user by ID. Cannot delete super-admin users or your own account. Requires super-admin or principal role."
 					},
 					"response": []
@@ -342,13 +251,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "GET",
 						"header": [
@@ -363,17 +268,7 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "{{base_url}}/users/7/roles-permissions",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"users",
-								"7",
-								"roles-permissions"
-							]
-						},
+						"url": "{{base_url}}/users/7/roles-permissions",
 						"description": "Get roles and permissions for a specific user. Requires super-admin or principal role."
 					},
 					"response": []
@@ -383,13 +278,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "POST",
 						"header": [
@@ -413,17 +304,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"role\": \"teacher\"\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/users/18/role",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"users",
-								"18",
-								"role"
-							]
-						},
+						"url": "{{base_url}}/users/18/role",
 						"description": "Assign a role to a specific user. Requires super-admin or principal role."
 					},
 					"response": []
@@ -433,13 +314,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "POST",
 						"header": [
@@ -463,16 +340,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"user_ids\": [17,18]\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/users/bulk-delete",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"users",
-								"bulk-delete"
-							]
-						},
+						"url": "{{base_url}}/users/bulk-delete",
 						"description": "Delete multiple users at once. Cannot delete super-admin users or your own account. Requires super-admin or principal role."
 					},
 					"response": []
@@ -482,13 +350,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "GET",
 						"header": [
@@ -503,16 +367,7 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "{{base_url}}/users/available-roles",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"users",
-								"available-roles"
-							]
-						},
+						"url": "{{base_url}}/users/available-roles",
 						"description": "Get all available roles for assignment. Requires super-admin or principal role."
 					},
 					"response": []
@@ -528,13 +383,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "GET",
 						"header": [
@@ -549,15 +400,7 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "{{base_url}}/profile",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"profile"
-							]
-						},
+						"url": "{{base_url}}/profile",
 						"description": "Get current authenticated user's profile with roles and permissions."
 					},
 					"response": []
@@ -567,13 +410,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "PUT",
 						"header": [
@@ -597,15 +436,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"Updated Name\",\n    \"email\": \"updated.email@example.com\"\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/profile",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"profile"
-							]
-						},
+						"url": "{{base_url}}/profile",
 						"description": "Update current authenticated user's profile. Password change requires current password verification."
 					},
 					"response": []
@@ -621,13 +452,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "GET",
 						"header": [
@@ -692,13 +519,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "POST",
 						"header": [
@@ -722,15 +545,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"Advanced Mathematics\",\n    \"code\": \"ADV_MATH\",\n    \"description\": \"Advanced mathematics including calculus and linear algebra\"\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/subjects",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"subjects"
-							]
-						},
+						"url": "{{base_url}}/subjects",
 						"description": "Create a new subject. Requires super-admin or principal role."
 					},
 					"response": []
@@ -740,13 +555,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "GET",
 						"header": [
@@ -761,16 +572,7 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "{{base_url}}/subjects/1",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"subjects",
-								"1"
-							]
-						},
+						"url": "{{base_url}}/subjects/1",
 						"description": "Get a specific subject by ID with staff and classes relationships. Requires super-admin or principal role."
 					},
 					"response": []
@@ -780,13 +582,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "PUT",
 						"header": [
@@ -810,16 +608,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"Updated Mathematics\",\n    \"code\": \"MATH_UPD\",\n    \"description\": \"Updated description for mathematics\"\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/subjects/1",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"subjects",
-								"1"
-							]
-						},
+						"url": "{{base_url}}/subjects/1",
 						"description": "Update an existing subject. All fields are optional. Requires super-admin or principal role."
 					},
 					"response": []
@@ -829,13 +618,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "DELETE",
 						"header": [
@@ -850,16 +635,7 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "{{base_url}}/subjects/23",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"subjects",
-								"23"
-							]
-						},
+						"url": "{{base_url}}/subjects/23",
 						"description": "Delete a subject by ID. Cannot delete if subject is used in timetables. Requires super-admin or principal role."
 					},
 					"response": []
@@ -869,13 +645,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "POST",
 						"header": [
@@ -899,16 +671,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"subject_ids\": [2, 3, 4]\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/subjects/bulk-delete",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"subjects",
-								"bulk-delete"
-							]
-						},
+						"url": "{{base_url}}/subjects/bulk-delete",
 						"description": "Delete multiple subjects at once. Cannot delete subjects used in timetables. Requires super-admin or principal role."
 					},
 					"response": []
@@ -924,13 +687,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "GET",
 						"header": [
@@ -975,13 +734,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "POST",
 						"header": [
@@ -1005,15 +760,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"Class 13A\",\n    \"level\": \"10\",\n    \"section\": \"A\",\n    \"class_teacher_id\": 6\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/classes",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"classes"
-							]
-						},
+						"url": "{{base_url}}/classes",
 						"description": "Create a new class. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1023,13 +770,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "GET",
 						"header": [
@@ -1044,16 +787,7 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "{{base_url}}/classes/1",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"classes",
-								"1"
-							]
-						},
+						"url": "{{base_url}}/classes/1",
 						"description": "Get a specific class by ID with teacher and timetable information. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1063,13 +797,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "PUT",
 						"header": [
@@ -1093,16 +823,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"Class 10A Updated\",\n    \"level\": \"10\",\n    \"section\": \"A\",\n    \"class_teacher_id\": 2\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/classes/1",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"classes",
-								"1"
-							]
-						},
+						"url": "{{base_url}}/classes/1",
 						"description": "Update an existing class. All fields are optional. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1112,13 +833,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "DELETE",
 						"header": [
@@ -1133,16 +850,7 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "{{base_url}}/classes/1",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"classes",
-								"1"
-							]
-						},
+						"url": "{{base_url}}/classes/1",
 						"description": "Delete a class by ID. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1152,13 +860,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "POST",
 						"header": [
@@ -1182,17 +886,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"user_id\": 3\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/classes/2/assign-teacher",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"classes",
-								"2",
-								"assign-teacher"
-							]
-						},
+						"url": "{{base_url}}/classes/2/assign-teacher",
 						"description": "Assign a teacher to a specific class. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1202,13 +896,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "POST",
 						"header": [
@@ -1232,17 +922,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"subjects\": [1, 2, 3, 4]\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/classes/2/subjects",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"classes",
-								"2",
-								"subjects"
-							]
-						},
+						"url": "{{base_url}}/classes/2/subjects",
 						"description": "Assign subjects to a specific class. This will replace existing assignments. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1252,13 +932,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "GET",
 						"header": [
@@ -1273,17 +949,7 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "{{base_url}}/classes/2/subjects",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"classes",
-								"2",
-								"subjects"
-							]
-						},
+						"url": "{{base_url}}/classes/2/subjects",
 						"description": "Get all subjects assigned to a specific class. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1299,13 +965,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "GET",
 						"header": [
@@ -1320,17 +982,7 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "{{base_url}}/classes/2/timetable",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"classes",
-								"2",
-								"timetable"
-							]
-						},
+						"url": "{{base_url}}/classes/2/timetable",
 						"description": "Get the complete timetable for a specific class. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1340,13 +992,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "POST",
 						"header": [
@@ -1370,17 +1018,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"timetable\": [\n        {\n            \"day\": \"Monday\",\n            \"period\": 1,\n            \"subject_id\": 1,\n            \"user_id\": 1,\n            \"start_time\": \"08:00\",\n            \"end_time\": \"09:00\"\n        },\n        {\n            \"day\": \"Monday\",\n            \"period\": 2,\n            \"subject_id\": 2,\n            \"user_id\": 2,\n            \"start_time\": \"09:00\",\n            \"end_time\": \"10:00\"\n        },\n        {\n            \"day\": \"Tuesday\",\n            \"period\": 1,\n            \"subject_id\": 3,\n            \"user_id\": 3,\n            \"start_time\": \"08:00\",\n            \"end_time\": \"09:00\"\n        }\n    ]\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/classes/2/timetable",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"classes",
-								"2",
-								"timetable"
-							]
-						},
+						"url": "{{base_url}}/classes/2/timetable",
 						"description": "Create or update the complete timetable for a class. This will replace all existing timetable entries. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1396,13 +1034,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "GET",
 						"header": [
@@ -1447,13 +1081,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "POST",
 						"header": [
@@ -1477,15 +1107,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"Jane Smith 11\",\n    \"email\": \"jane.smith11@example.com\",\n    \"phone\": \"+1234567800\",\n    \"address\": \"No 2 Old Market Road Unguwan Dosa\",\n    \"gender\": \"Female\",\n    \"date_of_birth\": \"01-01-2000\",\n    \"nationality\": \"Nigerian\",\n    \"religion\": \"Christianity\",\n    \"marital_status\": \"Widowed\",\n    \"designation\": \"Subject Teacher I\",\n    \"position\": \"Mathematics Teacher\",\n    \"department\": \"Mathematics\",\n    \"hire_date\": \"2023-01-15\",\n    \"sections\": [1,2],\n    \"subjects\": [1,3,5]\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/staff",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"staff"
-							]
-						},
+						"url": "{{base_url}}/staff",
 						"description": "Create a new staff member. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1495,13 +1117,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "GET",
 						"header": [
@@ -1516,16 +1134,7 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "{{base_url}}/staff/8",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"staff",
-								"8"
-							]
-						},
+						"url": "{{base_url}}/staff/8",
 						"description": "Get a specific staff member by ID. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1535,13 +1144,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "PUT",
 						"header": [
@@ -1565,16 +1170,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"Jane Smith Updated\",\n    \"position\": \"Senior Mathematics Teacher\",\n    \"department\": \"Mathematics\",\n    \"subjects\": [2,3],\n    \"sections\": [4,5]\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/staff/7",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"staff",
-								"7"
-							]
-						},
+						"url": "{{base_url}}/staff/7",
 						"description": "Update an existing staff member. All fields are optional. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1584,13 +1180,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "DELETE",
 						"header": [
@@ -1605,16 +1197,7 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "{{base_url}}/staff/8",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"staff",
-								"8"
-							]
-						},
+						"url": "{{base_url}}/staff/8",
 						"description": "Delete a staff member by ID. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1624,13 +1207,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "POST",
 						"header": [
@@ -1654,17 +1233,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"sections\": [1, 2, 3]\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/staff/1/sections",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"staff",
-								"1",
-								"sections"
-							]
-						},
+						"url": "{{base_url}}/staff/1/sections",
 						"description": "Assign sections to a staff member. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1674,13 +1243,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "POST",
 						"header": [
@@ -1704,17 +1269,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"subjects\": [1, 2, 3]\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/staff/1/subjects",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"staff",
-								"1",
-								"subjects"
-							]
-						},
+						"url": "{{base_url}}/staff/1/subjects",
 						"description": "Assign subjects to a staff member. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1724,13 +1279,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "POST",
 						"header": [
@@ -1754,17 +1305,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"role\": \"teacher\"\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/staff/1/role",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"staff",
-								"1",
-								"role"
-							]
-						},
+						"url": "{{base_url}}/staff/1/role",
 						"description": "Assign a role to a staff member. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1774,13 +1315,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "GET",
 						"header": [
@@ -1795,17 +1332,7 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "{{base_url}}/staff/1/subjects",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"staff",
-								"1",
-								"subjects"
-							]
-						},
+						"url": "{{base_url}}/staff/1/subjects",
 						"description": "Get all subjects assigned to a specific staff member. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1821,13 +1348,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "GET",
 						"header": [
@@ -1842,16 +1365,7 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "{{base_url}}/roles-permissions/roles",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"roles-permissions",
-								"roles"
-							]
-						},
+						"url": "{{base_url}}/roles-permissions/roles",
 						"description": "Get all available roles. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1861,13 +1375,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "POST",
 						"header": [
@@ -1891,16 +1401,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"class-teacher\",\n    \"guard_name\": \"web\"\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/roles-permissions/roles",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"roles-permissions",
-								"roles"
-							]
-						},
+						"url": "{{base_url}}/roles-permissions/roles",
 						"description": "Create a new role. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1910,13 +1411,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "GET",
 						"header": [
@@ -1931,16 +1428,7 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "{{base_url}}/roles-permissions/permissions",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"roles-permissions",
-								"permissions"
-							]
-						},
+						"url": "{{base_url}}/roles-permissions/permissions",
 						"description": "Get all available permissions. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1950,13 +1438,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "POST",
 						"header": [
@@ -1980,16 +1464,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"view-reports\",\n    \"guard_name\": \"web\"\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/roles-permissions/permissions",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"roles-permissions",
-								"permissions"
-							]
-						},
+						"url": "{{base_url}}/roles-permissions/permissions",
 						"description": "Create a new permission. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1999,13 +1474,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "POST",
 						"header": [
@@ -2029,18 +1500,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"permissions\": [\"view-classes\", \"create-classes\", \"edit-classes\"]\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/roles-permissions/roles/teacher/permissions",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"roles-permissions",
-								"roles",
-								"teacher",
-								"permissions"
-							]
-						},
+						"url": "{{base_url}}/roles-permissions/roles/teacher/permissions",
 						"description": "Assign permissions to a specific role. Requires super-admin or principal role."
 					},
 					"response": []
@@ -2050,13 +1510,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{BEARER}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
 						},
 						"method": "POST",
 						"header": [
@@ -2080,24 +1536,494 @@
 							"mode": "raw",
 							"raw": "{\n    \"role\": \"teacher\"\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/roles-permissions/users/1/role",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"roles-permissions",
-								"users",
-								"1",
-								"role"
-							]
-						},
+						"url": "{{base_url}}/roles-permissions/users/1/role",
 						"description": "Assign a role to a specific user (Legacy endpoint). Requires super-admin or principal role."
 					},
 					"response": []
 				}
 			],
 			"description": "Role and permission management operations"
+		},
+		{
+			"name": "Section Management",
+			"item": [
+				{
+					"name": "Get all sections",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/sections"
+					},
+					"response": []
+				},
+				{
+					"name": "Get section by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/sections/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Create section",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Tahfeez section\",\n    \"description\": \"Hadda section\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/sections"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Section",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Section Updated\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/sections/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a section",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/sections/1"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Academic Calendar",
+			"item": [
+				{
+					"name": "Get All Calendar Events",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/calendars",
+						"description": "Retrieve all academic calendar events, ordered by event date"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Calendar Events by Session",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/calendars?session_id=2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"calendars"
+							],
+							"query": [
+								{
+									"key": "session_id",
+									"value": "2"
+								}
+							]
+						},
+						"description": "Retrieve calendar events for a specific academic session"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Calendar Event",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"academic_session_id\": 1,\n    \"event_date\": \"2025-09-15\",\n    \"title\": \"Parent-Teacher Meeting\",\n    \"description\": \"First term parent-teacher meeting for all classes\"\n}"
+						},
+						"url": "{{base_url}}/calendars",
+						"description": "Create a new academic calendar event"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Calendar Event by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/calendars/1",
+						"description": "Retrieve a specific calendar event with its session information"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Calendar Event",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event_date\": \"2025-09-20\",\n    \"title\": \"Parent-Teacher Meeting (Updated)\",\n    \"description\": \"Updated description for parent-teacher meeting\"\n}"
+						},
+						"url": "{{base_url}}/calendars/1",
+						"description": "Update an existing calendar event"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Calendar Event",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/calendars/1",
+						"description": "Delete a calendar event"
+					},
+					"response": []
+				}
+			],
+			"description": "Academic calendar management endpoints for managing school events and important dates"
+		},
+		{
+			"name": "Academic Sessions",
+			"item": [
+				{
+					"name": "Get All Academic Sessions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/sessions",
+						"description": "Retrieve all academic sessions with pagination and calendar count"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Academic Session",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"2027 / 2028\",\n    \"start_date\": \"2026-09-01\",\n    \"end_date\": \"2027-07-31\",\n    \"current\": false\n}"
+						},
+						"url": "{{base_url}}/sessions",
+						"description": "Create a new academic session. If current is set to true, all other sessions will be marked as not current."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Academic Session by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}sessions/1",
+						"description": "Retrieve a specific academic session with its calendar events"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Academic Session",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"2025 / 2026 Updated\",\n    \"start_date\": \"2025-09-01\",\n    \"end_date\": \"2026-07-31\",\n    \"current\": true\n}"
+						},
+						"url": "{{base_url}}/v1/sessions/1",
+						"description": "Update an academic session. If current is set to true, all other sessions will be marked as not current."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Academic Session",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/sessions/1",
+						"description": "Delete an academic session. This will also delete all associated calendar events."
+					},
+					"response": []
+				}
+			],
+			"description": "Academic session management endpoints for CRUD operations"
 		}
 	],
 	"event": [
