@@ -13,6 +13,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { AddClassDialog } from "@/components/add-class-dialog"
 import { EditClassDialog } from "@/components/edit-class-dialog"
 import { ClassSubjectsDialog } from "@/components/class-subjects-dialog"
+import { ClassTimetableDialog } from "@/components/class-timetable-dialog"
 import axios from "axios"
 import { customBaseUrl } from "@/services/http"
 
@@ -120,6 +121,7 @@ export default function ClassesPage() {
                               <DropdownMenuContent align="end">
                                 <EditClassDialog classData={cls} onClassUpdated={fetchClasses} />
                                 <ClassSubjectsDialog classData={cls} onSubjectsUpdated={fetchClasses} />
+                                <ClassTimetableDialog classData={cls} />
                                 <DropdownMenuItem onClick={() => handleDeleteClass(cls.id)}>
                                   <Trash2 className="mr-2 h-4 w-4" />
                                   Delete
