@@ -48,15 +48,15 @@ export function AddUserDialog({subjects} : {subjects: Subject[]}) {
 
   const [open, setOpen] = useState(false)
   const [userType, setUserType] = useState("staff")
-  // const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [sections, setSections] = useState<any[]>([])
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     username: "",
     password: "",
-    sections: [1],
-    subjects: [1],
+    sections: [] as number[],
+    subjects: [] as number[],
     address: "",
     gender: "male",
     date_of_birth: "",
@@ -66,6 +66,24 @@ export function AddUserDialog({subjects} : {subjects: Subject[]}) {
     photo: "",
     designation: "",
   })
+
+  useEffect(() => {
+    const fetchSections = async () => {
+        try {
+          const res = await axios.get(`${customBaseUrl.baseUrl}/api/v1/sections`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              'ngrok-skip-browser-warning': 'true'
+            },
+          })
+          setSections(res.data.data.data)
+        } catch (error) {
+          console.error("Error fetching sections:", error)
+        }
+      }
+
+    fetchSections()
+  }, [])
 
 
   const handleCreateUser = async  () => {
@@ -300,14 +318,10 @@ export function AddUserDialog({subjects} : {subjects: Subject[]}) {
                       <div className="space-y-2">
                         <Label htmlFor="section">Section(s)</Label>
                         <div className="grid grid-cols-2 gap-2 pt-1">
-                          {[
-                            { id: 1, label: "Primary" },
-                            { id: 2, label: "Secondary" },
-                            { id: 3, label: "Islamiyya" },
-                          ].map((section) => (
+                          {sections.length > 0 && sections.map((section:any) => (
                             <div key={section.id} className="flex items-center space-x-2">
                               <Checkbox
-                                id={section.label}
+                                id={section.name}
                                 checked={formData.sections.includes(section.id)}
                                 onCheckedChange={(checked) => {
                                   setFormData((prev) => ({
@@ -318,8 +332,8 @@ export function AddUserDialog({subjects} : {subjects: Subject[]}) {
                                   }));
                                 }}
                               />
-                              <label htmlFor={section.label} className="text-sm">
-                                {section.label}
+                              <label htmlFor={section.name} className="text-sm">
+                                {section.name}
                               </label>
                             </div>
                           ))}
