@@ -12,6 +12,7 @@ import { Download, Edit, MoreHorizontal, Search, Trash2 } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { AddClassDialog } from "@/components/add-class-dialog"
 import { EditClassDialog } from "@/components/edit-class-dialog"
+import { ClassSubjectsDialog } from "@/components/class-subjects-dialog"
 import axios from "axios"
 import { customBaseUrl } from "@/services/http"
 
@@ -118,6 +119,7 @@ export default function ClassesPage() {
                               </DropdownMenuTrigger>
                               <DropdownMenuContent align="end">
                                 <EditClassDialog classData={cls} onClassUpdated={fetchClasses} />
+                                <ClassSubjectsDialog classData={cls} onSubjectsUpdated={fetchClasses} />
                                 <DropdownMenuItem onClick={() => handleDeleteClass(cls.id)}>
                                   <Trash2 className="mr-2 h-4 w-4" />
                                   Delete
