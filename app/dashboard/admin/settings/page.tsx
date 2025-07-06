@@ -16,6 +16,8 @@ import { Separator } from "@/components/ui/separator"
 import { useState } from "react"
 import { X } from "lucide-react"
 
+import { SubjectManagement } from "@/components/subject-management"
+
 export default function SettingsPage() {
   const [selectedLogo, setSelectedLogo] = useState<string | null>(null)
 
@@ -44,6 +46,7 @@ export default function SettingsPage() {
             <TabsTrigger value="academic">Academic</TabsTrigger>
             <TabsTrigger value="users">Users & Permissions</TabsTrigger>
             <TabsTrigger value="notifications">Notifications</TabsTrigger>
+            <TabsTrigger value="subjects">Subjects</TabsTrigger>
             <TabsTrigger value="system">System</TabsTrigger>
           </TabsList>
           <TabsContent value="general" className="space-y-4">
@@ -890,6 +893,9 @@ export default function SettingsPage() {
                 </div>
               </CardContent>
             </Card>
+          </TabsContent>
+          <TabsContent value="subjects" className="space-y-4">
+            <SubjectManagement />
           </TabsContent>
           <TabsContent value="system" className="space-y-4">
             <Card>
