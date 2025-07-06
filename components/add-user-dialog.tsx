@@ -16,13 +16,39 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { UserPlus } from "lucide-react"
+import { useEffect } from "react"
 import { sub } from "date-fns"
 import { customBaseUrl } from "@/services/http"
 import axios from "axios"
 
-export function AddUserDialog() {
+type Subject  = {
+  id: number;
+  name: string;
+  code: string;
+  description: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export function AddUserDialog({subjects} : {subjects: Subject[]}) {
+
+  console.log({subjects})
+  //subject type 
+//   sub = [
+//     {
+//         "id": 12,
+//         "name": "English Language",
+//         "code": "ENG",
+//         "description": "English language and literature studies",
+//         "created_at": "2025-07-05T16:08:29.000000Z",
+//         "updated_at": "2025-07-05T16:08:29.000000Z"
+//     }
+// }
+
+
   const [open, setOpen] = useState(false)
   const [userType, setUserType] = useState("staff")
+  // const [subjects, setSubjects] = useState<Subject[]>([]);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -40,6 +66,7 @@ export function AddUserDialog() {
     photo: "",
     designation: "",
   })
+
 
   const handleCreateUser = async  () => {
     // Handle user creation logic here
@@ -301,26 +328,22 @@ export function AddUserDialog() {
                       <div className="space-y-2">
                         <Label htmlFor="section">Subjects</Label>
                         <div className="grid grid-cols-2 gap-2 pt-1">
-                          {[
-                            { id: 1, label: "Mathematics" },
-                            { id: 2, label: "English" },
-                            { id: 3, label: "Physics" },
-                          ].map((sub) => (
+                          {subjects.length > 0 && subjects.map((sub:any) => (
                             <div key={sub.id} className="flex items-center space-x-2">
-                              <Checkbox
-                                id={sub.label}
-                                checked={formData.subjects.includes(sub.id)}
-                                onCheckedChange={(checked) => {
-                                  setFormData((prev) => ({
-                                    ...prev,
-                                    subjects: checked
-                                      ? [...prev.subjects, sub.id]
-                                      : prev.subjects.filter((id) => id !== sub.id),
-                                  }));
-                                }}
-                              />
-                              <label htmlFor={sub.label} className="text-sm">
-                                {sub.label}
+                            <Checkbox
+                              id={sub.name}
+                              checked={formData.subjects.includes(sub.id)}
+                              onCheckedChange={(checked) => {
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  subjects: checked
+                                    ? [...prev.subjects, sub.id]
+                                    : prev.subjects.filter((id) => id !== sub.id),
+                                }));
+                              }}
+                            />
+                              <label htmlFor={sub.name} className="text-sm">
+                                {sub.name}
                               </label>
                             </div>
                           ))}

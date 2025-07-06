@@ -1,0 +1,2135 @@
+{
+	"info": {
+		"_postman_id": "67ec40e9-01e4-4036-8c12-604b5fdd4b28",
+		"name": "School Management System API",
+		"description": "Complete API collection for the School Management System including authentication, user management, class management, staff management, subject management, role & permission management, and timetable management.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13399467"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"password\": \"password123\",\n    \"password_confirmation\": \"password123\",\n    \"role\": \"principal\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"register"
+							]
+						},
+						"description": "Register a new user with a specific role. Valid roles: super-admin, principal, vice-principal, head-of-department, teacher, accountant, admin-staff, student"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"john.doe@example.com\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "Login with email and password to get access token"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"logout"
+							]
+						},
+						"description": "Logout and revoke all access tokens"
+					},
+					"response": []
+				}
+			],
+			"description": "Authentication endpoints for user registration, login, and logout"
+		},
+		{
+			"name": "User Management",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Get all users with pagination, search, filtering, and sorting. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Jane Smith\",\n    \"email\": \"jane.smith1@example.com\",\n    \"password\": \"password123\",\n    \"password_confirmation\": \"password123\",\n    \"role\": \"teacher\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Create a new user with a specific role. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users/22",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"22"
+							]
+						},
+						"description": "Get a specific user by ID with roles and permissions. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Jane Smith Updated\",\n    \"email\": \"jane.updated@example.com\",\n    \"password\": \"newpassword123\",\n    \"password_confirmation\": \"newpassword123\",\n    \"role\": \"teacher\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users/7",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"7"
+							]
+						},
+						"description": "Update an existing user. All fields are optional. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						},
+						"description": "Delete a user by ID. Cannot delete super-admin users or your own account. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Roles and Permissions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users/7/roles-permissions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"7",
+								"roles-permissions"
+							]
+						},
+						"description": "Get roles and permissions for a specific user. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Role to User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"role\": \"teacher\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users/18/role",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"18",
+								"role"
+							]
+						},
+						"description": "Assign a role to a specific user. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Bulk Delete Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_ids\": [17,18]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users/bulk-delete",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"bulk-delete"
+							]
+						},
+						"description": "Delete multiple users at once. Cannot delete super-admin users or your own account. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Available Roles",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users/available-roles",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"available-roles"
+							]
+						},
+						"description": "Get all available roles for assignment. Requires super-admin or principal role."
+					},
+					"response": []
+				}
+			],
+			"description": "User management operations"
+		},
+		{
+			"name": "Profile Management",
+			"item": [
+				{
+					"name": "Get Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/profile",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"profile"
+							]
+						},
+						"description": "Get current authenticated user's profile with roles and permissions."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Updated Name\",\n    \"email\": \"updated.email@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/profile",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"profile"
+							]
+						},
+						"description": "Update current authenticated user's profile. Password change requires current password verification."
+					},
+					"response": []
+				}
+			],
+			"description": "Profile management for authenticated users"
+		},
+		{
+			"name": "Subject Management",
+			"item": [
+				{
+					"name": "Get All Subjects",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/subjects?page=1&per_page=15&search=&code=&sort_by=created_at&sort_order=desc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"subjects"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page number for pagination"
+								},
+								{
+									"key": "per_page",
+									"value": "15",
+									"description": "Number of items per page"
+								},
+								{
+									"key": "search",
+									"value": "",
+									"description": "Search by name, code, or description"
+								},
+								{
+									"key": "code",
+									"value": "",
+									"description": "Filter by subject code"
+								},
+								{
+									"key": "sort_by",
+									"value": "created_at",
+									"description": "Sort by field"
+								},
+								{
+									"key": "sort_order",
+									"value": "desc",
+									"description": "Sort order (asc/desc)"
+								}
+							]
+						},
+						"description": "Get all subjects with pagination, search, filtering, and sorting. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Subject",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Advanced Mathematics\",\n    \"code\": \"ADV_MATH\",\n    \"description\": \"Advanced mathematics including calculus and linear algebra\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/subjects",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"subjects"
+							]
+						},
+						"description": "Create a new subject. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Subject by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/subjects/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"subjects",
+								"1"
+							]
+						},
+						"description": "Get a specific subject by ID with staff and classes relationships. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Subject",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Updated Mathematics\",\n    \"code\": \"MATH_UPD\",\n    \"description\": \"Updated description for mathematics\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/subjects/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"subjects",
+								"1"
+							]
+						},
+						"description": "Update an existing subject. All fields are optional. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Subject",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/subjects/23",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"subjects",
+								"23"
+							]
+						},
+						"description": "Delete a subject by ID. Cannot delete if subject is used in timetables. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Bulk Delete Subjects",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"subject_ids\": [2, 3, 4]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/subjects/bulk-delete",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"subjects",
+								"bulk-delete"
+							]
+						},
+						"description": "Delete multiple subjects at once. Cannot delete subjects used in timetables. Requires super-admin or principal role."
+					},
+					"response": []
+				}
+			],
+			"description": "CRUD operations for subject management"
+		},
+		{
+			"name": "Class Management",
+			"item": [
+				{
+					"name": "Get All Classes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/classes?page=1&per_page=15",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"classes"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page number for pagination"
+								},
+								{
+									"key": "per_page",
+									"value": "15",
+									"description": "Number of items per page"
+								}
+							]
+						},
+						"description": "Get all classes with pagination. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Class",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Class 13A\",\n    \"level\": \"10\",\n    \"section\": \"A\",\n    \"class_teacher_id\": 6\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/classes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"classes"
+							]
+						},
+						"description": "Create a new class. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Class by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/classes/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"classes",
+								"1"
+							]
+						},
+						"description": "Get a specific class by ID with teacher and timetable information. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Class",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Class 10A Updated\",\n    \"level\": \"10\",\n    \"section\": \"A\",\n    \"class_teacher_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/classes/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"classes",
+								"1"
+							]
+						},
+						"description": "Update an existing class. All fields are optional. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Class",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/classes/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"classes",
+								"1"
+							]
+						},
+						"description": "Delete a class by ID. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Teacher to Class",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": 3\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/classes/2/assign-teacher",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"classes",
+								"2",
+								"assign-teacher"
+							]
+						},
+						"description": "Assign a teacher to a specific class. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Subjects to Class",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"subjects\": [1, 2, 3, 4]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/classes/2/subjects",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"classes",
+								"2",
+								"subjects"
+							]
+						},
+						"description": "Assign subjects to a specific class. This will replace existing assignments. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Class Subjects",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/classes/2/subjects",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"classes",
+								"2",
+								"subjects"
+							]
+						},
+						"description": "Get all subjects assigned to a specific class. Requires super-admin or principal role."
+					},
+					"response": []
+				}
+			],
+			"description": "CRUD operations for class management"
+		},
+		{
+			"name": "Timetable Management",
+			"item": [
+				{
+					"name": "Get Class Timetable",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/classes/2/timetable",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"classes",
+								"2",
+								"timetable"
+							]
+						},
+						"description": "Get the complete timetable for a specific class. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Create/Update Class Timetable",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"timetable\": [\n        {\n            \"day\": \"Monday\",\n            \"period\": 1,\n            \"subject_id\": 1,\n            \"user_id\": 1,\n            \"start_time\": \"08:00\",\n            \"end_time\": \"09:00\"\n        },\n        {\n            \"day\": \"Monday\",\n            \"period\": 2,\n            \"subject_id\": 2,\n            \"user_id\": 2,\n            \"start_time\": \"09:00\",\n            \"end_time\": \"10:00\"\n        },\n        {\n            \"day\": \"Tuesday\",\n            \"period\": 1,\n            \"subject_id\": 3,\n            \"user_id\": 3,\n            \"start_time\": \"08:00\",\n            \"end_time\": \"09:00\"\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/classes/2/timetable",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"classes",
+								"2",
+								"timetable"
+							]
+						},
+						"description": "Create or update the complete timetable for a class. This will replace all existing timetable entries. Requires super-admin or principal role."
+					},
+					"response": []
+				}
+			],
+			"description": "Timetable management for classes"
+		},
+		{
+			"name": "Staff Management",
+			"item": [
+				{
+					"name": "Get All Staff",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/staff?page=1&per_page=15",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"staff"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page number for pagination"
+								},
+								{
+									"key": "per_page",
+									"value": "15",
+									"description": "Number of items per page"
+								}
+							]
+						},
+						"description": "Get all staff members with pagination. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Staff",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Jane Smith 11\",\n    \"email\": \"jane.smith11@example.com\",\n    \"phone\": \"+1234567800\",\n    \"address\": \"No 2 Old Market Road Unguwan Dosa\",\n    \"gender\": \"Female\",\n    \"date_of_birth\": \"01-01-2000\",\n    \"nationality\": \"Nigerian\",\n    \"religion\": \"Christianity\",\n    \"marital_status\": \"Widowed\",\n    \"designation\": \"Subject Teacher I\",\n    \"position\": \"Mathematics Teacher\",\n    \"department\": \"Mathematics\",\n    \"hire_date\": \"2023-01-15\",\n    \"sections\": [1,2],\n    \"subjects\": [1,3,5]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/staff",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"staff"
+							]
+						},
+						"description": "Create a new staff member. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Staff by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/staff/8",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"staff",
+								"8"
+							]
+						},
+						"description": "Get a specific staff member by ID. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Staff",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Jane Smith Updated\",\n    \"position\": \"Senior Mathematics Teacher\",\n    \"department\": \"Mathematics\",\n    \"subjects\": [2,3],\n    \"sections\": [4,5]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/staff/7",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"staff",
+								"7"
+							]
+						},
+						"description": "Update an existing staff member. All fields are optional. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Staff",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/staff/8",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"staff",
+								"8"
+							]
+						},
+						"description": "Delete a staff member by ID. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Sections to Staff",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sections\": [1, 2, 3]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/staff/1/sections",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"staff",
+								"1",
+								"sections"
+							]
+						},
+						"description": "Assign sections to a staff member. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Subjects to Staff",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"subjects\": [1, 2, 3]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/staff/1/subjects",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"staff",
+								"1",
+								"subjects"
+							]
+						},
+						"description": "Assign subjects to a staff member. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Role to Staff",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"role\": \"teacher\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/staff/1/role",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"staff",
+								"1",
+								"role"
+							]
+						},
+						"description": "Assign a role to a staff member. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Staff Subjects",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/staff/1/subjects",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"staff",
+								"1",
+								"subjects"
+							]
+						},
+						"description": "Get all subjects assigned to a specific staff member. Requires super-admin or principal role."
+					},
+					"response": []
+				}
+			],
+			"description": "Staff management operations"
+		},
+		{
+			"name": "Role & Permission Management",
+			"item": [
+				{
+					"name": "Get All Roles",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/roles-permissions/roles",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"roles-permissions",
+								"roles"
+							]
+						},
+						"description": "Get all available roles. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Role",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"class-teacher\",\n    \"guard_name\": \"web\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/roles-permissions/roles",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"roles-permissions",
+								"roles"
+							]
+						},
+						"description": "Create a new role. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Permissions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/roles-permissions/permissions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"roles-permissions",
+								"permissions"
+							]
+						},
+						"description": "Get all available permissions. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Permission",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"view-reports\",\n    \"guard_name\": \"web\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/roles-permissions/permissions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"roles-permissions",
+								"permissions"
+							]
+						},
+						"description": "Create a new permission. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Permissions to Role",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"permissions\": [\"view-classes\", \"create-classes\", \"edit-classes\"]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/roles-permissions/roles/teacher/permissions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"roles-permissions",
+								"roles",
+								"teacher",
+								"permissions"
+							]
+						},
+						"description": "Assign permissions to a specific role. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Role to User (Legacy)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"role\": \"teacher\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/roles-permissions/users/1/role",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"roles-permissions",
+								"users",
+								"1",
+								"role"
+							]
+						},
+						"description": "Assign a role to a specific user (Legacy endpoint). Requires super-admin or principal role."
+					},
+					"response": []
+				}
+			],
+			"description": "Role and permission management operations"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

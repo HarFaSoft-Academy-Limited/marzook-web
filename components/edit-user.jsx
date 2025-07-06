@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -20,7 +20,7 @@ import { sub } from "date-fns"
 import { customBaseUrl } from "@/services/http"
 import axios from "axios"
 
-export function EditDialog({hideModal, showModal, user}) {
+export function EditDialog({hideModal, showModal, user, subjects}) {
   const [open, setOpen] = useState(false)
   console.log("EditDialog user:", user)
   const [userType, setUserType] = useState("staff")
@@ -36,7 +36,7 @@ export function EditDialog({hideModal, showModal, user}) {
       formData,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       }
@@ -50,6 +50,22 @@ export function EditDialog({hideModal, showModal, user}) {
     alert("User updated successfully!")
     hideModal(false) // Close dialog after creation
   }
+  useEffect(() => {
+    const sub = [];
+    
+   
+    if (user) {
+      user.subjects.map((e) => {
+        sub.push(e.id);
+      });
+      setFormData({
+        ...formData,
+        subjects: [...sub],
+        sections: [...user.sections.map((e) => e.id)],
+      })
+    }
+  }, [user])
+
   return (
     <Dialog open={showModal} onOpenChange={hideModal}>
       <DialogTrigger asChild>
@@ -290,11 +306,8 @@ export function EditDialog({hideModal, showModal, user}) {
                       <div className="space-y-2">
                         <Label htmlFor="section">Subjects</Label>
                         <div className="grid grid-cols-2 gap-2 pt-1">
-                          {[
-                            { id: 1, label: "Mathematics" },
-                            { id: 2, label: "English" },
-                            { id: 3, label: "Physics" },
-                          ].map((sub) => (
+                          {subjects.length > 0 &&
+                            subjects.map((sub) => (
                             <div key={sub.id} className="flex items-center space-x-2">
                               <Checkbox
                                 id={sub.label}
@@ -309,7 +322,7 @@ export function EditDialog({hideModal, showModal, user}) {
                                 }}
                               />
                               <label htmlFor={sub.label} className="text-sm">
-                                {sub.label}
+                                {sub.name}
                               </label>
                             </div>
                           ))}
