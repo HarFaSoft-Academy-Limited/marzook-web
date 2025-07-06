@@ -16,19 +16,22 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import axios from "axios"
 import { customBaseUrl } from "@/services/http"
-import { Plus } from "lucide-react"
+import { Edit } from "lucide-react"
+import { DropdownMenuItem } from "./ui/dropdown-menu"
 
-interface AddClassDialogProps {
-  onClassAdded: () => void;
+interface EditClassDialogProps {
+  classData: any;
+  onClassUpdated: () => void;
 }
 
-export function AddClassDialog({ onClassAdded }: AddClassDialogProps) {
+export function EditClassDialog({ classData, onClassUpdated }: EditClassDialogProps) {
   const [open, setOpen] = useState(false)
   const [formData, setFormData] = useState({
-    name: "",
-    level: "",
-    section: "",
-    class_teacher_id: "",
+    name: classData.name,
+    level: classData.level,
+    section_id: classData.section_id,
+    section: classData.section.name,
+    class_teacher_id: classData.class_teacher_id,
   })
   const [staff, setStaff] = useState<any[]>([])
   const [sections, setSections] = useState<any[]>([])
@@ -66,60 +69,60 @@ export function AddClassDialog({ onClassAdded }: AddClassDialogProps) {
     fetchSections()
   }, [])
 
-  const handleCreateClass = async () => {
+  const handleUpdateClass = async () => {
     try {
-      const res = await axios.post(`${customBaseUrl.baseUrl}/api/v1/classes`, formData, {
+      const res = await axios.put(`${customBaseUrl.baseUrl}/api/v1/classes/${classData.id}`, formData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       })
 
-      if (res.status === 201) {
-        alert("Class created successfully!")
+      if (res.status === 200) {
+        alert("Class updated successfully!")
         setOpen(false)
-        onClassAdded(); // Call the callback to refresh the class list
+        onClassUpdated(); // Call the callback to refresh the class list
       } else {
-        console.error("Error creating class:", res.data)
-        alert("Failed to create class. Please try again.")
+        console.error("Error updating class:", res.data)
+        alert("Failed to update class. Please try again.")
       }
     } catch (error) {
-      console.error("Error creating class:", error)
-      alert("Failed to create class. Please try again.")
+      console.error("Error updating class:", error)
+      alert("Failed to update class. Please try again.")
     }
   }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-green-600 hover:bg-green-700">
-          <Plus className="mr-2 h-4 w-4" />
-          Add New Class
-        </Button>
+        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+            <Edit className="mr-2 h-4 w-4" />
+            Edit
+        </DropdownMenuItem>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Add New Class</DialogTitle>
-          <DialogDescription>Create a new class in the system.</DialogDescription>
+          <DialogTitle>Edit Class</DialogTitle>
+          <DialogDescription>Update the details for the class.</DialogDescription>
         </DialogHeader>
 
         <div className="py-4 space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">Class Name</Label>
-            <Input id="name" placeholder="e.g., Primary 1A" onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
+            <Input id="name" value={formData.name} placeholder="e.g., Primary 1A" onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
           </div>
           <div className="space-y-2">
             <Label htmlFor="level">Level</Label>
-            <Input id="level" placeholder="e.g., 1" type="number" onChange={(e) => setFormData({ ...formData, level: e.target.value })} />
+            <Input id="level" value={formData.level} placeholder="e.g., 1" type="number" onChange={(e) => setFormData({ ...formData, level: e.target.value })} />
           </div>
           <div className="space-y-2">
             <Label htmlFor="section">Section</Label>
-            <Select onValueChange={(value) => setFormData({ ...formData, section: value })}>
+            <Select value={formData?.section} onValueChange={(value) => setFormData({ ...formData, section: value })}>
               <SelectTrigger id="section">
                 <SelectValue placeholder="Select a section" />
               </SelectTrigger>
               <SelectContent>
-                {sections.map((section) => (
+                {sections?.length > 0 && sections.map((section) => (
                   <SelectItem key={section.id} value={section.name}>
                     {section.name}
                   </SelectItem>
@@ -129,13 +132,13 @@ export function AddClassDialog({ onClassAdded }: AddClassDialogProps) {
           </div>
           <div className="space-y-2">
             <Label htmlFor="class_teacher">Class Teacher</Label>
-            <Select onValueChange={(value) => setFormData({ ...formData, class_teacher_id: value })}>
+            <Select value={formData.class_teacher_id.toString()} onValueChange={(value) => setFormData({ ...formData, class_teacher_id: value })}>
               <SelectTrigger id="class_teacher">
                 <SelectValue placeholder="Select a teacher" />
               </SelectTrigger>
               <SelectContent>
-                {staff.map((teacher) => (
-                  <SelectItem key={teacher.id} value={teacher.id.toString()}>
+                {staff?.length > 0 && staff.map((teacher) => (
+                  <SelectItem key={teacher.id} value={teacher.user.id.toString()}>
                     {teacher.user.name}
                   </SelectItem>
                 ))}
@@ -148,8 +151,8 @@ export function AddClassDialog({ onClassAdded }: AddClassDialogProps) {
           <Button variant="outline" onClick={() => setOpen(false)}>
             Cancel
           </Button>
-          <Button className="bg-green-600 hover:bg-green-700" onClick={handleCreateClass}>
-            Create Class
+          <Button className="bg-green-600 hover:bg-green-700" onClick={handleUpdateClass}>
+            Update Class
           </Button>
         </DialogFooter>
       </DialogContent>

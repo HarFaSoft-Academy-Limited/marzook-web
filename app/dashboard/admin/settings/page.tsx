@@ -19,6 +19,7 @@ import { X } from "lucide-react"
 import { SubjectManagement } from "@/components/subject-management"
 
 import { RolesPermissionsManagement } from "@/components/roles-permissions-management"
+import { SectionManagement } from "@/components/section-management"
 
 export default function SettingsPage() {
   const [selectedLogo, setSelectedLogo] = useState<string | null>(null)
@@ -49,6 +50,7 @@ export default function SettingsPage() {
             <TabsTrigger value="users">Roles & Permissions</TabsTrigger>
             <TabsTrigger value="notifications">Notifications</TabsTrigger>
             <TabsTrigger value="subjects">Subjects</TabsTrigger>
+            <TabsTrigger value="sections">Sections</TabsTrigger>
             <TabsTrigger value="system">System</TabsTrigger>
           </TabsList>
           <TabsContent value="general" className="space-y-4">
@@ -619,6 +621,9 @@ export default function SettingsPage() {
           </TabsContent>
           <TabsContent value="subjects" className="space-y-4">
             <SubjectManagement />
+          </TabsContent>
+          <TabsContent value="sections" className="space-y-4">
+            <SectionManagement />
           </TabsContent>
           <TabsContent value="system" className="space-y-4">
             <Card>

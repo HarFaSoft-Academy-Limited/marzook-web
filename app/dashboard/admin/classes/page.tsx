@@ -11,6 +11,7 @@ import DashboardLayout from "@/components/dashboard-layout"
 import { Download, Edit, MoreHorizontal, Search, Trash2 } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { AddClassDialog } from "@/components/add-class-dialog"
+import { EditClassDialog } from "@/components/edit-class-dialog"
 import axios from "axios"
 import { customBaseUrl } from "@/services/http"
 
@@ -35,6 +36,26 @@ export default function ClassesPage() {
       console.error("Error fetching classes data:", error);
     }
   };
+
+  const handleDeleteClass = async (id: number) => {
+        try {
+            const res = await axios.delete(`${customBaseUrl.baseUrl}/api/v1/classes/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+                },
+            });
+            if (res.status === 200) {
+                alert("Class deleted successfully!");
+                fetchClasses();
+            } else {
+                console.error("Failed to delete class:", res.statusText);
+                alert("Failed to delete class. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error deleting class:", error);
+            alert("Failed to delete class. Please try again.");
+        }
+    };
 
   useEffect(() => {
     fetchClasses();
@@ -96,11 +117,8 @@ export default function ClassesPage() {
                                 </Button>
                               </DropdownMenuTrigger>
                               <DropdownMenuContent align="end">
-                                <DropdownMenuItem>
-                                  <Edit className="mr-2 h-4 w-4" />
-                                  Edit
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
+                                <EditClassDialog classData={cls} onClassUpdated={fetchClasses} />
+                                <DropdownMenuItem onClick={() => handleDeleteClass(cls.id)}>
                                   <Trash2 className="mr-2 h-4 w-4" />
                                   Delete
                                 </DropdownMenuItem>
