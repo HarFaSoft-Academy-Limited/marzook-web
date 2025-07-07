@@ -20,6 +20,7 @@ import axios from "axios"
 import { customBaseUrl } from "@/services/http"
 import { CalendarDays, Plus, Trash2 } from "lucide-react"
 import { DropdownMenuItem } from "./ui/dropdown-menu"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 interface TimetableEntry {
   id?: number;
@@ -51,6 +52,29 @@ export function ClassTimetableDialog({ classData }: ClassTimetableDialogProps) {
   })
 
   const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+  const [gridTimetable, setGridTimetable] = useState<Record<string, Record<number, TimetableEntry>>>({});
+  const [uniquePeriods, setUniquePeriods] = useState<number[]>([]);
+
+  useEffect(() => {
+    const periods = Array.from(new Set(timetable.map(entry => entry.period))).sort((a, b) => a - b);
+    setUniquePeriods(periods);
+
+    const grid: Record<string, Record<number, TimetableEntry>> = {};
+    daysOfWeek.forEach(day => {
+      grid[day] = {};
+      periods.forEach(period => {
+        grid[day][period] = {} as TimetableEntry; // Initialize with empty object
+      });
+    });
+
+    timetable.forEach(entry => {
+      if (grid[entry.day] && grid[entry.day][entry.period]) {
+        grid[entry.day][entry.period] = entry;
+      }
+    });
+    setGridTimetable(grid);
+  }, [timetable]);
 
   const fetchTimetable = async () => {
     try {
@@ -241,45 +265,101 @@ export function ClassTimetableDialog({ classData }: ClassTimetableDialogProps) {
             </div>
           </div>
           <div>
-            <h3 className="font-semibold mb-2">Current Timetable</h3>
-            <ScrollArea className="h-96 pr-4">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Day</TableHead>
-                    <TableHead>Period</TableHead>
-                    <TableHead>Time</TableHead>
-                    <TableHead>Subject</TableHead>
-                    <TableHead>Teacher</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {timetable.length > 0 ? (
-                    timetable.map((entry) => (
-                      <TableRow key={entry.id}>
-                        <TableCell>{entry.day}</TableCell>
-                        <TableCell>{entry.period}</TableCell>
-                        <TableCell>{entry.start_time} - {entry.end_time}</TableCell>
-                        <TableCell>{subjects.find((s:any) => s.id === entry.subject_id)?.name || 'N/A'}</TableCell>
-                        <TableCell>{staff.find((t:any) => t.id === entry.user_id)?.user?.name || 'N/A'}</TableCell>
-                        <TableCell className="text-right">
-                          <Button variant="destructive" size="sm" onClick={() => handleDeleteEntry(entry.id!)}>
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </TableCell>
+            <Tabs defaultValue="list" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="list">List View</TabsTrigger>
+                <TabsTrigger value="grid">Grid View</TabsTrigger>
+              </TabsList>
+              <TabsContent value="list">
+                <h3 className="font-semibold mb-2">Current Timetable (List View)</h3>
+                <ScrollArea className="h-96 pr-4">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Day</TableHead>
+                        <TableHead>Period</TableHead>
+                        <TableHead>Time</TableHead>
+                        <TableHead>Subject</TableHead>
+                        <TableHead>Teacher</TableHead>
+                        <TableHead className="text-right">Actions</TableHead>
                       </TableRow>
-                    ))
-                  ) : (
-                    <TableRow>
-                      <TableCell colSpan={5} className="text-center text-muted-foreground">
-                        No timetable entries yet.
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </ScrollArea>
+                    </TableHeader>
+                    <TableBody>
+                      {timetable.length > 0 ? (
+                        timetable.map((entry) => (
+                          <TableRow key={entry.id}>
+                            <TableCell>{entry.day}</TableCell>
+                            <TableCell>{entry.period}</TableCell>
+                            <TableCell>{entry.start_time} - {entry.end_time}</TableCell>
+                            <TableCell>{subjects.find((s:any) => s.id === entry.subject_id)?.name || 'N/A'}</TableCell>
+                            <TableCell>{staff.find((t:any) => t.id === entry.user_id)?.user?.name || 'N/A'}</TableCell>
+                            <TableCell className="text-right">
+                              <Button variant="destructive" size="sm" onClick={() => handleDeleteEntry(entry.id!)}>
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))
+                      ) : (
+                        <TableRow>
+                          <TableCell colSpan={6} className="text-center text-muted-foreground">
+                            No timetable entries yet.
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                </ScrollArea>
+              </TabsContent>
+              <TabsContent value="grid">
+                <TabsContent value="grid">
+                <h3 className="font-semibold mb-2">Current Timetable (Grid View)</h3>
+                <ScrollArea className="h-96 pr-4">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-[100px]">Day/Period</TableHead>
+                        {uniquePeriods.map((period) => (
+                          <TableHead key={period} className="text-center">Period {period}</TableHead>
+                        ))}
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {daysOfWeek.map((day) => (
+                        <TableRow key={day}>
+                          <TableCell className="font-medium">{day}</TableCell>
+                          {uniquePeriods.map((period) => {
+                            const entry = gridTimetable[day]?.[period];
+                            const subjectName = entry?.subject_id ? subjects.find((s:any) => s.id === entry.subject_id)?.name : '';
+                            const teacherName = entry?.user_id ? staff.find((t:any) => t.id === entry.user_id)?.user?.name : '';
+                            return (
+                              <TableCell key={`${day}-${period}`} className="text-center">
+                                {subjectName && teacherName ? (
+                                  <div className="flex flex-col">
+                                    <span>{subjectName}</span>
+                                    <span className="text-muted-foreground text-sm">({teacherName})</span>
+                                  </div>
+                                ) : (
+                                  "-"
+                                )}
+                              </TableCell>
+                            );
+                          })}
+                        </TableRow>
+                      ))}
+                      {timetable.length === 0 && (
+                        <TableRow>
+                          <TableCell colSpan={uniquePeriods.length + 1} className="text-center text-muted-foreground">
+                            No timetable entries yet.
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                </ScrollArea>
+              </TabsContent>
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
         <DialogFooter className="mt-6">
