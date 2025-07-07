@@ -272,7 +272,7 @@ export function ClassTimetableDialog({ classData }: ClassTimetableDialogProps) {
               </TabsList>
               <TabsContent value="list">
                 <h3 className="font-semibold mb-2">Current Timetable (List View)</h3>
-                <ScrollArea className="h-96 pr-4">
+                <ScrollArea className="h-96 pr-4 whitespace-nowrap">
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -313,9 +313,9 @@ export function ClassTimetableDialog({ classData }: ClassTimetableDialogProps) {
               </TabsContent>
               <TabsContent value="grid">
                 <TabsContent value="grid">
-                <h3 className="font-semibold mb-2">Current Timetable (Grid View)</h3>
-                <ScrollArea className="h-96 pr-4">
-                  <Table>
+                <h3 className="font-semibold mb-2">Current Timetable (Grid View)</h3>        
+                <ScrollArea className="h-96 w-96 pr-4 whitespace-nowrap">
+                  <Table className="w-full" style={{display: 'block', overflowX: 'auto' }}>
                     <TableHeader>
                       <TableRow>
                         <TableHead className="w-[100px]">Day/Period</TableHead>
