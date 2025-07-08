@@ -20,6 +20,7 @@ import { SubjectManagement } from "@/components/subject-management"
 
 import { RolesPermissionsManagement } from "@/components/roles-permissions-management"
 import { SectionManagement } from "@/components/section-management"
+import { SessionManagement } from "@/components/session-management"
 
 export default function SettingsPage() {
   const [selectedLogo, setSelectedLogo] = useState<string | null>(null)
@@ -51,6 +52,7 @@ export default function SettingsPage() {
             <TabsTrigger value="notifications">Notifications</TabsTrigger>
             <TabsTrigger value="subjects">Subjects</TabsTrigger>
             <TabsTrigger value="sections">Sections</TabsTrigger>
+            <TabsTrigger value="sessions">Sessions</TabsTrigger>
             <TabsTrigger value="system">System</TabsTrigger>
           </TabsList>
           <TabsContent value="general" className="space-y-4">
@@ -624,6 +626,9 @@ export default function SettingsPage() {
           </TabsContent>
           <TabsContent value="sections" className="space-y-4">
             <SectionManagement />
+          </TabsContent>
+          <TabsContent value="sessions" className="space-y-4">
+            <SessionManagement />
           </TabsContent>
           <TabsContent value="system" className="space-y-4">
             <Card>
