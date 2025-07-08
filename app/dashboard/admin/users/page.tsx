@@ -56,11 +56,22 @@ export default function UsersPage() {
       };
     }[];
   };
+  type Subject  = {
+    id: number;
+    name: string;
+    code: string;
+    description: string;
+    created_at: string;
+    updated_at: string;
+  };
 
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<Staff | null>(null);
   const [staffData, setStaff] = useState<Staff[]>([]);
+  const [allUsersData, setAllUsersData] = useState<any[]>([]);
   const [searchWord, setSearchWord] = useState("");
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+
 
   const getStaff = async () =>  {
     try{
@@ -83,8 +94,44 @@ export default function UsersPage() {
     }
   }
 
+  const getAllUsers = async () => {
+    try {
+      const res = await axios.get(`${customBaseUrl.baseUrl}/api/v1/users`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem("access_token"),
+          'ngrok-skip-browser-warning': 'true'
+        }
+      })
+      if (res.status === 200) {
+        console.log('>>>>>>>><<<<<<<<<',res.data.data.data);
+        setAllUsersData(res.data.data.data);
+      } else {
+        console.error("Failed to fetch all users data:", res.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching all users data:", error);
+    }
+  }
+
+      const fetchSubjects = async () => {
+        try {
+          const res = await axios.get(`${customBaseUrl.baseUrl}/api/v1/subjects`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
+          })
+          console.log('kkkkkkkkkkk',res.data.data);
+          setSubjects(res.data.data.data)
+        } catch (error) {
+          console.error("Error fetching subjects:", error)
+        }
+      }
+
   useEffect(() =>  {
     getStaff();
+    getAllUsers();
+    fetchSubjects()
+
   }, []);
 
   return (
@@ -92,7 +139,7 @@ export default function UsersPage() {
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold tracking-tight">User Management</h1>
-          <AddUserDialog />
+          <AddUserDialog subjects={subjects} />
         </div>
 
         <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
@@ -148,52 +195,50 @@ export default function UsersPage() {
                       <TableHead>Role</TableHead>
                       <TableHead>Section</TableHead>
                       <TableHead>Status</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
+                      <TableHead className="text-right">Actions </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {[
-                      {
-                        name: "Ahmad Ibrahim",
-                        email: "ahmad@marzook.edu.ng",
-                        role: "Admin",
-                        section: "All",
-                        status: "Active",
-                      },
-                      
-                    ].map((user) => (
-                      <TableRow key={user.email}>
-                        <TableCell className="font-medium">{user.name}</TableCell>
-                        <TableCell>{user.email}</TableCell>
-                        <TableCell>{user.role}</TableCell>
-                        <TableCell>{user.section}</TableCell>
-                        <TableCell>
-                          <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-800">
-                            {user.status}
-                          </span>
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="icon">
-                                <MoreHorizontal className="h-4 w-4" />
-                                <span className="sr-only">Open menu</span>
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem>
-                                <Edit className="mr-2 h-4 w-4" />
-                                Edit
-                              </DropdownMenuItem>
-                              <DropdownMenuItem>
-                                <Trash2 className="mr-2 h-4 w-4" />
-                                Delete
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                    {allUsersData.length > 0 &&
+                      allUsersData
+                      ?.filter(
+                        (user) =>
+                          user?.name.toLowerCase().includes(searchWord.toLowerCase()) ||
+                          user.email.toLowerCase().includes(searchWord.toLowerCase())
+                      )
+                      .map((user) => (
+                        <TableRow key={user.email}>
+                          <TableCell className="font-medium">{user.name}</TableCell>
+                          <TableCell>{user?.email}</TableCell>
+                          <TableCell>{user?.roles[0]?.name || "N/A"}</TableCell>
+                          <TableCell>{"N/A"}</TableCell>
+                          <TableCell>
+                            <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-800">
+                              {user.status ?? "Active"}
+                            </span>
+                          </TableCell>
+                          <TableCell className="text-right" hidden>
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="icon">
+                                  <MoreHorizontal className="h-4 w-4" />
+                                  <span className="sr-only">Open menu</span>
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuItem>
+                                  <Edit className="mr-2 h-4 w-4" />
+                                  Edit
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                  <Trash2 className="mr-2 h-4 w-4" />
+                                  Delete
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </TableCell>
+                        </TableRow>
+                      ))}
                   </TableBody>
                 </Table>
               </CardContent>
@@ -313,6 +358,7 @@ export default function UsersPage() {
           hideModal={setEditDialogOpen}
           showModal={editDialogOpen}
           user={selectedUser}
+          subjects={subjects}
         />
     </DashboardLayout>
   )

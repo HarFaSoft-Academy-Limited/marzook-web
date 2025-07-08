@@ -16,21 +16,47 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { UserPlus } from "lucide-react"
+import { useEffect } from "react"
 import { sub } from "date-fns"
 import { customBaseUrl } from "@/services/http"
 import axios from "axios"
 
-export function AddUserDialog() {
+type Subject  = {
+  id: number;
+  name: string;
+  code: string;
+  description: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export function AddUserDialog({subjects} : {subjects: Subject[]}) {
+
+  console.log({subjects})
+  //subject type 
+//   sub = [
+//     {
+//         "id": 12,
+//         "name": "English Language",
+//         "code": "ENG",
+//         "description": "English language and literature studies",
+//         "created_at": "2025-07-05T16:08:29.000000Z",
+//         "updated_at": "2025-07-05T16:08:29.000000Z"
+//     }
+// }
+
+
   const [open, setOpen] = useState(false)
   const [userType, setUserType] = useState("staff")
+  const [sections, setSections] = useState<any[]>([])
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     username: "",
     password: "",
-    sections: [1],
-    subjects: [1],
+    sections: [] as number[],
+    subjects: [] as number[],
     address: "",
     gender: "male",
     date_of_birth: "",
@@ -40,6 +66,25 @@ export function AddUserDialog() {
     photo: "",
     designation: "",
   })
+
+  useEffect(() => {
+    const fetchSections = async () => {
+        try {
+          const res = await axios.get(`${customBaseUrl.baseUrl}/api/v1/sections`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              'ngrok-skip-browser-warning': 'true'
+            },
+          })
+          setSections(res.data.data.data)
+        } catch (error) {
+          console.error("Error fetching sections:", error)
+        }
+      }
+
+    fetchSections()
+  }, [])
+
 
   const handleCreateUser = async  () => {
     // Handle user creation logic here
@@ -273,14 +318,10 @@ export function AddUserDialog() {
                       <div className="space-y-2">
                         <Label htmlFor="section">Section(s)</Label>
                         <div className="grid grid-cols-2 gap-2 pt-1">
-                          {[
-                            { id: 1, label: "Primary" },
-                            { id: 2, label: "Secondary" },
-                            { id: 3, label: "Islamiyya" },
-                          ].map((section) => (
+                          {sections.length > 0 && sections.map((section:any) => (
                             <div key={section.id} className="flex items-center space-x-2">
                               <Checkbox
-                                id={section.label}
+                                id={section.name}
                                 checked={formData.sections.includes(section.id)}
                                 onCheckedChange={(checked) => {
                                   setFormData((prev) => ({
@@ -291,8 +332,8 @@ export function AddUserDialog() {
                                   }));
                                 }}
                               />
-                              <label htmlFor={section.label} className="text-sm">
-                                {section.label}
+                              <label htmlFor={section.name} className="text-sm">
+                                {section.name}
                               </label>
                             </div>
                           ))}
@@ -301,26 +342,22 @@ export function AddUserDialog() {
                       <div className="space-y-2">
                         <Label htmlFor="section">Subjects</Label>
                         <div className="grid grid-cols-2 gap-2 pt-1">
-                          {[
-                            { id: 1, label: "Mathematics" },
-                            { id: 2, label: "English" },
-                            { id: 3, label: "Physics" },
-                          ].map((sub) => (
+                          {subjects.length > 0 && subjects.map((sub:any) => (
                             <div key={sub.id} className="flex items-center space-x-2">
-                              <Checkbox
-                                id={sub.label}
-                                checked={formData.subjects.includes(sub.id)}
-                                onCheckedChange={(checked) => {
-                                  setFormData((prev) => ({
-                                    ...prev,
-                                    subjects: checked
-                                      ? [...prev.subjects, sub.id]
-                                      : prev.subjects.filter((id) => id !== sub.id),
-                                  }));
-                                }}
-                              />
-                              <label htmlFor={sub.label} className="text-sm">
-                                {sub.label}
+                            <Checkbox
+                              id={sub.name}
+                              checked={formData.subjects.includes(sub.id)}
+                              onCheckedChange={(checked) => {
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  subjects: checked
+                                    ? [...prev.subjects, sub.id]
+                                    : prev.subjects.filter((id) => id !== sub.id),
+                                }));
+                              }}
+                            />
+                              <label htmlFor={sub.name} className="text-sm">
+                                {sub.name}
                               </label>
                             </div>
                           ))}

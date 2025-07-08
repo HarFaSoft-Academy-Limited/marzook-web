@@ -16,6 +16,12 @@ import { Separator } from "@/components/ui/separator"
 import { useState } from "react"
 import { X } from "lucide-react"
 
+import { SubjectManagement } from "@/components/subject-management"
+
+import { RolesPermissionsManagement } from "@/components/roles-permissions-management"
+import { SectionManagement } from "@/components/section-management"
+import { SessionManagement } from "@/components/session-management"
+
 export default function SettingsPage() {
   const [selectedLogo, setSelectedLogo] = useState<string | null>(null)
 
@@ -42,8 +48,11 @@ export default function SettingsPage() {
           <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="general">General</TabsTrigger>
             <TabsTrigger value="academic">Academic</TabsTrigger>
-            <TabsTrigger value="users">Users & Permissions</TabsTrigger>
+            <TabsTrigger value="users">Roles & Permissions</TabsTrigger>
             <TabsTrigger value="notifications">Notifications</TabsTrigger>
+            <TabsTrigger value="subjects">Subjects</TabsTrigger>
+            <TabsTrigger value="sections">Sections</TabsTrigger>
+            <TabsTrigger value="sessions">Sessions</TabsTrigger>
             <TabsTrigger value="system">System</TabsTrigger>
           </TabsList>
           <TabsContent value="general" className="space-y-4">
@@ -444,286 +453,7 @@ export default function SettingsPage() {
             </Card>
           </TabsContent>
           <TabsContent value="users" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>User Roles & Permissions</CardTitle>
-                <CardDescription>Configure user roles and access permissions</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="space-y-4">
-                  <h3 className="text-sm font-medium">Admin Permissions</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <Card>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-base">Super Admin</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-2">
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="super-admin-all" defaultChecked />
-                            <Label htmlFor="super-admin-all">Full System Access</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="super-admin-users" defaultChecked />
-                            <Label htmlFor="super-admin-users">Manage Users</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="super-admin-settings" defaultChecked />
-                            <Label htmlFor="super-admin-settings">System Settings</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="super-admin-finance" defaultChecked />
-                            <Label htmlFor="super-admin-finance">Financial Management</Label>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-base">Admin</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-2">
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="admin-all" />
-                            <Label htmlFor="admin-all">Full System Access</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="admin-users" defaultChecked />
-                            <Label htmlFor="admin-users">Manage Users</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="admin-settings" />
-                            <Label htmlFor="admin-settings">System Settings</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="admin-finance" defaultChecked />
-                            <Label htmlFor="admin-finance">Financial Management</Label>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-base">Section Head</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-2">
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="section-head-all" />
-                            <Label htmlFor="section-head-all">Full System Access</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="section-head-users" />
-                            <Label htmlFor="section-head-users">Manage Users</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="section-head-settings" />
-                            <Label htmlFor="section-head-settings">System Settings</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="section-head-finance" />
-                            <Label htmlFor="section-head-finance">Financial Management</Label>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </div>
-
-                <Separator />
-
-                <div className="space-y-4">
-                  <h3 className="text-sm font-medium">Staff Permissions</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <Card>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-base">Teacher</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-2">
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="teacher-results" defaultChecked />
-                            <Label htmlFor="teacher-results">Enter Results</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="teacher-attendance" defaultChecked />
-                            <Label htmlFor="teacher-attendance">Mark Attendance</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="teacher-communication" defaultChecked />
-                            <Label htmlFor="teacher-communication">Send Messages</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="teacher-reports" defaultChecked />
-                            <Label htmlFor="teacher-reports">View Reports</Label>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-base">Form Teacher</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-2">
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="form-teacher-results" defaultChecked />
-                            <Label htmlFor="form-teacher-results">Enter Results</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="form-teacher-attendance" defaultChecked />
-                            <Label htmlFor="form-teacher-attendance">Mark Attendance</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="form-teacher-communication" defaultChecked />
-                            <Label htmlFor="form-teacher-communication">Send Messages</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="form-teacher-reports" defaultChecked />
-                            <Label htmlFor="form-teacher-reports">View Reports</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="form-teacher-comments" defaultChecked />
-                            <Label htmlFor="form-teacher-comments">Add Comments</Label>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-base">Bursar</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-2">
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="bursar-fees" defaultChecked />
-                            <Label htmlFor="bursar-fees">Manage Fees</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="bursar-payments" defaultChecked />
-                            <Label htmlFor="bursar-payments">Record Payments</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="bursar-reports" defaultChecked />
-                            <Label htmlFor="bursar-reports">Financial Reports</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="bursar-discounts" defaultChecked />
-                            <Label htmlFor="bursar-discounts">Manage Discounts</Label>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </div>
-
-                <Separator />
-
-                <div className="space-y-4">
-                  <h3 className="text-sm font-medium">Parent/Guardian Permissions</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <Card>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-base">Parent Access</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-2">
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="parent-results" defaultChecked />
-                            <Label htmlFor="parent-results">View Results</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="parent-attendance" defaultChecked />
-                            <Label htmlFor="parent-attendance">View Attendance</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="parent-fees" defaultChecked />
-                            <Label htmlFor="parent-fees">View Fee Information</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="parent-pay" defaultChecked />
-                            <Label htmlFor="parent-pay">Make Payments</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="parent-message" defaultChecked />
-                            <Label htmlFor="parent-message">Send Messages</Label>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-base">Guardian Access</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-2">
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="guardian-results" defaultChecked />
-                            <Label htmlFor="guardian-results">View Results</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="guardian-attendance" defaultChecked />
-                            <Label htmlFor="guardian-attendance">View Attendance</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="guardian-fees" defaultChecked />
-                            <Label htmlFor="guardian-fees">View Fee Information</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="guardian-pay" defaultChecked />
-                            <Label htmlFor="guardian-pay">Make Payments</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="guardian-message" defaultChecked />
-                            <Label htmlFor="guardian-message">Send Messages</Label>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Password Policy</CardTitle>
-                <CardDescription>Configure password requirements and security settings</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <Label htmlFor="min-password-length">Minimum Password Length</Label>
-                    <Input id="min-password-length" type="number" defaultValue="8" className="w-20" />
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="require-uppercase" defaultChecked />
-                    <Label htmlFor="require-uppercase">Require uppercase letters</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="require-numbers" defaultChecked />
-                    <Label htmlFor="require-numbers">Require numbers</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="require-special" defaultChecked />
-                    <Label htmlFor="require-special">Require special characters</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="password-expiry" />
-                    <Label htmlFor="password-expiry">Password expires after</Label>
-                    <Input type="number" defaultValue="90" className="w-20" />
-                    <span className="text-sm">days</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="account-lockout" defaultChecked />
-                    <Label htmlFor="account-lockout">Lock account after</Label>
-                    <Input type="number" defaultValue="5" className="w-20" />
-                    <span className="text-sm">failed attempts</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <RolesPermissionsManagement />
           </TabsContent>
           <TabsContent value="notifications" className="space-y-4">
             <Card>
@@ -890,6 +620,15 @@ export default function SettingsPage() {
                 </div>
               </CardContent>
             </Card>
+          </TabsContent>
+          <TabsContent value="subjects" className="space-y-4">
+            <SubjectManagement />
+          </TabsContent>
+          <TabsContent value="sections" className="space-y-4">
+            <SectionManagement />
+          </TabsContent>
+          <TabsContent value="sessions" className="space-y-4">
+            <SessionManagement />
           </TabsContent>
           <TabsContent value="system" className="space-y-4">
             <Card>

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -16,27 +16,87 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { UserPlus } from "lucide-react"
-import { sub } from "date-fns"
 import { customBaseUrl } from "@/services/http"
 import axios from "axios"
 
-export function EditDialog({hideModal, showModal, user}) {
+
+
+export function EditDialog({user, subjects, hideModal,  showModal}) {
+
+
   const [open, setOpen] = useState(false)
-  console.log("EditDialog user:", user)
   const [userType, setUserType] = useState("staff")
+  const [sections, setSections] = useState([])
   const [formData, setFormData] = useState({
-    sections: [],
-    subjects: [],
+    name: user?.user?.name,
+    email: user?.user?.email,
+    phone: user?.user?.phone,
+    username: user?.username,
+    password: "",
+    sections: user?.sections.map((s) => s.id),
+    subjects: user?.subjects.map((s) => s.id),
+    address: user?.address,
+    gender: user?.gender,
+    date_of_birth: user?.date_of_birth,
+    nationality: user?.nationality,
+    religion: user?.religion,
+    marital_status: user?.marital_status,
+    photo: "",
+    designation: user?.designation,
   })
 
-  const handleUpdate = async  () => {
+  useEffect(() => {
+    const fetchSections = async () => {
+        try {
+          const res = await axios.get(`${customBaseUrl.baseUrl}/api/v1/sections`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              'ngrok-skip-browser-warning': 'true'
+            },
+          })
+          setSections(res.data.data.data)
+        } catch (error) {
+          console.error("Error fetching sections:", error)
+        }
+      }
+
+    fetchSections()
+  }, [])
+
+useEffect(() => {
+  const section  = []
+  const  subject = []
+  user?.sections.map((s) => section.push(s.id))
+  user?.subjects.map((s) => subject.push(s.id))
+  
+
+setFormData({
+  name: user?.user?.name,
+  email: user?.user?.email,
+  phone: user?.user?.phone,
+  username: user?.username,
+  password: "",
+  sections: section,
+  subjects: subject,
+  address: user?.address,
+  gender: user?.gender,
+  date_of_birth: user?.date_of_birth,
+  nationality: user?.nationality,
+  religion: user?.religion,
+  marital_status: user?.marital_status,
+  photo: "",
+  designation: user?.designation,
+})
+},  [user])
+console.log({user})
+  const handleUpdateUser = async  () => {
     // Handle user creation logic here
     console.log("Creating user with type:", formData)
-    const res = await axios.put(`${customBaseUrl.baseUrl}/api/v1/staff/${user?.id}`,
+    const res = await axios.put(`${customBaseUrl.baseUrl}/api/v1/staff/${user.id}`,
       formData,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       }
@@ -47,27 +107,27 @@ export function EditDialog({hideModal, showModal, user}) {
       alert("Failed to create user. Please try again.")
       return
     }
-    alert("User updated successfully!")
-    hideModal(false) // Close dialog after creation
+    alert("User created successfully!")
+    setOpen(false) // Close dialog after creation
   }
   return (
     <Dialog open={showModal} onOpenChange={hideModal}>
       <DialogTrigger asChild>
         <Button className="bg-green-600 hover:bg-green-700">
           <UserPlus className="mr-2 h-4 w-4" />
-          Add New User
+          Edit User
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px] max-h-[85vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Update User</DialogTitle>
-          <DialogDescription>Update user account details in the system.</DialogDescription>
+          <DialogTitle>Edit User</DialogTitle>
+          <DialogDescription>Update user account in the system.</DialogDescription>
         </DialogHeader>
 
         <div className="py-4 space-y-6">
-          <div className="space-y-2" hidden>
+          <div className="space-y-2">
             <Label htmlFor="user-type">User Type</Label>
-            <Select defaultValue="staff" onValueChange={(value) => setUserType(value)} disabled>
+            <Select defaultValue="staff" onValueChange={(value) => setUserType(value)}>
               <SelectTrigger id="user-type">
                 <SelectValue placeholder="Select user type" />
               </SelectTrigger>
@@ -83,7 +143,7 @@ export function EditDialog({hideModal, showModal, user}) {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="name">name</Label>
-                <Input value={formData?.name ?? user?.user?.name } id="name" placeholder="Full name" onChange={(e) => setFormData({...formData, name: e.target.value})} />
+                <Input id="name" value={formData.name} placeholder="Full name" onChange={(e) => setFormData({...formData, name: e.target.value})} />
               </div>
               {/* <div className="space-y-2">
                 <Label htmlFor="last-name">Last Name</Label>
@@ -91,61 +151,62 @@ export function EditDialog({hideModal, showModal, user}) {
               </div> */}
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>
-                <Input  value={formData?.email ?? user?.user?.email} id="email" type="email" placeholder="Email address" onChange={(e) => setFormData({...formData, email: e.target.value})} />
+                <Input id="email" value={formData.email} type="email" placeholder="Email address" onChange={(e) => setFormData({...formData, email: e.target.value})} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="phone">Phone Number</Label>
-                <Input  value={formData?.phone ?? user?.user?.email} id="phone" placeholder="Phone number" onChange={(e) => setFormData({...formData, phone: e.target.value})}/>
+                <Input id="phone" value={formData.phone} placeholder="Phone number" onChange={(e) => setFormData({...formData, phone: e.target.value})}/>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="address">Address</Label>
-                <Input  value={formData?.address ?? user?.address} id="address" placeholder="12  St. Luis " onChange={(e) => setFormData({...formData, address: e.target.value})}/>
+                <Input id="address" value={formData.address} placeholder="12  St. Luis " onChange={(e) => setFormData({...formData, address: e.target.value})}/>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="nationality"></Label>
-                <Input  value={formData?.nationality ?? user?.nationality} id="nationality" placeholder="nationality" onChange={(e) => setFormData({...formData, nationality: e.target.value})}/>
+                <Input id="nationality" value={formData.nationality} placeholder="nationality" onChange={(e) => setFormData({...formData, nationality: e.target.value})}/>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="gender">Gender</Label>
-                <Select  value={formData?.gender ?? user?.gender} defaultValue="male" onValueChange={(value) => setFormData({ ...formData, gender: value })}>
+                <Select value={formData.gender} defaultValue="male" onValueChange={(value) => setFormData({ ...formData, gender: value })}>
                   <SelectTrigger id="gender">
                     <SelectValue placeholder="Select gender" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Male">Male</SelectItem>
-                    <SelectItem value="Female">Female</SelectItem>
+                    <SelectItem value="male">Male</SelectItem>
+                    <SelectItem value="female">Female</SelectItem>
+                    <SelectItem value="other">Other</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
-              <div  className="space-y-2">
+              <div className="space-y-2">
                 <Label htmlFor="date_of_birth">Date of Birth</Label>
                 <Input
                   id="date_of_birth"
                   type="date"
-                  value={formData?.date_of_birth ?? new Date(user?.date_of_birth)}
+                  value={formData.date_of_birth}
                   onChange={(e) => setFormData({ ...formData, date_of_birth: e.target.value })}
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="religion">Religion</Label>
                 <Input
-                 value={formData?.religion ?? user?.religion}
                   id="religion"
                   placeholder="Religion"
+                  value={formData.religion}
                   onChange={(e) => setFormData({ ...formData, religion: e.target.value })}
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="marital_status">Marital Status</Label>
-                <Select  value={formData?.marital_status ?? user?.marital_status} defaultValue="single" onValueChange={(value) => setFormData({ ...formData, marital_status: value })}>
+                <Select value={formData.marital_status} defaultValue="single" onValueChange={(value) => setFormData({ ...formData, marital_status: value })}>
                   <SelectTrigger id="marital_status">
                     <SelectValue placeholder="Select marital status" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Single">Single</SelectItem>
-                    <SelectItem value="Married">Married</SelectItem>
-                    <SelectItem value="Divorced">Divorced</SelectItem>
-                    <SelectItem value="Widowed">Widowed</SelectItem>
+                    <SelectItem value="single">Single</SelectItem>
+                    <SelectItem value="married">Married</SelectItem>
+                    <SelectItem value="divorced">Divorced</SelectItem>
+                    <SelectItem value="widowed">Widowed</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -160,7 +221,7 @@ export function EditDialog({hideModal, showModal, user}) {
               </div> */}
               <div className="space-y-2">
                 <Label htmlFor="designation">Designation</Label>
-                <Input  value={formData?.designation ?? user?.designation} id="designation" placeholder="" onChange={(e) => setFormData({...formData, designation: e.target.value})}/>
+                <Input id="designation" value={formData.designation} placeholder="" onChange={(e) => setFormData({...formData, designation: e.target.value})}/>
               </div>
             </div>
 
@@ -262,26 +323,22 @@ export function EditDialog({hideModal, showModal, user}) {
                       <div className="space-y-2">
                         <Label htmlFor="section">Section(s)</Label>
                         <div className="grid grid-cols-2 gap-2 pt-1">
-                          {[
-                            { id: 1, label: "Primary" },
-                            { id: 2, label: "Secondary" },
-                            { id: 3, label: "Islamiyya" },
-                          ].map((section) => (
+                          {sections?.length > 0 && sections.map((section) => (
                             <div key={section.id} className="flex items-center space-x-2">
                               <Checkbox
-                                id={section.label}
+                                id={section.name}
                                 checked={formData?.sections?.includes(section.id)}
                                 onCheckedChange={(checked) => {
                                   setFormData((prev) => ({
                                     ...prev,
                                     sections: checked
-                                      ? [...prev?.sections, section?.id]
-                                      : prev?.sections?.filter((id) => id !== section?.id),
+                                      ? [...prev.sections, section.id]
+                                      : prev.sections.filter((id) => id !== section.id),
                                   }));
                                 }}
                               />
-                              <label htmlFor={section.label} className="text-sm">
-                                {section.label}
+                              <label htmlFor={section.name} className="text-sm">
+                                {section.name}
                               </label>
                             </div>
                           ))}
@@ -290,26 +347,22 @@ export function EditDialog({hideModal, showModal, user}) {
                       <div className="space-y-2">
                         <Label htmlFor="section">Subjects</Label>
                         <div className="grid grid-cols-2 gap-2 pt-1">
-                          {[
-                            { id: 1, label: "Mathematics" },
-                            { id: 2, label: "English" },
-                            { id: 3, label: "Physics" },
-                          ].map((sub) => (
+                          {subjects.length > 0 && subjects.map((sub) => (
                             <div key={sub.id} className="flex items-center space-x-2">
-                              <Checkbox
-                                id={sub.label}
-                                checked={formData?.subjects?.includes(sub.id)}
-                                onCheckedChange={(checked) => {
-                                  setFormData((prev) => ({
-                                    ...prev,
-                                    subjects: checked
-                                      ? [...prev.subjects, sub.id]
-                                      : prev.subjects.filter((id) => id !== sub.id),
-                                  }));
-                                }}
-                              />
-                              <label htmlFor={sub.label} className="text-sm">
-                                {sub.label}
+                            <Checkbox
+                              id={sub.name}
+                              checked={formData?.subjects?.includes(sub.id)}
+                              onCheckedChange={(checked) => {
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  subjects: checked
+                                    ? [...prev.subjects, sub.id]
+                                    : prev.subjects.filter((id) => id !== sub.id),
+                                }));
+                              }}
+                            />
+                              <label htmlFor={sub.name} className="text-sm">
+                                {sub.name}
                               </label>
                             </div>
                           ))}
@@ -405,11 +458,11 @@ export function EditDialog({hideModal, showModal, user}) {
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => hideModal(false)}>
+          <Button variant="outline" onClick={() => setOpen(false)}>
             Cancel
           </Button>
-          <Button className="bg-green-600 hover:bg-green-700" onClick={handleUpdate}>
-            Update
+          <Button className="bg-green-600 hover:bg-green-700" onClick={handleUpdateUser}>
+            Update User
           </Button>
         </DialogFooter>
       </DialogContent>
