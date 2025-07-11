@@ -704,27 +704,7 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "{{base_url}}/classes?page=1&per_page=15",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"classes"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "1",
-									"description": "Page number for pagination"
-								},
-								{
-									"key": "per_page",
-									"value": "15",
-									"description": "Number of items per page"
-								}
-							]
-						},
+						"url": "{{base_url}}/classes",
 						"description": "Get all classes with pagination. Requires super-admin or principal role."
 					},
 					"response": []
@@ -2024,6 +2004,509 @@
 				}
 			],
 			"description": "Academic session management endpoints for CRUD operations"
+		},
+		{
+			"name": "Parent Management",
+			"item": [
+				{
+					"name": "Get All Parents",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/parents?page=1&per_page=15",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"parents"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "15"
+								}
+							]
+						},
+						"description": "Retrieve all parents with pagination"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Parent",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Umaru Bello\",\n    \"email\": \"umaru.bello@example.com\",\n    \"password\": \"password123\",\n    \"phone\": \"08123456789\",\n    \"gender\": \"Male\",\n    \"occupation\": \"Engineer\",\n    \"address\": \"Barnawa Kaduna\"\n}"
+						},
+						"url": "{{base_url}}/api/v1/parents",
+						"description": "Create a new parent with user account"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Parent by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/api/v1/parents/1",
+						"description": "Retrieve a specific parent by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Parent",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Umaru Bello Updated\",\n    \"phone\": \"08123456789\",\n    \"occupation\": \"Senior Engineer\",\n    \"address\": \"Barnawa Kaduna, Nigeria\"\n}"
+						},
+						"url": "{{base_url}}/api/v1/parents/1",
+						"description": "Update parent information"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Parent",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/api/v1/parents/1",
+						"description": "Delete a parent (this will also delete the associated user account)"
+					},
+					"response": []
+				}
+			],
+			"description": "Complete CRUD operations for parent management"
+		},
+		{
+			"name": "Student Management",
+			"item": [
+				{
+					"name": "Get All Students",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/students",
+						"description": "Retrieve all students"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Student",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"first_name\": \"Aisha\",\n    \"last_name\": \"Bello\",\n    \"other_name\": \"Fatima\",\n    \"gender\": \"Female\",\n    \"date_of_birth\": \"2010-03-15\",\n    \"nationality\": \"Nigerian\",\n    \"religion\": \"Islam\",\n    \"email\": \"aisha.belld4o@1student.com\",\n    \"phone\": \"08012345678\",\n    \"address\": \"Barnawa Kaduna\",\n    \"admission_no\": \"STU02d2\",\n    \"admission_date\": \"2023-09-01\",\n    \"parent_id\": 1,\n    \"relationship\": \"Father\",\n}"
+						},
+						"url": "{{base_url}}/students",
+						"description": "Create a new student with parent assignment"
+					},
+					"response": []
+				},
+				{
+					"name": "Assign section to Student",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sections\": [1,2]\n}"
+						},
+						"url": "{{base_url}}/students/2/assign-sections",
+						"description": "Create a new student with parent assignment"
+					},
+					"response": []
+				},
+				{
+					"name": "Input Assessment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"academic_session_id\": 2,\n    \"records\": [\n        {\n            \"section_id\": 2,\n            \"school_class_id\": 2\n        }\n    ]\n}"
+						},
+						"url": "{{base_url}}/students/2/assign-new-class",
+						"description": "Create a new student with parent assignment"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Student by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/students/2",
+						"description": "Retrieve a specific student by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Student - Assign Parent",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"parent_id\": 2,\n    \"relationship\": \"Father\"\n}"
+						},
+						"url": "{{base_url}}/students/1",
+						"description": "Assign a parent to a student"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Student",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/students/1",
+						"description": "Delete a student"
+					},
+					"response": []
+				}
+			],
+			"description": "Student management with parent relationship functionality"
+		},
+		{
+			"name": "Parent Management",
+			"item": [
+				{
+					"name": "Create Parent",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Fatima Ahmed\",\n    \"email\": \"fatima.ahmded@example.com\",\n    \"password\": \"password123\",\n    \"phone\": \"08098765432\",\n    \"gender\": \"Female\",\n    \"occupation\": \"Doctor\",\n    \"address\": \"Ungwan Rimi Kaduna\"\n}"
+						},
+						"url": "{{base_url}}/parents",
+						"description": "Create sample parent Fatima Ahmed"
+					},
+					"response": []
+				},
+				{
+					"name": "Get all parents",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/parents"
+					},
+					"response": []
+				},
+				{
+					"name": "Get parent by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/parents/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Update parent",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"gender\": \"Female\" //first lectter capital\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/parents/1"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/parents/1"
+					},
+					"response": []
+				}
+			],
+			"description": "Sample data creation requests for testing the parent module"
 		}
 	],
 	"event": [

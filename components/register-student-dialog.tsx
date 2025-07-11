@@ -19,8 +19,35 @@ import { Textarea } from "@/components/ui/textarea"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { UserPlus } from "lucide-react"
 
+import { createStudent } from "@/services/student";
+
 export function RegisterStudentDialog() {
   const [open, setOpen] = useState(false)
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    other_name: "",
+    gender: "",
+    date_of_birth: "",
+    nationality: "",
+    religion: "",
+    email: "",
+    phone: "",
+    address: "",
+    admission_no: "",
+    admission_date: "",
+    parent_id: 1,
+    relationship: "",
+  });
+
+  const handleRegisterStudent = async () => {
+    const res = await createStudent(formData);
+    if (res) {
+      setOpen(false);
+    } else {
+      alert("Failed to register student");
+    }
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -48,19 +75,19 @@ export function RegisterStudentDialog() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="first-name">First Name</Label>
-                <Input id="first-name" placeholder="First name" />
+                <Input id="first-name" placeholder="First name" value={formData.first_name} onChange={(e) => setFormData({ ...formData, first_name: e.target.value })} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="last-name">Last Name</Label>
-                <Input id="last-name" placeholder="Last name" />
+                <Input id="last-name" placeholder="Last name" value={formData.last_name} onChange={(e) => setFormData({ ...formData, last_name: e.target.value })} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="other-names">Other Names</Label>
-                <Input id="other-names" placeholder="Other names (if any)" />
+                <Input id="other-names" placeholder="Other names (if any)" value={formData.other_name} onChange={(e) => setFormData({ ...formData, other_name: e.target.value })} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="gender">Gender</Label>
-                <Select>
+                <Select onValueChange={(value) => setFormData({ ...formData, gender: value })}>
                   <SelectTrigger id="gender">
                     <SelectValue placeholder="Select gender" />
                   </SelectTrigger>
@@ -72,7 +99,7 @@ export function RegisterStudentDialog() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="dob">Date of Birth</Label>
-                <Input id="dob" type="date" />
+                <Input id="dob" type="date" value={formData.date_of_birth} onChange={(e) => setFormData({ ...formData, date_of_birth: e.target.value })} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="place-of-birth">Place of Birth</Label>
@@ -80,7 +107,7 @@ export function RegisterStudentDialog() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="nationality">Nationality</Label>
-                <Input id="nationality" defaultValue="Nigerian" />
+                <Input id="nationality" defaultValue="Nigerian" value={formData.nationality} onChange={(e) => setFormData({ ...formData, nationality: e.target.value })} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="state-of-origin">State of Origin</Label>
@@ -88,7 +115,7 @@ export function RegisterStudentDialog() {
               </div>
               <div className="space-y-2 col-span-2">
                 <Label htmlFor="address">Home Address</Label>
-                <Textarea id="address" placeholder="Full residential address" />
+                <Textarea id="address" placeholder="Full residential address" value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })} />
               </div>
             </div>
           </TabsContent>
@@ -97,11 +124,11 @@ export function RegisterStudentDialog() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="admission-date">Admission Date</Label>
-                <Input id="admission-date" type="date" defaultValue={new Date().toISOString().split("T")[0]} />
+                <Input id="admission-date" type="date" defaultValue={new Date().toISOString().split("T")[0]} value={formData.admission_date} onChange={(e) => setFormData({ ...formData, admission_date: e.target.value })} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="admission-number">Admission Number</Label>
-                <Input id="admission-number" placeholder="Will be auto-generated" disabled />
+                <Input id="admission-number" placeholder="Will be auto-generated" value={formData.admission_no} onChange={(e) => setFormData({ ...formData, admission_no: e.target.value })} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="primary-section">Primary Section</Label>
@@ -254,7 +281,7 @@ export function RegisterStudentDialog() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="guardian-relationship">Relationship</Label>
-                <Input id="guardian-relationship" placeholder="Relationship to student" disabled />
+                <Input id="guardian-relationship" placeholder="Relationship to student" value={formData.relationship} onChange={(e) => setFormData({ ...formData, relationship: e.target.value })} disabled />
               </div>
             </div>
           </TabsContent>
@@ -326,7 +353,7 @@ export function RegisterStudentDialog() {
           <Button variant="outline" onClick={() => setOpen(false)}>
             Cancel
           </Button>
-          <Button className="bg-green-600 hover:bg-green-700" onClick={() => setOpen(false)}>
+          <Button className="bg-green-600 hover:bg-green-700" onClick={handleRegisterStudent}>
             Register Student
           </Button>
         </DialogFooter>
