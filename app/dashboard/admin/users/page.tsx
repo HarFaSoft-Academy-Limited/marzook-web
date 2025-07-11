@@ -10,10 +10,12 @@ import { Download, Edit, MoreHorizontal, Search, Trash2 } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { AddUserDialog } from "@/components/add-user-dialog"
 import { EditDialog } from "@/components/edit-user"
+import { getParents, deleteParent } from "@/services/parent";
+import { AddParentDialog } from "@/components/add-parent-dialog";
+import { EditParentDialog } from "@/components/edit-parent-dialog";
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { customBaseUrl } from "@/services/http"
-import { set } from "date-fns"
 
 export default function UsersPage() {
   type Staff = {
@@ -64,6 +66,13 @@ export default function UsersPage() {
     created_at: string;
     updated_at: string;
   };
+  type Parent = {
+    id: number;
+    user: {
+      name: string;
+      email: string;
+    }
+  };
 
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<Staff | null>(null);
@@ -71,6 +80,10 @@ export default function UsersPage() {
   const [allUsersData, setAllUsersData] = useState<any[]>([]);
   const [searchWord, setSearchWord] = useState("");
   const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [parents, setParents] = useState<Parent[]>([]);
+  const [addParentDialogOpen, setAddParentDialogOpen] = useState(false);
+  const [editParentDialogOpen, setEditParentDialogOpen] = useState(false);
+  const [selectedParent, setSelectedParent] = useState<Parent | null>(null);
 
 
   const getStaff = async () =>  {
@@ -127,19 +140,39 @@ export default function UsersPage() {
         }
       }
 
+  const fetchParents = async () => {
+    const parentsData = await getParents();
+    setParents(parentsData);
+  };
+
   useEffect(() =>  {
     getStaff();
     getAllUsers();
-    fetchSubjects()
+    fetchSubjects();
+    fetchParents();
 
   }, []);
+
+  const handleDeleteParent = async (parentId: any) => {
+    const success = await deleteParent(parentId);
+    if (success) {
+      fetchParents();
+      alert("Parent deleted successfully!");
+    } else {
+      alert("Failed to delete parent.");
+    }
+  };
+
 
   return (
     <DashboardLayout userType="admin">
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold tracking-tight">User Management</h1>
-          <AddUserDialog subjects={subjects} />
+          <div className="flex gap-2">
+            <AddUserDialog subjects={subjects} />
+            <Button onClick={() => setAddParentDialogOpen(true)}>Add Parent</Button>
+          </div>
         </div>
 
         <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
@@ -345,15 +378,61 @@ export default function UsersPage() {
                 <CardDescription>Manage parent accounts</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="h-[300px] flex items-center justify-center border rounded-md">
-                  <p className="text-muted-foreground">Parent users will be displayed here</p>
-                </div>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Email</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {parents.length > 0 && parents.map((parent) => (
+                      <TableRow key={parent.id}>
+                        <TableCell>{parent.user.name}</TableCell>
+                        <TableCell>{parent.user.email}</TableCell>
+                        <TableCell className="text-right">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="icon">
+                                <MoreHorizontal className="h-4 w-4" />
+                                <span className="sr-only">Open menu</span>
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem
+                                onSelect={() => {
+                                  setSelectedParent(parent);
+                                  setEditParentDialogOpen(true);
+                                }}
+                              >
+                                <Edit className="mr-2 h-4 w-4" />
+                                Edit
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onSelect={() => handleDeleteParent(parent.id)}>
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Delete
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
               </CardContent>
             </Card>
           </TabsContent>
         </Tabs>
       </div>
-      
+      <AddParentDialog showModal={addParentDialogOpen} hideModal={setAddParentDialogOpen} />
+      {selectedParent && (
+        <EditParentDialog
+          parent={selectedParent}
+          showModal={editParentDialogOpen}
+          hideModal={setEditParentDialogOpen}
+        />
+      )}
         <EditDialog
           hideModal={setEditDialogOpen}
           showModal={editDialogOpen}
