@@ -15,18 +15,45 @@ import { useEffect, useState } from "react"
 import { getStudents, deleteStudent } from "@/services/student"
 import { EditStudentDialog } from "@/components/edit-student-dialog"
 
+import { getClasses } from "@/services/class";
+import { getSections } from "@/services/section";
+
+type Sections ={
+  id: number;
+  name: string;
+  description: string;
+} 
+type Classes = {
+  id: number;
+  name: string;
+  description: string;
+}
 export default function StudentsPage() {
   const [students, setStudents] = useState([]);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
+  const [classes, setClasses] = useState<Classes[]>([]);
+  const [sections, setSections] = useState<Sections[]>([]);
 
   const fetchStudents = async () => {
     const studentsData = await getStudents();
     setStudents(studentsData);
   };
 
+  const fetchClasses = async () => {
+    const classesData = await getClasses();
+    setClasses(classesData);
+  };
+
+  const fetchSections = async () => {
+    const sectionsData = await getSections();
+    setSections(sectionsData);
+  };
+
   useEffect(() => {
     fetchStudents();
+    fetchClasses();
+    fetchSections();
   }, []);
 
   const handleDelete = async (studentId: any) => {
@@ -59,10 +86,11 @@ export default function StudentsPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Sections</SelectItem>
-                <SelectItem value="primary">Primary</SelectItem>
-                <SelectItem value="secondary">Secondary</SelectItem>
-                <SelectItem value="islamiyya">Islamiyya</SelectItem>
-                <SelectItem value="tahfeez">Tahfeez</SelectItem>
+                {sections.length > 0 && sections.map((section) => (
+                  <SelectItem key={section.id} value={section.id.toString()}>
+                    {section.name}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
             <Select defaultValue="all">
@@ -71,12 +99,11 @@ export default function StudentsPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Classes</SelectItem>
-                <SelectItem value="primary1">Primary 1</SelectItem>
-                <SelectItem value="primary2">Primary 2</SelectItem>
-                <SelectItem value="primary3">Primary 3</SelectItem>
-                <SelectItem value="jss1">JSS 1</SelectItem>
-                <SelectItem value="jss2">JSS 2</SelectItem>
-                <SelectItem value="jss3">JSS 3</SelectItem>
+                {classes.length > 0 && classes.map((classItem) => (
+                  <SelectItem key={classItem.id} value={classItem.id.toString()}>
+                    {classItem.name}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
             <Button variant="outline" size="icon">
