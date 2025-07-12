@@ -12,7 +12,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Badge } from "@/components/ui/badge"
 import { RegisterStudentDialog } from "@/components/register-student-dialog"
 import { useEffect, useState } from "react"
-import { getStudents, deleteStudent } from "@/services/student"
+import { getStudents, getStudentsByClass, deleteStudent, searchStudents } from "@/services/student";
 import { EditStudentDialog } from "@/components/edit-student-dialog"
 
 import { getClasses } from "@/services/class";
@@ -28,15 +28,42 @@ type Classes = {
   name: string;
   description: string;
 }
+type Section = {
+  id: number;
+  name: string;
+  description: string;
+  created_at: string;
+  updated_at: string;
+  pivot: {
+    staff_id: number;
+    section_id: number;
+  };
+}
 export default function StudentsPage() {
   const [students, setStudents] = useState([]);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [classes, setClasses] = useState<Classes[]>([]);
-  const [sections, setSections] = useState<Sections[]>([]);
+  const [sections, setSections] = useState<Section[]>([]);
+  const [selectedClass, setSelectedClass] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const fetchStudents = async () => {
     const studentsData = await getStudents();
+    setStudents(studentsData);
+  };
+
+  const fetchStudentsByClass = async (classId: any) => {
+    if (classId === "all") {
+      fetchStudents();
+    } else {
+      const studentsData = await getStudentsByClass(classId);
+      setStudents(studentsData);
+    }
+  };
+
+  const searchStudentsByTerm = async (term: any) => {
+    const studentsData = await searchStudents(term);
     setStudents(studentsData);
   };
 
@@ -55,6 +82,18 @@ export default function StudentsPage() {
     fetchClasses();
     fetchSections();
   }, []);
+
+  useEffect(() => {
+    if (searchTerm) {
+      searchStudentsByTerm(searchTerm);
+    } else {
+      fetchStudents();
+    }
+  }, [searchTerm]);
+
+  useEffect(() => {
+    fetchStudentsByClass(selectedClass);
+  }, [selectedClass]);
 
   const handleDelete = async (studentId: any) => {
     const success = await deleteStudent(studentId);
@@ -77,7 +116,7 @@ export default function StudentsPage() {
         <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
           <div className="relative w-full md:w-80">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input type="search" placeholder="Search students..." className="w-full pl-8" />
+            <Input type="search" placeholder="Search students..." className="w-full pl-8" onChange={(e) => setSearchTerm(e.target.value)} />
           </div>
           <div className="flex gap-2 w-full md:w-auto">
             <Select defaultValue="all">
@@ -86,20 +125,20 @@ export default function StudentsPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Sections</SelectItem>
-                {sections.length > 0 && sections.map((section) => (
+                {sections.map((section) => (
                   <SelectItem key={section.id} value={section.id.toString()}>
                     {section.name}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
-            <Select defaultValue="all">
+            <Select defaultValue="all" onValueChange={setSelectedClass}>
               <SelectTrigger className="w-full md:w-[180px]">
                 <SelectValue placeholder="Filter by class" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Classes</SelectItem>
-                {classes.length > 0 && classes.map((classItem) => (
+                {classes.map((classItem) => (
                   <SelectItem key={classItem.id} value={classItem.id.toString()}>
                     {classItem.name}
                   </SelectItem>
