@@ -17,7 +17,7 @@ import { Label } from "@/components/ui/label"
 import { UserPlus } from "lucide-react"
 import { createParent } from "@/services/parent"
 
-export function AddParentDialog({ hideModal, showModal }) {
+export function AddParentDialog({ hideModal , showModal } : { hideModal: any; showModal: any; }) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",

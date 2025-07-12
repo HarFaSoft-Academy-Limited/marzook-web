@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -20,9 +20,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { UserPlus } from "lucide-react"
 
 import { createStudent } from "@/services/student";
+import { getParents } from "@/services/parent";
 
+type Parent = {
+  id: number;
+  user: {
+    name: string;
+    email: string;
+  }
+};
 export function RegisterStudentDialog() {
   const [open, setOpen] = useState(false)
+  const [parents, setParents] = useState<Parent[]>([]);
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -39,6 +48,14 @@ export function RegisterStudentDialog() {
     parent_id: 1,
     relationship: "",
   });
+
+  useEffect(() => {
+    const fetchParents = async () => {
+      const parentsData = await getParents();
+      setParents(parentsData);
+    };
+    fetchParents();
+  }, []);
 
   const handleRegisterStudent = async () => {
     const res = await createStudent(formData);
@@ -112,6 +129,18 @@ export function RegisterStudentDialog() {
               <div className="space-y-2">
                 <Label htmlFor="state-of-origin">State of Origin</Label>
                 <Input id="state-of-origin" placeholder="State of origin" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" placeholder="student email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="phone">Phone</Label>
+                <Input id="phone" placeholder="student phone" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="religion">Religion</Label>
+                <Input id="religion" placeholder="student religion" value={formData.religion} onChange={(e) => setFormData({ ...formData, religion: e.target.value })} />
               </div>
               <div className="space-y-2 col-span-2">
                 <Label htmlFor="address">Home Address</Label>
@@ -225,63 +254,23 @@ export function RegisterStudentDialog() {
           <TabsContent value="parent" className="space-y-4 mt-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="father-name">Father's Name</Label>
-                <Input id="father-name" placeholder="Full name" />
+                <Label htmlFor="parent">Parent</Label>
+                <Select onValueChange={(value) => setFormData({ ...formData, parent_id: Number(value) })}>
+                  <SelectTrigger id="parent">
+                    <SelectValue placeholder="Select parent" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {parents.length > 0 && parents.map((parent) => (
+                      <SelectItem key={parent.id} value={parent.id.toString()}>
+                        {parent.user.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="father-phone">Father's Phone</Label>
-                <Input id="father-phone" placeholder="Phone number" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="father-email">Father's Email</Label>
-                <Input id="father-email" type="email" placeholder="Email address" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="father-occupation">Father's Occupation</Label>
-                <Input id="father-occupation" placeholder="Occupation" />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="mother-name">Mother's Name</Label>
-                <Input id="mother-name" placeholder="Full name" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="mother-phone">Mother's Phone</Label>
-                <Input id="mother-phone" placeholder="Phone number" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="mother-email">Mother's Email</Label>
-                <Input id="mother-email" type="email" placeholder="Email address" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="mother-occupation">Mother's Occupation</Label>
-                <Input id="mother-occupation" placeholder="Occupation" />
-              </div>
-
-              <div className="col-span-2 pt-2">
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="guardian" />
-                  <label htmlFor="guardian" className="text-sm">
-                    Register a Guardian (if different from parents)
-                  </label>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="guardian-name">Guardian's Name</Label>
-                <Input id="guardian-name" placeholder="Full name" disabled />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="guardian-phone">Guardian's Phone</Label>
-                <Input id="guardian-phone" placeholder="Phone number" disabled />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="guardian-email">Guardian's Email</Label>
-                <Input id="guardian-email" type="email" placeholder="Email address" disabled />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="guardian-relationship">Relationship</Label>
-                <Input id="guardian-relationship" placeholder="Relationship to student" value={formData.relationship} onChange={(e) => setFormData({ ...formData, relationship: e.target.value })} disabled />
+                <Label htmlFor="relationship">Relationship</Label>
+                <Input id="relationship" placeholder="Relationship to student" value={formData.relationship} onChange={(e) => setFormData({ ...formData, relationship: e.target.value })} />
               </div>
             </div>
           </TabsContent>

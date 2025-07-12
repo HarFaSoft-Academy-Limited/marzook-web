@@ -99,7 +99,7 @@ export default function StudentsPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>ID</TableHead>
+                      <TableHead>Admission No</TableHead>
                       <TableHead>First Name</TableHead>
                       <TableHead>First Name</TableHead>
                       <TableHead>Class</TableHead>
@@ -112,7 +112,7 @@ export default function StudentsPage() {
                   <TableBody>
                     {students.length > 0 && students.map((student:  any) => (
                       <TableRow key={student.id}>
-                        <TableCell>{student.id}</TableCell>
+                        <TableCell>{student.admission_no}</TableCell>
                         <TableCell className="font-medium">{student.first_name}</TableCell>
                         <TableCell className="font-medium">{student.last_name}</TableCell>
 
