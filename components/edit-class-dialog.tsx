@@ -18,6 +18,7 @@ import axios from "axios"
 import { customBaseUrl } from "@/services/http"
 import { Edit } from "lucide-react"
 import { DropdownMenuItem } from "./ui/dropdown-menu"
+import Swal from "sweetalert2"
 
 interface EditClassDialogProps {
   classData: any;
@@ -29,8 +30,7 @@ export function EditClassDialog({ classData, onClassUpdated }: EditClassDialogPr
   const [formData, setFormData] = useState({
     name: classData.name,
     level: classData.level,
-    section_id: classData.section_id,
-    section: classData.section.name,
+    section_ids: [classData.section_id],
     class_teacher_id: classData.class_teacher_id,
   })
   const [staff, setStaff] = useState<any[]>([])
@@ -79,7 +79,9 @@ export function EditClassDialog({ classData, onClassUpdated }: EditClassDialogPr
       })
 
       if (res.status === 200) {
-        alert("Class updated successfully!")
+        // alert("Class updated successfully!")
+        Swal.fire('Done', res.data.message, 'success')
+          
         setOpen(false)
         onClassUpdated(); // Call the callback to refresh the class list
       } else {
@@ -111,19 +113,19 @@ export function EditClassDialog({ classData, onClassUpdated }: EditClassDialogPr
             <Label htmlFor="name">Class Name</Label>
             <Input id="name" value={formData.name} placeholder="e.g., Primary 1A" onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
           </div>
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <Label htmlFor="level">Level</Label>
             <Input id="level" value={formData.level} placeholder="e.g., 1" type="number" onChange={(e) => setFormData({ ...formData, level: e.target.value })} />
-          </div>
+          </div> */}
           <div className="space-y-2">
             <Label htmlFor="section">Section</Label>
-            <Select value={formData?.section} onValueChange={(value) => setFormData({ ...formData, section: value })}>
+            <Select value={formData?.section_ids[0]} onValueChange={(value) => setFormData({ ...formData, section_ids: [value] })}>
               <SelectTrigger id="section">
                 <SelectValue placeholder="Select a section" />
               </SelectTrigger>
               <SelectContent>
                 {sections?.length > 0 && sections.map((section) => (
-                  <SelectItem key={section.id} value={section.name}>
+                  <SelectItem key={section.id} value={section.id}>
                     {section.name}
                   </SelectItem>
                 ))}

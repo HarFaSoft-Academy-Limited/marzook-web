@@ -7,6 +7,8 @@ import Link from "next/link"
 import { useState } from "react"
 import { customBaseUrl, httpPost }  from "@/services/http"
 import axios from "axios";
+import Swal from "sweetalert2";
+
 
 export default function Home() {
 const [data, setData] = useState({
@@ -30,8 +32,14 @@ const [data, setData] = useState({
       alert("Login failed. Please try again.");
       setError(req.data.message || "Login failed. Please try again.");
     }
-  } catch (err) {
+  } catch (err: any) {
     console.error("Login error:", err);
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: `${err?.response?.data?.message ?? 'An error occurred while logging in. Please try again.'}`,
+      footer: '<Something went wrong!',
+    })
     setError("An error occurred while logging in. Please try again.");
   }
     
@@ -71,13 +79,17 @@ const [data, setData] = useState({
           <CardFooter className="flex flex-col">
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
         
-            <button
-            className="w-full text-red-500 bg-green-600 hover:bg-green-700"
+            {/* <button
+            className="w-full btn text-red-500 bg-green-600 hover:bg-green-700"
               onClick={handleLogin}
-              >login</button>
-            {/* <Button asChild className="w-full text-red-500 bg-green-600 hover:bg-green-700">
-              <Link href="/dashboard/admin">Login</Link>
-            </Button> */}
+              >login</button> */}
+      
+            <Button 
+            variant="outline"
+            size="lg"
+            onClick={handleLogin} title="Login" className="w-full text-red-500 bg-green-600 hover:bg-green-700">
+             Login
+            </Button>
             <div className="mt-4 text-sm text-center text-gray-500">
               <Link href="#" className="text-green-600 hover:underline">
                 Forgot password?

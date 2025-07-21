@@ -207,6 +207,10 @@ export default function StudentsPage() {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
+                              <DropdownMenuItem onSelect={() => window.location.href = `/dashboard/admin/students/${student.id}`}>
+                                <Eye className="mr-2 h-4 w-4" />
+                                View Profile
+                              </DropdownMenuItem>
                               <DropdownMenuItem onSelect={() => {
                                 setSelectedStudent(student);
                                 setEditDialogOpen(true);

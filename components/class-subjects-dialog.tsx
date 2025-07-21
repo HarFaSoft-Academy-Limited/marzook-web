@@ -68,7 +68,11 @@ export function ClassSubjectsDialog({ classData, onSubjectsUpdated }: ClassSubje
     if (!selectedSubject) return
 
     try {
-      const res = await axios.post(`${customBaseUrl.baseUrl}/api/v1/classes/${classData.id}/subjects`, { subjects: [...assignedSubjects.map(s => s.id), parseInt(selectedSubject)] }, {
+      const res = await axios.post(`${customBaseUrl.baseUrl}/api/v1/classes/${classData.id}/subjects`, 
+        { 
+          subjects: [...assignedSubjects.map(s => s.id), parseInt(selectedSubject)],
+          user_id: JSON.parse(localStorage.getItem("user") ?? '{id:1}').id
+        }, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,

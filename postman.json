@@ -4,7 +4,8 @@
 		"name": "School Management System API",
 		"description": "Complete API collection for the School Management System including authentication, user management, class management, staff management, subject management, role & permission management, and timetable management.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "13399467"
+		"_exporter_id": "13399467",
+		"_collection_link": "https://lively-flare-633656.postman.co/workspace/HarFaSoft~f1ddc920-7993-41d6-92e2-bf0c43d7a943/collection/13399467-67ec40e9-01e4-4036-8c12-604b5fdd4b28?action=share&source=collection_link&creator=13399467"
 	},
 	"item": [
 		{
@@ -28,7 +29,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"password\": \"password123\",\n    \"password_confirmation\": \"password123\",\n    \"role\": \"principal\"\n}"
+							"raw": "{\n    \"name\": \"Super Admin\",\n    \"email\": \"super@example.com\",\n    \"password\": \"password\",\n    \"password_confirmation\": \"password\",\n    \"role\": \"super-admin\"\n}"
 						},
 						"url": "{{base_url}}/register",
 						"description": "Register a new user with a specific role. Valid roles: super-admin, principal, vice-principal, head-of-department, teacher, accountant, admin-staff, student"
@@ -53,7 +54,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"john.doe@example.com\",\n    \"password\": \"password123\"\n}"
+							"raw": "{\n    \"email\": \"super@example.com\",\n    \"password\": \"password\"\n}"
 						},
 						"url": "{{base_url}}/login",
 						"description": "Login with email and password to get access token"
@@ -268,7 +269,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/users/7/roles-permissions",
+						"url": "{{base_url}}/users/1/roles-permissions",
 						"description": "Get roles and permissions for a specific user. Requires super-admin or principal role."
 					},
 					"response": []
@@ -302,9 +303,9 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"role\": \"teacher\"\n}"
+							"raw": "{\n    \"role\": \"principal\"\n}"
 						},
-						"url": "{{base_url}}/users/18/role",
+						"url": "{{base_url}}/users/1/role",
 						"description": "Assign a role to a specific user. Requires super-admin or principal role."
 					},
 					"response": []
@@ -738,7 +739,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Class 13A\",\n    \"level\": \"10\",\n    \"section\": \"A\",\n    \"class_teacher_id\": 6\n}"
+							"raw": "{\n    \"name\": \"SSS 3C\",\n    \"class_teacher_id\": 6, \n    \"section_id\": 1\n}"
 						},
 						"url": "{{base_url}}/classes",
 						"description": "Create a new class. Requires super-admin or principal role."
@@ -801,7 +802,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Class 10A Updated\",\n    \"level\": \"10\",\n    \"section\": \"A\",\n    \"class_teacher_id\": 2\n}"
+							"raw": "{\n    \"name\": \"Class 10A Updated\",\n    \"section_ids\": [1, 3],\n    \"class_teacher_id\": 4\n}"
 						},
 						"url": "{{base_url}}/classes/1",
 						"description": "Update an existing class. All fields are optional. Requires super-admin or principal role."
@@ -900,7 +901,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"subjects\": [1, 2, 3, 4]\n}"
+							"raw": "{\n    \"subjects\": [1, 2, 3, 4, 5],\n    \"user_id\": 1\n}"
 						},
 						"url": "{{base_url}}/classes/2/subjects",
 						"description": "Assign subjects to a specific class. This will replace existing assignments. Requires super-admin or principal role."
@@ -930,6 +931,33 @@
 							}
 						],
 						"url": "{{base_url}}/classes/2/subjects",
+						"description": "Get all subjects assigned to a specific class. Requires super-admin or principal role."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Class Subjects for Current Session",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/classes/2/subjects-by-class",
 						"description": "Get all subjects assigned to a specific class. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1478,9 +1506,9 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"permissions\": [\"view-classes\", \"create-classes\", \"edit-classes\"]\n}"
+							"raw": "{\n    // \"permissions\": [\"view students\", \"delete students\", \"view staff\"]\n        \"permissions\": [\"edit staff\"]\n\n}"
 						},
-						"url": "{{base_url}}/roles-permissions/roles/teacher/permissions",
+						"url": "{{base_url}}/roles-permissions/roles/11/permissions",
 						"description": "Assign permissions to a specific role. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1514,7 +1542,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"role\": \"teacher\"\n}"
+							"raw": "{\n    \"role\": \"accountant\"\n}"
 						},
 						"url": "{{base_url}}/roles-permissions/users/1/role",
 						"description": "Assign a role to a specific user (Legacy endpoint). Requires super-admin or principal role."
@@ -2507,6 +2535,1185 @@
 				}
 			],
 			"description": "Sample data creation requests for testing the parent module"
+		},
+		{
+			"name": "Attendance",
+			"item": [
+				{
+					"name": "List Attendance",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/attendances"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Attendance (Bulk)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"attendance\": [\n  {\n    \"student_id\": 1,\n    \"school_class_id\": 1,\n    \"date\": \"2025-09-14\",\n    \"status\": \"present\",\n    \"term_id\": 3,\n    \"academic_session_id\": 1\n  },\n  {\n    \"student_id\": 2,\n    \"school_class_id\": 1,\n    \"date\": \"2025-09-14\",\n    \"term_id\": 3,\n    \"academic_session_id\": 1,\n    \"status\": \"absent\"\n  }\n]\n}"
+						},
+						"url": "{{base_url}}/attendances"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Attendance",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/attendances/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Attendance",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"late\"\n}"
+						},
+						"url": "{{base_url}}/attendances/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Attendance",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/attendances/1"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Behaviour",
+			"item": [
+				{
+					"name": "List Behaviours",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/behaviours"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Behaviour",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"student_id\": 1,\n  \"type\": \"positive\",\n  \"title\": \"Helped clean lab\",\n  \"points\": 5,\n  \"recorded_by\": 2,\n  \"date\": \"2025-10-01\",\n  \"note\": \"Excellent behavior\"\n}"
+						},
+						"url": "{{base_url}}/behaviours"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Behaviour",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/behaviours/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Behaviour",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"points\": 10,\n  \"note\": \"Updated note\"\n}"
+						},
+						"url": "{{base_url}}/behaviours/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Behaviour",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/behaviours/1"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Exam Results",
+			"item": [
+				{
+					"name": "List Exam Results",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/exam-results"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Exam Result",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"exam_id\": 2,\n  \"student_id\": 1,\n  \"subject_id\": 3,\n  \"score\": 73\n}"
+						},
+						"url": "{{base_url}}/exam-results"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Exam Result",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": "{{BASE_URL}}/api/v1/exam-results/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Exam Result",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"score\": 75\n}"
+						},
+						"url": "{{BASE_URL}}/api/v1/exam-results/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Exam Result",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": "{{BASE_URL}}/api/v1/exam-results/1"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Grade Scales",
+			"item": [
+				{
+					"name": "List Grade Scales",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/grade-scales"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Grade Scale",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"min\": 70,\n  \"max\": 100,\n  \"grade\": \"A\",\n  \"remark\": \"Excellent\"\n}"
+						},
+						"url": "{{base_url}}/grade-scales"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Grade Scale",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"min\": 75,\n  \"max\": 100,\n  \"grade\": \"A+\",\n  \"remark\": \"Outstanding\"\n}"
+						},
+						"url": "{{base_url}}/grade-scales/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Grade Scale",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/grade-scales/1"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Staff Attendance Management",
+			"item": [
+				{
+					"name": "Get All Attendance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/attendances"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Attendance",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"student_id\": 1,\n  \"date\": \"2024-09-15\",\n  \"status\": \"present\",\n  \"remark\": \"Student present\"\n}"
+						},
+						"url": "{{base_url}}/attendances"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Staff Attendance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/staff-attendance"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Staff Attendance",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"staff_id\": 1,\n  \"date\": \"2025-07-21\",\n  \"status\": \"present\",\n  \"time_in\": \"08:00:00\",\n  \"time_out\": \"16:00:00\"\n}"
+						},
+						"url": "{{base_url}}/staff-attendance"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Today's Staff Attendance",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/staff-attendance/today"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Assessment & Exams",
+			"item": [
+				{
+					"name": "Get All Exams",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/exams"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Exam",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Mid-Term Examination\",\n  \"subject_id\": 1,\n  \"class_id\": 1,\n  \"term_id\": 1,\n  \"section_id\": 1,\n  \"academic_session_id\": 1,\n  \"start_date\": \"2024-10-15\",\n  \"end_date\": \"2025-08-01\",\n  \"weight\": 100\n}"
+						},
+						"url": "{{base_url}}/exams"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Exam Results",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/exam-results"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Exam Result",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"student_id\": 1,\n  \"exam_id\": 1,\n  \"subject_id\": 1,\n  \"test1_score\": 12,\n  \"test2_score\": 15,\n  \"exam_score\": 40,\n  \"grade\": \"A\",\n  \"remark\": \"Excellent performance\"\n}"
+						},
+						"url": "{{base_url}}/exam-results"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Fees & Payments",
+			"item": [
+				{
+					"name": "Get All Fee Schedules",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/fee-schedules"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Fee Schedule",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Tuition Fee\",\n  \"description\": \"Annual tuition fee\",\n  \"is_mandatory\": true\n}"
+						},
+						"url": "{{base_url}}/fee-schedules"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Fee Structures",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/fee-structures"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Fee Structure",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"fee_schedule_id\": 1,\n  \"academic_session_id\": 1,\n  \"term_id\": 1,\n  \"class_id\": 1,\n  \"amount\": 50000\n}"
+						},
+						"url": "{{base_url}}/fee-structures"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Student Payments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/student-payments"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Student Payment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"student_id\": 1,\n  \"fee_structure_id\": 1,\n  \"amount_paid\": 25000,\n  \"payment_date\": \"2024-09-15\",\n  \"payment_method\": \"bank_transfer\",\n  \"reference\": \"TXN123456\"\n}"
+						},
+						"url": "{{base_url}}/student-payments"
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Payroll Voucher",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"staff_id\": 1,\n  \"for_month\": \"2024-09-01\",\n  \"basic_salary\": 100000,\n  \"allowances\": 20000\n}"
+						},
+						"url": "{{base_url}}/payroll/voucher"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reports",
+			"item": [
+				{
+					"name": "Get Report Types",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/reports/types"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Report Statistics",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"report_type\": \"attendance\",\n  \"start_date\": \"2024-09-01\",\n  \"end_date\": \"2024-09-30\"\n}"
+						},
+						"url": "{{base_url}}/reports/stats"
+					},
+					"response": []
+				},
+				{
+					"name": "Download Attendance PDF",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/attendance/pdf?date=2024-09-15",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"attendance",
+								"pdf"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "2024-09-15"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Download Payment Excel",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/payments/excel?start_date=2024-09-01&end_date=2024-09-30",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"payments",
+								"excel"
+							],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "2024-09-01"
+								},
+								{
+									"key": "end_date",
+									"value": "2024-09-30"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Dashboard",
+			"item": [
+				{
+					"name": "Get Dashboard Overview",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/dashboard/overview"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Academic Performance Dashboard",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/dashboard/academic-performance"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Financial Dashboard",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/dashboard/financial"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Attendance Dashboard",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/dashboard/attendance"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Enrollment Dashboard",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/dashboard/enrollment"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Staff Dashboard",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/dashboard/staff"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "School Settings",
+			"item": [
+				{
+					"name": "Get All Settings",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/school-settings"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Settings",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"school_name\": \"Updated School Name\",\n  \"school_address\": \"Updated Address\",\n  \"school_phone\": \"+1234567890\",\n  \"school_email\": \"updated@school.com\"\n}"
+						},
+						"url": "{{base_url}}/school-settings"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Settings by Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/school-settings/category?category=basic",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"school-settings",
+								"category"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "basic"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload File",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "type",
+									"value": "logo"
+								}
+							]
+						},
+						"url": "{{base_url}}/school-settings/upload-file"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Public Info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BEARER}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/school-settings/public-info"
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [

@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import { customBaseUrl } from "./http";
 
@@ -69,7 +68,7 @@ export const deleteStudent = async (studentId) => {
 
 export const getStudentsByClass = async (classId) => {
   try {
-    const res = await axios.get(`${customBaseUrl.baseUrl}/api/v1/students?class_id=${classId}`, {
+    const res = await axios.get(`${customBaseUrl.baseUrl}/api/v1/classes/${classId}`, {
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem("access_token"),
         'ngrok-skip-browser-warning': 'true'
@@ -104,5 +103,25 @@ export const searchStudents = async (searchTerm) => {
   } catch (error) {
     console.error("Error fetching students data:", error);
     return [];
+  }
+};
+
+export const getStudentById = async (studentId) => {
+  try {
+    const res = await axios.get(`${customBaseUrl.baseUrl}/api/v1/students/${studentId}`, {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem("access_token"),
+        'ngrok-skip-browser-warning': 'true'
+      }
+    });
+    if (res.status === 200) {
+      return res.data.data;
+    } else {
+      console.error("Failed to fetch student data:", res.statusText);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching student data:", error);
+    return null;
   }
 };

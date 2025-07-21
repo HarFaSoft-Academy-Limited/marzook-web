@@ -26,8 +26,7 @@ export function AddClassDialog({ onClassAdded }: AddClassDialogProps) {
   const [open, setOpen] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
-    level: "",
-    section: "",
+    section_id: "",
     class_teacher_id: "",
   })
   const [staff, setStaff] = useState<any[]>([])
@@ -108,19 +107,19 @@ export function AddClassDialog({ onClassAdded }: AddClassDialogProps) {
             <Label htmlFor="name">Class Name</Label>
             <Input id="name" placeholder="e.g., Primary 1A" onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
           </div>
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <Label htmlFor="level">Level</Label>
             <Input id="level" placeholder="e.g., 1" type="number" onChange={(e) => setFormData({ ...formData, level: e.target.value })} />
-          </div>
+          </div> */}
           <div className="space-y-2">
             <Label htmlFor="section">Section</Label>
-            <Select onValueChange={(value) => setFormData({ ...formData, section: value })}>
+            <Select onValueChange={(value) => setFormData({ ...formData, section_id: value })}>
               <SelectTrigger id="section">
                 <SelectValue placeholder="Select a section" />
               </SelectTrigger>
               <SelectContent>
                 {sections.map((section) => (
-                  <SelectItem key={section.id} value={section.name}>
+                  <SelectItem key={section.id} value={section.id}>
                     {section.name}
                   </SelectItem>
                 ))}
