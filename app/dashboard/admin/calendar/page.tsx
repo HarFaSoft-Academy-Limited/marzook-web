@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -23,61 +23,84 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/components/ui/toast"
+import { getCalendarEvents, addCalendarEvent, getSessions } from "@/services/calendar"
 
 export default function CalendarPage() {
-  // Current month for the calendar display
-  const currentMonth = "April 2025"
+  const [events, setEvents] = useState([])
+  const [sessions, setSessions] = useState([])
+  const [currentMonth, setCurrentMonth] = useState(new Date())
   const [addEventOpen, setAddEventOpen] = useState(false)
   const [exportDialogOpen, setExportDialogOpen] = useState(false)
   const { toast } = useToast()
 
-  // Days of the week
+  useEffect(() => {
+    const fetchEventsAndSessions = async () => {
+      const eventResponse = await getCalendarEvents()
+      if (eventResponse) {
+        setEvents(eventResponse)
+      }
+      const sessionResponse = await getSessions()
+      if (sessionResponse.data) {
+        setSessions(sessionResponse.data)
+      }
+    }
+    fetchEventsAndSessions()
+  }, [])
+
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
-  // Calendar days for April 2025 (example data)
-  const calendarDays = [
-    { day: null, events: [] }, // Empty cell for previous month
-    { day: null, events: [] }, // Empty cell for previous month
-    { day: 1, events: [] },
-    { day: 2, events: [] },
-    { day: 3, events: [] },
-    { day: 4, events: [] },
-    { day: 5, events: [] },
-    { day: 6, events: [] },
-    { day: 7, events: [{ title: "Assembly", type: "school" }] },
-    { day: 8, events: [{ title: "PTA Meeting", type: "meeting" }] },
-    { day: 9, events: [] },
-    { day: 10, events: [] },
-    { day: 11, events: [] },
-    { day: 12, events: [] },
-    { day: 13, events: [] },
-    { day: 14, events: [{ title: "Assembly", type: "school" }] },
-    { day: 15, events: [{ title: "Mid-Term Test", type: "academic" }] },
-    { day: 16, events: [{ title: "Mid-Term Test", type: "academic" }] },
-    { day: 17, events: [{ title: "Mid-Term Test", type: "academic" }] },
-    { day: 18, events: [] },
-    { day: 19, events: [] },
-    { day: 20, events: [] },
-    { day: 21, events: [{ title: "Assembly", type: "school" }] },
-    { day: 22, events: [] },
-    { day: 23, events: [] },
-    { day: 24, events: [] },
-    { day: 25, events: [{ title: "Cultural Day", type: "event" }] },
-    { day: 26, events: [] },
-    { day: 27, events: [] },
-    { day: 28, events: [{ title: "Assembly", type: "school" }] },
-    { day: 29, events: [] },
-    { day: 30, events: [] },
-  ]
+  const generateCalendarDays = (date) => {
+    const year = date.getFullYear()
+    const month = date.getMonth()
+    const firstDayOfMonth = new Date(year, month, 1).getDay()
+    const daysInMonth = new Date(year, month + 1, 0).getDate()
 
-  const handleAddEvent = (e: React.FormEvent) => {
+    const calendarDays = []
+
+    for (let i = 0; i < firstDayOfMonth; i++) {
+      calendarDays.push({ day: null, events: [] })
+    }
+
+    for (let i = 1; i <= daysInMonth; i++) {
+      const dayEvents = events.filter(event => {
+        const eventDate = new Date(event.event_date)
+        return eventDate.getFullYear() === year && eventDate.getMonth() === month && eventDate.getDate() === i
+      })
+      calendarDays.push({ day: i, events: dayEvents })
+    }
+    return calendarDays
+  }
+
+  const calendarDays = generateCalendarDays(currentMonth)
+
+  const handleAddEvent = async (e: React.FormEvent) => {
     e.preventDefault()
-    // In a real application, you would save the event data to your backend
-    toast({
-      title: "Event Added",
-      description: "The event has been successfully added to the calendar.",
-    })
-    setAddEventOpen(false)
+    const formData = new FormData(e.target as HTMLFormElement)
+    const eventData = {
+      title: formData.get("event-title") as string,
+      event_date: formData.get("event-date") as string,
+      description: formData.get("event-description") as string,
+      academic_session_id: formData.get("session") as string,
+    }
+    const response = await addCalendarEvent(eventData)
+    if (response) {
+      toast({
+        title: "Event Added",
+        description: "The event has been successfully added to the calendar.",
+      })
+      setAddEventOpen(false)
+      // Refetch events
+      const updatedEvents = await getCalendarEvents()
+      if (updatedEvents) {
+        setEvents(updatedEvents)
+      }
+    } else {
+      toast({
+        title: "Error",
+        description: "Failed to add event.",
+        variant: "destructive",
+      })
+    }
   }
 
   const handleExportCalendar = (format: string) => {
@@ -144,15 +167,15 @@ export default function CalendarPage() {
             <Card>
               <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">
-                  <CardTitle>{currentMonth}</CardTitle>
+                  <CardTitle>{currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</CardTitle>
                   <div className="flex items-center gap-2">
-                    <Button variant="outline" size="icon">
+                    <Button variant="outline" size="icon" onClick={() => setCurrentMonth(new Date(currentMonth.setMonth(currentMonth.getMonth() - 1)))}>
                       <ChevronLeft className="h-4 w-4" />
                     </Button>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" onClick={() => setCurrentMonth(new Date())}>
                       Today
                     </Button>
-                    <Button variant="outline" size="icon">
+                    <Button variant="outline" size="icon" onClick={() => setCurrentMonth(new Date(currentMonth.setMonth(currentMonth.getMonth() + 1)))}>
                       <ChevronRight className="h-4 w-4" />
                     </Button>
                   </div>
@@ -168,12 +191,12 @@ export default function CalendarPage() {
                   ))}
 
                   {/* Calendar days */}
-                  {calendarDays.map((day, index) => (
+                  {calendarDays.length > 0 && calendarDays.map((day, index) => (
                     <div
                       key={index}
                       className={`min-h-[100px] border rounded-md p-1 ${
-                        day.day === 8 ? "bg-green-50 border-green-200" : ""
-                      } ${!day.day ? "bg-gray-50 text-gray-400" : ""}`}
+                        !day.day ? "bg-gray-50 text-gray-400" : ""
+                      }`}
                     >
                       {day.day && (
                         <>
@@ -182,15 +205,7 @@ export default function CalendarPage() {
                             {day.events.map((event, eventIndex) => (
                               <div
                                 key={eventIndex}
-                                className={`text-xs p-1 rounded truncate ${
-                                  event.type === "academic"
-                                    ? "bg-blue-100 text-blue-800"
-                                    : event.type === "meeting"
-                                      ? "bg-purple-100 text-purple-800"
-                                      : event.type === "event"
-                                        ? "bg-amber-100 text-amber-800"
-                                        : "bg-green-100 text-green-800"
-                                }`}
+                                className={`text-xs p-1 rounded truncate bg-blue-100 text-blue-800`}
                               >
                                 {event.title}
                               </div>
@@ -208,7 +223,7 @@ export default function CalendarPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Week View</CardTitle>
-                <CardDescription>April 6 - April 12, 2025</CardDescription>
+                <CardDescription>Week view of the calendar</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="h-[500px] flex items-center justify-center border rounded-md">
@@ -232,77 +247,15 @@ export default function CalendarPage() {
                     <TableRow>
                       <TableHead>Date</TableHead>
                       <TableHead>Event</TableHead>
-                      <TableHead>Type</TableHead>
-                      <TableHead>Time</TableHead>
-                      <TableHead>Location</TableHead>
-                      <TableHead>Participants</TableHead>
+                      <TableHead>Description</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {[
-                      {
-                        date: "2025-04-08",
-                        event: "PTA Meeting",
-                        type: "Meeting",
-                        time: "10:00 AM - 12:00 PM",
-                        location: "School Hall",
-                        participants: "Parents, Teachers",
-                      },
-                      {
-                        date: "2025-04-15",
-                        event: "Mid-Term Test",
-                        type: "Academic",
-                        time: "8:00 AM - 2:00 PM",
-                        location: "Classrooms",
-                        participants: "All Students",
-                      },
-                      {
-                        date: "2025-04-16",
-                        event: "Mid-Term Test",
-                        type: "Academic",
-                        time: "8:00 AM - 2:00 PM",
-                        location: "Classrooms",
-                        participants: "All Students",
-                      },
-                      {
-                        date: "2025-04-17",
-                        event: "Mid-Term Test",
-                        type: "Academic",
-                        time: "8:00 AM - 2:00 PM",
-                        location: "Classrooms",
-                        participants: "All Students",
-                      },
-                      {
-                        date: "2025-04-25",
-                        event: "Cultural Day",
-                        type: "Event",
-                        time: "9:00 AM - 3:00 PM",
-                        location: "School Grounds",
-                        participants: "All Students, Staff, Parents",
-                      },
-                    ].map((event, index) => (
+                    {events.length > 0 && events.map((event, index) => (
                       <TableRow key={index}>
-                        <TableCell>{event.date}</TableCell>
-                        <TableCell className="font-medium">{event.event}</TableCell>
-                        <TableCell>
-                          <Badge
-                            variant="outline"
-                            className={`${
-                              event.type === "Academic"
-                                ? "bg-blue-100 text-blue-800 hover:bg-blue-100"
-                                : event.type === "Meeting"
-                                  ? "bg-purple-100 text-purple-800 hover:bg-purple-100"
-                                  : event.type === "Event"
-                                    ? "bg-amber-100 text-amber-800 hover:bg-amber-100"
-                                    : "bg-green-100 text-green-800 hover:bg-green-100"
-                            }`}
-                          >
-                            {event.type}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>{event.time}</TableCell>
-                        <TableCell>{event.location}</TableCell>
-                        <TableCell>{event.participants}</TableCell>
+                        <TableCell>{event.event_date}</TableCell>
+                        <TableCell className="font-medium">{event.title}</TableCell>
+                        <TableCell>{event.description}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -314,154 +267,27 @@ export default function CalendarPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Academic Calendar</CardTitle>
-                <CardDescription>Key academic dates for the 2024/2025 session</CardDescription>
+                <CardDescription>Key academic dates for the current session</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-8">
-                  <div>
-                    <h3 className="text-lg font-medium mb-4">First Term (September - December 2024)</h3>
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Date</TableHead>
-                          <TableHead>Event</TableHead>
-                          <TableHead>Description</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {[
-                          {
-                            date: "2024-09-10",
-                            event: "Term Begins",
-                            description: "First day of school for all students",
-                          },
-                          {
-                            date: "2024-10-01",
-                            event: "Independence Day",
-                            description: "Public holiday - No school",
-                          },
-                          {
-                            date: "2024-10-15 - 2024-10-17",
-                            event: "Mid-Term Tests",
-                            description: "Mid-term assessments for all classes",
-                          },
-                          {
-                            date: "2024-11-25 - 2024-12-05",
-                            event: "End of Term Exams",
-                            description: "Final examinations for the term",
-                          },
-                          {
-                            date: "2024-12-10",
-                            event: "Term Ends",
-                            description: "Last day of school for the term",
-                          },
-                        ].map((event, index) => (
-                          <TableRow key={index}>
-                            <TableCell>{event.date}</TableCell>
-                            <TableCell className="font-medium">{event.event}</TableCell>
-                            <TableCell>{event.description}</TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-medium mb-4">Second Term (January - April 2025)</h3>
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Date</TableHead>
-                          <TableHead>Event</TableHead>
-                          <TableHead>Description</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {[
-                          {
-                            date: "2025-01-10",
-                            event: "Term Begins",
-                            description: "First day of school for the term",
-                          },
-                          {
-                            date: "2025-02-15 - 2025-02-17",
-                            event: "Mid-Term Tests",
-                            description: "Mid-term assessments for all classes",
-                          },
-                          {
-                            date: "2025-04-15 - 2025-04-17",
-                            event: "Mid-Term Tests",
-                            description: "Mid-term assessments for all classes",
-                          },
-                          {
-                            date: "2025-04-25",
-                            event: "Cultural Day",
-                            description: "Annual cultural celebration",
-                          },
-                          {
-                            date: "2025-04-30",
-                            event: "Term Ends",
-                            description: "Last day of school for the term",
-                          },
-                        ].map((event, index) => (
-                          <TableRow key={index}>
-                            <TableCell>{event.date}</TableCell>
-                            <TableCell className="font-medium">{event.event}</TableCell>
-                            <TableCell>{event.description}</TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-medium mb-4">Third Term (May - July 2025)</h3>
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Date</TableHead>
-                          <TableHead>Event</TableHead>
-                          <TableHead>Description</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {[
-                          {
-                            date: "2025-05-10",
-                            event: "Term Begins",
-                            description: "First day of school for the term",
-                          },
-                          {
-                            date: "2025-06-12",
-                            event: "Democracy Day",
-                            description: "Public holiday - No school",
-                          },
-                          {
-                            date: "2025-06-15 - 2025-06-17",
-                            event: "Mid-Term Tests",
-                            description: "Mid-term assessments for all classes",
-                          },
-                          {
-                            date: "2025-07-15 - 2025-07-25",
-                            event: "Final Exams",
-                            description: "End of session examinations",
-                          },
-                          {
-                            date: "2025-07-30",
-                            event: "Graduation Day",
-                            description: "Graduation ceremony for final year students",
-                          },
-                        ].map((event, index) => (
-                          <TableRow key={index}>
-                            <TableCell>{event.date}</TableCell>
-                            <TableCell className="font-medium">{event.event}</TableCell>
-                            <TableCell>{event.description}</TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </div>
-                </div>
+              <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Date</TableHead>
+                      <TableHead>Event</TableHead>
+                      <TableHead>Description</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {events.map((event, index) => (
+                      <TableRow key={index}>
+                        <TableCell>{event.event_date}</TableCell>
+                        <TableCell className="font-medium">{event.title}</TableCell>
+                        <TableCell>{event.description}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
               </CardContent>
             </Card>
           </TabsContent>
@@ -481,55 +307,36 @@ export default function CalendarPage() {
                 <Label htmlFor="event-title" className="text-right">
                   Event Title
                 </Label>
-                <Input id="event-title" placeholder="Enter event title" className="col-span-3" required />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="event-type" className="text-right">
-                  Event Type
-                </Label>
-                <Select required>
-                  <SelectTrigger id="event-type" className="col-span-3">
-                    <SelectValue placeholder="Select event type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="academic">Academic</SelectItem>
-                    <SelectItem value="meeting">Meeting</SelectItem>
-                    <SelectItem value="holiday">Holiday</SelectItem>
-                    <SelectItem value="event">School Event</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Input id="event-title" name="event-title" placeholder="Enter event title" className="col-span-3" required />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="event-date" className="text-right">
                   Date
                 </Label>
-                <Input id="event-date" type="date" className="col-span-3" required />
+                <Input id="event-date" name="event-date" type="date" className="col-span-3" required />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label className="text-right">Time</Label>
-                <div className="col-span-3 flex gap-2 items-center">
-                  <Input type="time" placeholder="Start time" required />
-                  <span>to</span>
-                  <Input type="time" placeholder="End time" required />
-                </div>
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="event-location" className="text-right">
-                  Location
+                <Label htmlFor="session" className="text-right">
+                  Session
                 </Label>
-                <Input id="event-location" placeholder="Event location" className="col-span-3" />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="event-participants" className="text-right">
-                  Participants
-                </Label>
-                <Input id="event-participants" placeholder="Who should attend" className="col-span-3" />
+                <Select name="session">
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select a session" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {sessions.length > 0 && sessions.map((session) => (
+                      <SelectItem key={session.id} value={session.id}>
+                        {session.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               <div className="grid grid-cols-4 items-start gap-4">
                 <Label htmlFor="event-description" className="text-right pt-2">
                   Description
                 </Label>
-                <Textarea id="event-description" placeholder="Event details" className="col-span-3 min-h-[80px]" />
+                <Textarea id="event-description" name="event-description" placeholder="Event details" className="col-span-3 min-h-[80px]" />
               </div>
             </div>
             <DialogFooter>
