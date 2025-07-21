@@ -28,6 +28,7 @@ import { getCalendarEvents, addCalendarEvent, getSessions } from "@/services/cal
 export default function CalendarPage() {
   const [events, setEvents] = useState([])
   const [sessions, setSessions] = useState([])
+  const [selectedSession, setSelectedSession] = useState(null)
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [addEventOpen, setAddEventOpen] = useState(false)
   const [exportDialogOpen, setExportDialogOpen] = useState(false)
@@ -35,17 +36,26 @@ export default function CalendarPage() {
 
   useEffect(() => {
     const fetchEventsAndSessions = async () => {
-      const eventResponse = await getCalendarEvents()
-      if (eventResponse) {
-        setEvents(eventResponse)
-      }
       const sessionResponse = await getSessions()
       if (sessionResponse.data) {
         setSessions(sessionResponse.data)
+        setSelectedSession(sessionResponse.data[0]?.id) // Select the first session by default
       }
     }
     fetchEventsAndSessions()
   }, [])
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      if (selectedSession) {
+        const eventResponse = await getCalendarEvents(selectedSession)
+        if (eventResponse) {
+          setEvents(eventResponse)
+        }
+      }
+    }
+    fetchEvents()
+  }, [selectedSession])
 
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
@@ -90,7 +100,7 @@ export default function CalendarPage() {
       })
       setAddEventOpen(false)
       // Refetch events
-      const updatedEvents = await getCalendarEvents()
+      const updatedEvents = await getCalendarEvents(selectedSession)
       if (updatedEvents) {
         setEvents(updatedEvents)
       }
@@ -131,17 +141,19 @@ export default function CalendarPage() {
 
         <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
           <div className="flex gap-2 w-full md:w-auto">
-            <Select defaultValue="current">
+            <Select onValueChange={setSelectedSession} value={selectedSession}>
               <SelectTrigger className="w-full md:w-[180px]">
-                <SelectValue placeholder="Select term" />
+                <SelectValue placeholder="Select session" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="current">Current Term</SelectItem>
-                <SelectItem value="next">Next Term</SelectItem>
-                <SelectItem value="previous">Previous Term</SelectItem>
+                {sessions.map((session) => (
+                  <SelectItem key={session.id} value={session.id}>
+                    {session.name}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
-            <Select defaultValue="all">
+            {/* <Select defaultValue="all">
               <SelectTrigger className="w-full md:w-[180px]">
                 <SelectValue placeholder="Event type" />
               </SelectTrigger>
@@ -152,7 +164,7 @@ export default function CalendarPage() {
                 <SelectItem value="holiday">Holidays</SelectItem>
                 <SelectItem value="event">School Events</SelectItem>
               </SelectContent>
-            </Select>
+            </Select> */}
           </div>
         </div>
 
@@ -191,7 +203,7 @@ export default function CalendarPage() {
                   ))}
 
                   {/* Calendar days */}
-                  {calendarDays.length > 0 && calendarDays.map((day, index) => (
+                  {calendarDays.map((day, index) => (
                     <div
                       key={index}
                       className={`min-h-[100px] border rounded-md p-1 ${
@@ -251,7 +263,7 @@ export default function CalendarPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {events.length > 0 && events.map((event, index) => (
+                    {events.map((event, index) => (
                       <TableRow key={index}>
                         <TableCell>{event.event_date}</TableCell>
                         <TableCell className="font-medium">{event.title}</TableCell>
@@ -324,7 +336,7 @@ export default function CalendarPage() {
                     <SelectValue placeholder="Select a session" />
                   </SelectTrigger>
                   <SelectContent>
-                    {sessions.length > 0 && sessions.map((session) => (
+                    {sessions.map((session) => (
                       <SelectItem key={session.id} value={session.id}>
                         {session.name}
                       </SelectItem>
@@ -418,3 +430,4 @@ export default function CalendarPage() {
     </DashboardLayout>
   )
 }
+
