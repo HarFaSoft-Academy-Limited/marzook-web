@@ -90,6 +90,10 @@ export function RegisterStudentDialog() {
 
           <TabsContent value="basic" className="space-y-4 mt-4">
             <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+                <Label htmlFor="admission-number">Admission Number</Label>
+                <Input id="admission-number" placeholder="" value={formData.admission_no} onChange={(e) => setFormData({ ...formData, admission_no: e.target.value })} />
+              </div>
               <div className="space-y-2">
                 <Label htmlFor="first-name">First Name</Label>
                 <Input id="first-name" placeholder="First name" value={formData.first_name} onChange={(e) => setFormData({ ...formData, first_name: e.target.value })} />
@@ -137,6 +141,34 @@ export function RegisterStudentDialog() {
               <div className="space-y-2">
                 <Label htmlFor="phone">Phone</Label>
                 <Input id="phone" placeholder="student phone" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="parent">Parent</Label>
+                <Select onValueChange={(value) => setFormData({ ...formData, parent_id: Number(value) })}>
+                  <SelectTrigger id="parent">
+                    <SelectValue placeholder="Select parent" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {parents.length > 0 && parents.map((parent) => (
+                      <SelectItem key={parent.id} value={parent.id.toString()}>
+                        {parent.user.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="relationship">Relationship</Label>
+                <Select onValueChange={(value) => setFormData({ ...formData, relationship: value })}>
+                  <SelectTrigger id="relationship">
+                    <SelectValue placeholder="Select relationship" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Father">Father</SelectItem>
+                    <SelectItem value="Mother">Mother</SelectItem>
+                    <SelectItem value="Guardian">Guardian</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="religion">Religion</Label>
@@ -270,7 +302,16 @@ export function RegisterStudentDialog() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="relationship">Relationship</Label>
-                <Input id="relationship" placeholder="Relationship to student" value={formData.relationship} onChange={(e) => setFormData({ ...formData, relationship: e.target.value })} />
+                <Select onValueChange={(value) => setFormData({ ...formData, relationship: value })}>
+                  <SelectTrigger id="relationship">
+                    <SelectValue placeholder="Select relationship" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="father">Father</SelectItem>
+                    <SelectItem value="mother">Mother</SelectItem>
+                    <SelectItem value="guardian">Guardian</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </TabsContent>
