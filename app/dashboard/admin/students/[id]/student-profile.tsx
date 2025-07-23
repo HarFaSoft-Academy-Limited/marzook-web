@@ -8,7 +8,7 @@ import { getStudentById } from "@/services/student";
 
 export default function StudentProfile() {
   const { id } = useParams();
-  const [student, setStudent] = useState(null);
+  const [student, setStudent] = useState<any>(null);
 
   useEffect(() => {
     const fetchStudent = async () => {

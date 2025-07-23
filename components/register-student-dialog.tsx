@@ -83,9 +83,9 @@ export function RegisterStudentDialog() {
         <Tabs defaultValue="basic" className="mt-5">
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="basic">Basic Info</TabsTrigger>
-            <TabsTrigger value="academic">Academic</TabsTrigger>
+            {/* <TabsTrigger value="academic">Academic</TabsTrigger>
             <TabsTrigger value="parent">Parent/Guardian</TabsTrigger>
-            <TabsTrigger value="additional">Additional</TabsTrigger>
+            <TabsTrigger value="additional">Additional</TabsTrigger> */}
           </TabsList>
 
           <TabsContent value="basic" className="space-y-4 mt-4">
@@ -134,10 +134,10 @@ export function RegisterStudentDialog() {
                 <Label htmlFor="state-of-origin">State of Origin</Label>
                 <Input id="state-of-origin" placeholder="State of origin" />
               </div>
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input id="email" placeholder="student email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
-              </div>
+              </div> */}
               <div className="space-y-2">
                 <Label htmlFor="phone">Phone</Label>
                 <Input id="phone" placeholder="student phone" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} />

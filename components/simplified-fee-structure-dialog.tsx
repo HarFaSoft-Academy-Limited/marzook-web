@@ -53,7 +53,7 @@ export function SimplifiedFeeStructureDialog() {
     };
     fetchData();
   }, []);
-  const filteredFeeStructures = feeStructures.length > 0 && feeStructures.filter((fs: any, e) => {
+  const filteredFeeStructures: any = feeStructures.length > 0 && feeStructures.filter((fs: any, e) => {
     const matchesSection = selectedSection ? fs.section_id === parseInt(selectedSection) : true;
     const matchesSession = selectedSession ? fs.academic_session_id === parseInt(selectedSession) : true;
     const matchesClass = selectedClass ? fs.school_class_id === parseInt(selectedClass) : true;

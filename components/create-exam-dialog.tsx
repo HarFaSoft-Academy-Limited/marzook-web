@@ -39,7 +39,7 @@ const formSchema = z.object({
   weight: z.string().min(1, { message: "Weight is required" }),
 });
 
-export function CreateExamDialog({setReload, reload}) {
+export function CreateExamDialog({setReload, reload}: any) {
   const [open, setOpen] = useState(false);
   const [academicSessions, setAcademicSessions] = useState([]);
   const [sections, setSections] = useState([]);

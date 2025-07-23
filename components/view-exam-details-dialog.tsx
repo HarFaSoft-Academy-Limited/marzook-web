@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
-export function ViewExamDetailsDialog({ exam }) {
+export function ViewExamDetailsDialog({ exam }: any) {
   return (
     <Dialog>
       <DialogTrigger asChild>

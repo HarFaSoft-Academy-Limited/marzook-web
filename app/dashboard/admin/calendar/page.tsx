@@ -28,7 +28,7 @@ import { getCalendarEvents, addCalendarEvent, getSessions } from "@/services/cal
 export default function CalendarPage() {
   const [events, setEvents] = useState([])
   const [sessions, setSessions] = useState([])
-  const [selectedSession, setSelectedSession] = useState(null)
+  const [selectedSession, setSelectedSession] = useState('')
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [addEventOpen, setAddEventOpen] = useState(false)
   const [exportDialogOpen, setExportDialogOpen] = useState(false)
@@ -72,7 +72,7 @@ export default function CalendarPage() {
     }
 
     for (let i = 1; i <= daysInMonth; i++) {
-      const dayEvents = events.filter(event => {
+      const dayEvents = events.filter((event:any) => {
         const eventDate = new Date(event.event_date)
         return eventDate.getFullYear() === year && eventDate.getMonth() === month && eventDate.getDate() === i
       })
@@ -146,7 +146,7 @@ export default function CalendarPage() {
                 <SelectValue placeholder="Select session" />
               </SelectTrigger>
               <SelectContent>
-                {sessions.map((session) => (
+                {sessions.map((session: any) => (
                   <SelectItem key={session.id} value={session.id}>
                     {session.name}
                   </SelectItem>
@@ -214,7 +214,7 @@ export default function CalendarPage() {
                         <>
                           <div className="text-right text-sm font-medium">{day.day}</div>
                           <div className="mt-1 space-y-1">
-                            {day.events.map((event, eventIndex) => (
+                            {day.events.map((event:any, eventIndex) => (
                               <div
                                 key={eventIndex}
                                 className={`text-xs p-1 rounded truncate bg-blue-100 text-blue-800`}
@@ -263,7 +263,7 @@ export default function CalendarPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {events.map((event, index) => (
+                    {events.map((event: any, index) => (
                       <TableRow key={index}>
                         <TableCell>{event.event_date}</TableCell>
                         <TableCell className="font-medium">{event.title}</TableCell>
@@ -291,7 +291,7 @@ export default function CalendarPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {events.map((event, index) => (
+                    {events.map((event: any, index) => (
                       <TableRow key={index}>
                         <TableCell>{event.event_date}</TableCell>
                         <TableCell className="font-medium">{event.title}</TableCell>
@@ -336,7 +336,7 @@ export default function CalendarPage() {
                     <SelectValue placeholder="Select a session" />
                   </SelectTrigger>
                   <SelectContent>
-                    {sessions.map((session) => (
+                    {sessions.map((session: any) => (
                       <SelectItem key={session.id} value={session.id}>
                         {session.name}
                       </SelectItem>
