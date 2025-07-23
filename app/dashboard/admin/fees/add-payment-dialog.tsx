@@ -134,7 +134,18 @@ export function AddPaymentDialog() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Fee Type</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                      const selectedFeeStructure = feeStructures.find(
+                        (fs: any) => String(fs.id) === value
+                      );
+                      if (selectedFeeStructure) {
+                        form.setValue("amount_paid", String(selectedFeeStructure.amount));
+                      }
+                    }}
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select fee type" />
