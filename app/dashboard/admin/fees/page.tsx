@@ -14,10 +14,12 @@ import { Download, Eye, FileText, MoreHorizontal, Search } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Progress } from "@/components/ui/progress"
 import { AddPaymentDialog } from "./add-payment-dialog"
+import { AddFeeScheduleDialog } from "@/components/add-fee-schedule-dialog";
 import { FeeStructureDialog, FeeSchedule, FeeStructure, AcademicSession, Class, Section } from "./fee-structure";
 import { getFeeSchedules, getFeeStructures, getAcademicSessions } from "@/services/fees";
 import { getClasses } from "@/services/class";
 import { getSections } from "@/services/section";
+import { AddFeeStructureDialog } from "@/components/add-fee-structure-dialog";
 
 export default function FeesPage() {
   const [payments, setPayments] = useState([]);
@@ -62,7 +64,7 @@ export default function FeesPage() {
 
         structures.forEach(fs => {
           if (fs.academic_session_id === currentSession.id) {
-            totalExpected += fs.amount;
+            totalExpected += parseFloat(fs.amount);
           }
         });
 
@@ -70,7 +72,7 @@ export default function FeesPage() {
           // Assuming payment.fee_structure_id links to feeStructures
           const feeStructure = structures.find(fs => fs.id === payment.fee_structure_id);
           if (feeStructure && feeStructure.academic_session_id === currentSession.id) {
-            totalCollected += payment.amount_paid;
+            totalCollected += parseFloat(payment.amount_paid);
           }
         });
 
@@ -92,6 +94,8 @@ export default function FeesPage() {
           <div className="flex gap-2">
             <FeeStructureDialog />
             <AddPaymentDialog />
+            <AddFeeScheduleDialog />
+            <AddFeeStructureDialog />
           </div>
         </div>
 
@@ -242,8 +246,8 @@ export default function FeesPage() {
                       <TableRow key={payment.id}>
                         <TableCell>{payment.id}</TableCell>
                         <TableCell className="font-medium">{payment?.student?.first_name} {payment?.student?.last_name}</TableCell>
-                        <TableCell>₦{payment?.amount_paid.toLocaleString()}</TableCell>
-                        <TableCell>{payment?.fee_structure?.school_class_id}</TableCell>
+                        <TableCell>₦{parseFloat(payment?.amount_paid).toLocaleString()}</TableCell>
+                        <TableCell>{payment?.fee_structure?.section?.name}</TableCell>
                         <TableCell>{new Date(payment?.payment_date).toLocaleDateString()}</TableCell>
                         <TableCell>{payment?.method}</TableCell>
                         <TableCell className="text-right">
@@ -301,16 +305,14 @@ export default function FeesPage() {
                       return feeStructure && currentSession && feeStructure.academic_session_id === currentSession.id && payment.amount_paid < feeStructure.amount;
                     }).map((payment) => {
                       const feeStructure = feeStructures.find(fs => fs.id === payment.fee_structure_id);
-                      const studentClass = classes.find(cls => cls.id === feeStructure?.class_id);
-                      const studentSection = sections.find(sec => sec.id === studentClass?.section_id);
-                      const outstanding = (feeStructure?.amount || 0) - payment.amount_paid;
+                      const outstanding = parseFloat(feeStructure?.amount || '0') - payment.amount_paid;
                       return (
                         <TableRow key={payment.id}>
                           <TableCell>{payment.student.id}</TableCell>
                           <TableCell className="font-medium">{payment.student.first_name} {payment.student.last_name}</TableCell>
-                          <TableCell>{studentClass?.name}</TableCell>
-                          <TableCell>{studentSection?.name}</TableCell>
-                          <TableCell>₦{(feeStructure?.amount || 0).toLocaleString()}</TableCell>
+                          <TableCell>{payment.fee_structure.school_class.name}</TableCell>
+                          <TableCell>{payment.fee_structure.section.name}</TableCell>
+                          <TableCell>₦{parseFloat(feeStructure?.amount || '0').toLocaleString()}</TableCell>
                           <TableCell>₦{payment.amount_paid.toLocaleString()}</TableCell>
                           <TableCell className="text-red-500 font-medium">₦{outstanding.toLocaleString()}</TableCell>
                           <TableCell>N/A</TableCell>{/* Due Date is not available in the current data */}

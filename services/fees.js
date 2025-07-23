@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 import { customBaseUrl } from './http';
 
@@ -116,9 +115,24 @@ export const getFeeSchedules = async () => {
                 'Content-Type': 'application/json',
             }
         });
-        return response.data;
+        return response.data.data;
     } catch (error) {
         console.error("Failed to fetch fee schedules:", error);
+        return error.response?.data;
+    }
+};
+
+export const createFeeSchedule = async (feeScheduleData) => {
+    try {
+        const response = await axios.post(`${customBaseUrl.baseUrl}/api/v1/fee-schedules`, feeScheduleData, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+                'Content-Type': 'application/json',
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Failed to create fee schedule:", error);
         return error.response?.data;
     }
 };
@@ -131,7 +145,7 @@ export const getFeeStructures = async () => {
                 'Content-Type': 'application/json',
             }
         });
-        return response.data;
+        return response.data.data;
     } catch (error) {
         console.error("Failed to fetch fee structures:", error);
         return error.response?.data;
@@ -146,9 +160,24 @@ export const getAcademicSessions = async () => {
                 'Content-Type': 'application/json',
             }
         });
-        return response.data;
+        return response.data.data;
     } catch (error) {
         console.error("Failed to fetch academic sessions:", error);
+        return error.response?.data;
+    }
+};
+
+export const createFeeStructure = async (feeStructureData) => {
+    try {
+        const response = await axios.post(`${customBaseUrl.baseUrl}/api/v1/fee-structures`, feeStructureData, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+                'Content-Type': 'application/json',
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Failed to create fee structure:", error);
         return error.response?.data;
     }
 };

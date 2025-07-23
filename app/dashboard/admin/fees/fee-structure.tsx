@@ -17,8 +17,14 @@ export type FeeStructure = {
   fee_schedule_id: number;
   academic_session_id: number;
   term_id: number;
-  class_id: number;
+  section_id: number | null;
+  school_class_id: number | null;
+  arm: string | null;
   amount: number;
+  schedule: FeeSchedule;
+  academic_session: AcademicSession;
+  section: Section | null;
+  school_class: Class | null;
 };
 
 export type AcademicSession = {
@@ -68,14 +74,10 @@ export type Payment = {
   fee_structure_id: number;
   amount_paid: number;
   payment_date: string;
-  payment_method: string;
+  method: string;
   reference: string;
   student: Student;
-  fee_structure: FeeStructure & {
-    class: Class & {
-      section: Section;
-    };
-  };
+  fee_structure: FeeStructure;
 };
 import { Button } from "@/components/ui/button"
 import {
@@ -166,15 +168,15 @@ export function FeeStructureDialog() {
                           <TableRow key={schedule.id}>
                             <TableCell className="font-medium">{schedule.name}</TableCell>
                             {classes
-                              .filter((cls) => cls.section_id === section.id)
+                              .filter((cls) => cls.section_classes.filter((section) => section.section_id === section.id))
                               .map((cls) => {
-                                const fee = feeStructures.find(
+                                const fee = feeStructures.length > 0 && feeStructures.find(
                                   (fs) =>
                                     fs.fee_schedule_id === schedule.id &&
-                                    fs.class_id === cls.id &&
+                                    fs.school_class_id === cls.id &&
                                     fs.academic_session_id === academicSessions.find(session => session.current)?.id
                                 );
-                                return <TableCell key={cls.id}>{fee ? `₦${fee.amount.toLocaleString()}` : "-"}</TableCell>;
+                                return <TableCell key={cls.id}>{fee ? `₦${parseFloat(fee.amount).toLocaleString()}` : "-"}</TableCell>;
                               })}
                           </TableRow>
                         ))}
@@ -190,7 +192,7 @@ export function FeeStructureDialog() {
                                     fs.academic_session_id === academicSessions.find(session => session.current)?.id &&
                                     feeSchedules.find(s => s.id === fs.fee_schedule_id)?.is_mandatory
                                 )
-                                .reduce((sum, fs) => sum + fs.amount, 0);
+                                .reduce((sum, fs) => sum + parseFloat(fs.amount), 0);
                               return <TableCell key={cls.id} className="font-bold">₦{total.toLocaleString()}</TableCell>;
                             })}
                         </TableRow>
