@@ -1338,3 +1338,153 @@
     "to": 8,
     "total": 8
 }
+
+{
+  "success": true,
+  "message": "Exams retrieved successfully.",
+  "data": {
+    "current_page": 1,
+    "data": [
+      {
+        "id": 1,
+        "name": "Mid-Term Examination",
+        "term_id": 1,
+        "academic_session_id": 1,
+        "section_id": 1,
+        "start_date": "2024-10-15T00:00:00.000000Z",
+        "end_date": "2025-08-01T00:00:00.000000Z",
+        "weight": 100,
+        "created_at": "2025-07-21T08:03:44.000000Z",
+        "updated_at": "2025-07-21T08:03:44.000000Z",
+        "term": {
+          "id": 1,
+          "name": "1st Term",
+          "academic_session_id": 2,
+          "start_date": "2025-01-01",
+          "end_date": "2025-03-31",
+          "is_active": 1,
+          "created_by": 1,
+          "created_at": "2025-07-21T08:00:26.000000Z",
+          "updated_at": "2025-07-21T08:00:26.000000Z"
+        }
+      }
+    ],
+    "first_page_url": "https://api.harfasoftacademy.com.ng/api/v1/exams?page=1",
+    "from": 1,
+    "last_page": 1,
+    "last_page_url": "https://api.harfasoftacademy.com.ng/api/v1/exams?page=1",
+    "links": [
+      {
+        "url": null,
+        "label": "&laquo; Previous",
+        "active": false
+      },
+      {
+        "url": "https://api.harfasoftacademy.com.ng/api/v1/exams?page=1",
+        "label": "1",
+        "active": true
+      },
+      {
+        "url": null,
+        "label": "Next &raquo;",
+        "active": false
+      }
+    ],
+    "next_page_url": null,
+    "path": "https://api.harfasoftacademy.com.ng/api/v1/exams",
+    "per_page": 15,
+    "prev_page_url": null,
+    "to": 1,
+    "total": 1
+  }
+}
+
+{
+    "success": true,
+    "message": "Exam results retrieved successfully.",
+    "data": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": 1,
+                "exam_id": 1,
+                "student_id": 1,
+                "subject_id": 1,
+                "test1_score": 12,
+                "test2_score": 15,
+                "exam_score": 40,
+                "grade": "A",
+                "total_score": 67,
+                "max_score": 100,
+                "created_at": "2025-07-21T08:04:14.000000Z",
+                "updated_at": "2025-07-21T08:04:14.000000Z",
+                "exam": {
+                    "id": 1,
+                    "name": "Mid-Term Examination",
+                    "term_id": 1,
+                    "academic_session_id": 1,
+                    "section_id": 1,
+                    "start_date": "2024-10-15T00:00:00.000000Z",
+                    "end_date": "2025-08-01T00:00:00.000000Z",
+                    "weight": 100,
+                    "created_at": "2025-07-21T08:03:44.000000Z",
+                    "updated_at": "2025-07-21T08:03:44.000000Z"
+                },
+                "student": {
+                    "id": 1,
+                    "first_name": "Aisha",
+                    "last_name": "Bello",
+                    "other_name": "Fatima",
+                    "gender": "Female",
+                    "date_of_birth": "2010-03-15",
+                    "nationality": "Nigerian",
+                    "religion": "Islam",
+                    "address": "Barnawa Kaduna",
+                    "photo": null,
+                    "admission_date": "2023-09-01",
+                    "admission_no": "STU001",
+                    "previous_school_attended": null,
+                    "parent_id": 1,
+                    "relationship": "parent",
+                    "created_at": "2025-07-21T08:00:26.000000Z",
+                    "updated_at": "2025-07-21T08:00:26.000000Z"
+                },
+                "subject": {
+                    "id": 1,
+                    "name": "Mathematics",
+                    "code": "MTH101",
+                    "description": "Core Mathematics",
+                    "created_at": "2025-07-21T08:00:23.000000Z",
+                    "updated_at": "2025-07-21T08:00:23.000000Z"
+                }
+            }
+        ],
+        "first_page_url": "https://api.harfasoftacademy.com.ng/api/v1/exam-results?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "https://api.harfasoftacademy.com.ng/api/v1/exam-results?page=1",
+        "links": [
+            {
+                "url": null,
+                "label": "&laquo; Previous",
+                "active": false
+            },
+            {
+                "url": "https://api.harfasoftacademy.com.ng/api/v1/exam-results?page=1",
+                "label": "1",
+                "active": true
+            },
+            {
+                "url": null,
+                "label": "Next &raquo;",
+                "active": false
+            }
+        ],
+        "next_page_url": null,
+        "path": "https://api.harfasoftacademy.com.ng/api/v1/exam-results",
+        "per_page": 15,
+        "prev_page_url": null,
+        "to": 1,
+        "total": 1
+    }
+}

@@ -47,6 +47,7 @@ export default function DashboardLayout({ children, userType }: DashboardLayoutP
     { name: "Classes", href: "/dashboard/admin/classes", icon: BookOpen },
     { name: "Academic Records", href: "/dashboard/admin/academic-records", icon: BookOpen },
     { name: "Fees & Payments", href: "/dashboard/admin/fees", icon: CreditCard },
+    { name: "Exam Results", href: "/dashboard/admin/exam-results", icon: FileText },
     { name: "Communication", href: "/dashboard/admin/communication", icon: MessageSquare },
     { name: "Reports", href: "/dashboard/admin/reports", icon: FileText },
     { name: "Calendar", href: "/dashboard/admin/calendar", icon: Calendar },
