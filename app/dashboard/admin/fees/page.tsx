@@ -20,6 +20,7 @@ import { getFeeSchedules, getFeeStructures, getAcademicSessions } from "@/servic
 import { getClasses } from "@/services/class";
 import { getSections } from "@/services/section";
 import { AddFeeStructureDialog } from "@/components/add-fee-structure-dialog";
+import { SimplifiedFeeStructureDialog } from "@/components/simplified-fee-structure-dialog";
 
 export default function FeesPage() {
   const [payments, setPayments] = useState([]);
@@ -62,7 +63,7 @@ export default function FeesPage() {
         let totalExpected = 0;
         let totalCollected = 0;
 
-        structures.forEach(fs => {
+       structures.lenght  > 0 && structures.forEach(fs => {
           if (fs.academic_session_id === currentSession.id) {
             totalExpected += parseFloat(fs.amount);
           }
@@ -70,7 +71,7 @@ export default function FeesPage() {
 
         studentPayments.forEach(payment => {
           // Assuming payment.fee_structure_id links to feeStructures
-          const feeStructure = structures.find(fs => fs.id === payment.fee_structure_id);
+          const feeStructure = structures.length > 0 && structures.find(fs => fs.id === payment.fee_structure_id);
           if (feeStructure && feeStructure.academic_session_id === currentSession.id) {
             totalCollected += parseFloat(payment.amount_paid);
           }
@@ -96,6 +97,7 @@ export default function FeesPage() {
             <AddPaymentDialog />
             <AddFeeScheduleDialog />
             <AddFeeStructureDialog />
+            <SimplifiedFeeStructureDialog />
           </div>
         </div>
 

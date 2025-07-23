@@ -145,7 +145,7 @@ export const getFeeStructures = async () => {
                 'Content-Type': 'application/json',
             }
         });
-        return response.data.data;
+        return response.data.data.data;
     } catch (error) {
         console.error("Failed to fetch fee structures:", error);
         return error.response?.data;
