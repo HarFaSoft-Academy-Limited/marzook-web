@@ -41,6 +41,8 @@ export default function FeesPage() {
   const [expectedFees, setExpectedFees] = useState(0);
   const [outstandingFees, setOutstandingFees] = useState(0);
   const [collectionRate, setCollectionRate] = useState(0);
+  const [reload, setReload] = useState(false);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -85,7 +87,7 @@ export default function FeesPage() {
 
     };
     fetchData();
-  }, []);
+  }, [reload]);
 
   return (
     <DashboardLayout userType="admin">
@@ -94,7 +96,7 @@ export default function FeesPage() {
           <h1 className="text-2xl font-bold tracking-tight">Fees & Payments</h1>
           <div className="flex gap-2">
             <FeeStructureDialog />
-            <AddPaymentDialog />
+            <AddPaymentDialog  reload={reload} setReload={setReload}/>
             <AddFeeScheduleDialog />
             <AddFeeStructureDialog />
             <SimplifiedFeeStructureDialog />

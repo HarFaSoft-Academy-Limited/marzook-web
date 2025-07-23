@@ -31,6 +31,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import Swal from "sweetalert2"
 // import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 // import { useForm } from "react-hook-form"
 
@@ -44,7 +45,7 @@ const formSchema = z.object({
   notes: z.string().optional(),
 });
 
-export function AddPaymentDialog() {
+export function AddPaymentDialog({setReload, reload}) {
   const [open, setOpen] = useState(false);
   const [students, setStudents] = useState([]);
   const [feeStructures, setFeeStructures] = useState([]);
@@ -81,6 +82,8 @@ export function AddPaymentDialog() {
         amount_paid: parseFloat(values.amount_paid),
       });
       toast.success("Payment recorded successfully.");
+      Swal.fire('Success!', 'Payment recorded successfully.', 'success')
+        setReload(!reload);
       form.reset();
       setOpen(false);
     } catch (error) {
