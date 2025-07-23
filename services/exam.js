@@ -30,3 +30,18 @@ export const getExamResults = async () => {
     return [];
   }
 };
+
+export const createExam = async (examData) => {
+    try {
+        const response = await axios.post(`${customBaseUrl.baseUrl}/api/v1/exams`, examData, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+                'Content-Type': 'application/json',
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Failed to create exam:", error);
+        return error.response?.data;
+    }
+};

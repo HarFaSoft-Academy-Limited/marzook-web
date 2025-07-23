@@ -7,11 +7,16 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import DashboardLayout from "@/components/dashboard-layout"
 import { Download, Eye, FileText, MoreHorizontal, Search } from "lucide-react"
+import { CreateExamDialog } from "@/components/create-exam-dialog";
+import { ViewExamDetailsDialog } from "@/components/view-exam-details-dialog";
+import { ViewExamResultDetailsDialog } from "@/components/view-exam-result-details-dialog";
 import { getExams, getExamResults } from "@/services/exam";
 
 export default function ExamResultsPage() {
   const [exams, setExams] = useState([]);
   const [examResults, setExamResults] = useState([]);
+  const [reload, setReload] = useState(false);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,13 +26,14 @@ export default function ExamResultsPage() {
       setExamResults(examResultsData);
     };
     fetchData();
-  }, []);
+  }, [reload]);
 
   return (
     <DashboardLayout userType="admin">
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold tracking-tight">Exam Results</h1>
+          <CreateExamDialog setReload={setReload} reload={reload} />
         </div>
 
         <Tabs defaultValue="all-exams" className="space-y-4">
@@ -60,7 +66,7 @@ export default function ExamResultsPage() {
                         <TableCell>{new Date(exam.start_date).toLocaleDateString()}</TableCell>
                         <TableCell>{new Date(exam.end_date).toLocaleDateString()}</TableCell>
                         <TableCell className="text-right">
-                          <Button variant="outline" size="sm">View Details</Button>
+                          <ViewExamDetailsDialog exam={exam} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -96,7 +102,7 @@ export default function ExamResultsPage() {
                         <TableCell>{result.total_score}</TableCell>
                         <TableCell>{result.grade}</TableCell>
                         <TableCell className="text-right">
-                          <Button variant="outline" size="sm">View Details</Button>
+                          <ViewExamResultDetailsDialog result={result} />
                         </TableCell>
                       </TableRow>
                     ))}
