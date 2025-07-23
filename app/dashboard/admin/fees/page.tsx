@@ -1,4 +1,9 @@
+'use client'
+
+import { useEffect, useState } from "react";
+import { getStudentPayments } from "@/services/payments";
 import { Button } from "@/components/ui/button"
+import { FeeSchedule, FeeStructure, AcademicSession, Class, Section } from "./fee-structure";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -9,17 +14,92 @@ import { Download, Eye, FileText, MoreHorizontal, Search } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Progress } from "@/components/ui/progress"
 import { AddPaymentDialog } from "./add-payment-dialog"
-import { FeeStructureDialog } from "./fee-structure"
+import { AddFeeScheduleDialog } from "@/components/add-fee-schedule-dialog";
+import { FeeStructureDialog, FeeSchedule, FeeStructure, AcademicSession, Class, Section } from "./fee-structure";
+import { getFeeSchedules, getFeeStructures, getAcademicSessions } from "@/services/fees";
+import { getClasses } from "@/services/class";
+import { getSections } from "@/services/section";
+import { AddFeeStructureDialog } from "@/components/add-fee-structure-dialog";
+import { SimplifiedFeeStructureDialog } from "@/components/simplified-fee-structure-dialog";
 
 export default function FeesPage() {
+  const [payments, setPayments] = useState([]);
+
+  useEffect(() => {
+    const fetchPayments = async () => {
+      const studentPayments = await getStudentPayments();
+      setPayments(studentPayments);
+    };
+    fetchPayments();
+  }, []);
+  const [feeSchedules, setFeeSchedules] = useState<FeeSchedule[]>([]);
+  const [feeStructures, setFeeStructures] = useState<FeeStructure[]>([]);
+  const [academicSessions, setAcademicSessions] = useState<AcademicSession[]>([]);
+  const [classes, setClasses] = useState<Class[]>([]);
+  const [sections, setSections] = useState<Section[]>([]);
+  const [totalFeesCollected, setTotalFeesCollected] = useState(0);
+  const [expectedFees, setExpectedFees] = useState(0);
+  const [outstandingFees, setOutstandingFees] = useState(0);
+  const [collectionRate, setCollectionRate] = useState(0);
+  const [reload, setReload] = useState(false);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const schedules = await getFeeSchedules();
+      const structures = await getFeeStructures();
+      const sessions = await getAcademicSessions();
+      const classesData = await getClasses();
+      const sectionsData = await getSections();
+      const studentPayments = await getStudentPayments();
+
+      setFeeSchedules(schedules);
+      setFeeStructures(structures);
+      setAcademicSessions(sessions);
+      setClasses(classesData);
+      setSections(sectionsData);
+      setPayments(studentPayments);
+
+      const currentSession = sessions.find(session => session.current);
+      if (currentSession) {
+        let totalExpected = 0;
+        let totalCollected = 0;
+
+       structures.lenght  > 0 && structures.forEach(fs => {
+          if (fs.academic_session_id === currentSession.id) {
+            totalExpected += parseFloat(fs.amount);
+          }
+        });
+
+        studentPayments.forEach(payment => {
+          // Assuming payment.fee_structure_id links to feeStructures
+          const feeStructure = structures.length > 0 && structures.find(fs => fs.id === payment.fee_structure_id);
+          if (feeStructure && feeStructure.academic_session_id === currentSession.id) {
+            totalCollected += parseFloat(payment.amount_paid);
+          }
+        });
+
+        setExpectedFees(totalExpected);
+        setTotalFeesCollected(totalCollected);
+        setOutstandingFees(totalExpected - totalCollected);
+        setCollectionRate((totalCollected / totalExpected) * 100);
+      }
+
+    };
+    fetchData();
+  }, [reload]);
+
   return (
     <DashboardLayout userType="admin">
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold tracking-tight">Fees & Payments</h1>
           <div className="flex gap-2">
-            <FeeStructureDialog />
-            <AddPaymentDialog />
+            {/* <FeeStructureDialog /> */}
+            <AddPaymentDialog  reload={reload} setReload={setReload}/>
+            <AddFeeScheduleDialog />
+            <AddFeeStructureDialog />
+            <SimplifiedFeeStructureDialog />
           </div>
         </div>
 
@@ -41,7 +121,7 @@ export default function FeesPage() {
               </svg>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">₦24,350,000</div>
+              <div className="text-2xl font-bold">₦{totalFeesCollected.toLocaleString()}</div>
               <p className="text-xs text-muted-foreground">For current term</p>
             </CardContent>
           </Card>
@@ -62,7 +142,7 @@ export default function FeesPage() {
               </svg>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">₦31,200,000</div>
+              <div className="text-2xl font-bold">₦{expectedFees.toLocaleString()}</div>
               <p className="text-xs text-muted-foreground">For current term</p>
             </CardContent>
           </Card>
@@ -83,8 +163,8 @@ export default function FeesPage() {
               </svg>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">78%</div>
-              <Progress value={78} className="h-2" />
+              <div className="text-2xl font-bold">{collectionRate.toFixed(0)}%</div>
+              <Progress value={collectionRate} className="h-2" />
             </CardContent>
           </Card>
           <Card>
@@ -104,7 +184,7 @@ export default function FeesPage() {
               </svg>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">₦6,850,000</div>
+              <div className="text-2xl font-bold">₦{outstandingFees.toLocaleString()}</div>
               <p className="text-xs text-muted-foreground">Across all sections</p>
             </CardContent>
           </Card>
@@ -166,55 +246,14 @@ export default function FeesPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {[
-                      {
-                        id: "RCP-001",
-                        student: "Amina Ibrahim",
-                        amount: "₦120,000",
-                        section: "Primary",
-                        date: "2024-04-05",
-                        method: "Bank Transfer",
-                      },
-                      {
-                        id: "RCP-002",
-                        student: "Yusuf Mohammed",
-                        amount: "₦150,000",
-                        section: "Secondary",
-                        date: "2024-04-03",
-                        method: "Online Payment",
-                      },
-                      {
-                        id: "RCP-003",
-                        student: "Fatima Abubakar",
-                        amount: "₦100,000",
-                        section: "Primary",
-                        date: "2024-04-02",
-                        method: "Cash",
-                      },
-                      {
-                        id: "RCP-004",
-                        student: "Umar Abdullahi",
-                        amount: "₦150,000",
-                        section: "Secondary",
-                        date: "2024-04-01",
-                        method: "Bank Transfer",
-                      },
-                      {
-                        id: "RCP-005",
-                        student: "Aisha Sani",
-                        amount: "₦80,000",
-                        section: "Islamiyya",
-                        date: "2024-03-30",
-                        method: "Online Payment",
-                      },
-                    ].map((payment) => (
+                    {payments.length > 0 && payments.map((payment) => (
                       <TableRow key={payment.id}>
                         <TableCell>{payment.id}</TableCell>
-                        <TableCell className="font-medium">{payment.student}</TableCell>
-                        <TableCell>{payment.amount}</TableCell>
-                        <TableCell>{payment.section}</TableCell>
-                        <TableCell>{payment.date}</TableCell>
-                        <TableCell>{payment.method}</TableCell>
+                        <TableCell className="font-medium">{payment?.student?.first_name} {payment?.student?.last_name}</TableCell>
+                        <TableCell>₦{parseFloat(payment?.amount_paid).toLocaleString()}</TableCell>
+                        <TableCell>{payment?.fee_structure?.section?.name}</TableCell>
+                        <TableCell>{new Date(payment?.payment_date).toLocaleDateString()}</TableCell>
+                        <TableCell>{payment?.method}</TableCell>
                         <TableCell className="text-right">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -264,54 +303,31 @@ export default function FeesPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {[
-                      {
-                        id: "STD-001",
-                        name: "Amina Ibrahim",
-                        class: "Primary 3",
-                        section: "Primary",
-                        totalFee: "₦120,000",
-                        paidAmount: "₦60,000",
-                        outstanding: "₦60,000",
-                        dueDate: "2025-04-30",
-                      },
-                      {
-                        id: "STD-002",
-                        name: "Yusuf Mohammed",
-                        class: "JSS 1",
-                        section: "Secondary",
-                        totalFee: "₦150,000",
-                        paidAmount: "₦75,000",
-                        outstanding: "₦75,000",
-                        dueDate: "2025-04-30",
-                      },
-                      {
-                        id: "STD-003",
-                        name: "Fatima Abubakar",
-                        class: "Primary 5",
-                        section: "Primary",
-                        totalFee: "₦120,000",
-                        paidAmount: "₦0",
-                        outstanding: "₦120,000",
-                        dueDate: "2025-04-30",
-                      },
-                    ].map((student) => (
-                      <TableRow key={student.id}>
-                        <TableCell>{student.id}</TableCell>
-                        <TableCell className="font-medium">{student.name}</TableCell>
-                        <TableCell>{student.class}</TableCell>
-                        <TableCell>{student.section}</TableCell>
-                        <TableCell>{student.totalFee}</TableCell>
-                        <TableCell>{student.paidAmount}</TableCell>
-                        <TableCell className="text-red-500 font-medium">{student.outstanding}</TableCell>
-                        <TableCell>{student.dueDate}</TableCell>
-                        <TableCell className="text-right">
-                          <Button size="sm" className="bg-green-600 hover:bg-green-700">
-                            Record Payment
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                    {payments.length > 0 && payments.filter(payment => {
+                      const feeStructure = feeStructures.length > 0 && feeStructures.find(fs => fs.id === payment.fee_structure_id);
+                      const currentSession = academicSessions.length > 0 && academicSessions.find(session => session.current);
+                      return feeStructure && currentSession && feeStructure.academic_session_id === currentSession.id && payment.amount_paid < feeStructure.amount;
+                    }).map((payment) => {
+                      const feeStructure = feeStructures.find(fs => fs.id === payment.fee_structure_id);
+                      const outstanding = parseFloat(feeStructure?.amount || '0') - payment.amount_paid;
+                      return (
+                        <TableRow key={payment.id}>
+                          <TableCell>{payment.student.id}</TableCell>
+                          <TableCell className="font-medium">{payment.student.first_name} {payment.student.last_name}</TableCell>
+                          <TableCell>{payment.fee_structure.school_class.name}</TableCell>
+                          <TableCell>{payment.fee_structure.section.name}</TableCell>
+                          <TableCell>₦{parseFloat(feeStructure?.amount || '0').toLocaleString()}</TableCell>
+                          <TableCell>₦{payment.amount_paid.toLocaleString()}</TableCell>
+                          <TableCell className="text-red-500 font-medium">₦{outstanding.toLocaleString()}</TableCell>
+                          <TableCell>N/A</TableCell>{/* Due Date is not available in the current data */}
+                          <TableCell className="text-right">
+                            <Button size="sm" className="bg-green-600 hover:bg-green-700">
+                              Record Payment
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
                   </TableBody>
                 </Table>
               </CardContent>

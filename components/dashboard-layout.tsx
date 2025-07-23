@@ -28,6 +28,7 @@ import { Sheet, SheetContent } from "@/components/ui/sheet"
 import { useTheme } from "@/components/theme-provider"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { logout } from "@/services/auth"
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -46,6 +47,7 @@ export default function DashboardLayout({ children, userType }: DashboardLayoutP
     { name: "Classes", href: "/dashboard/admin/classes", icon: BookOpen },
     { name: "Academic Records", href: "/dashboard/admin/academic-records", icon: BookOpen },
     { name: "Fees & Payments", href: "/dashboard/admin/fees", icon: CreditCard },
+    { name: "Exam Results", href: "/dashboard/admin/exam-results", icon: FileText },
     { name: "Communication", href: "/dashboard/admin/communication", icon: MessageSquare },
     { name: "Reports", href: "/dashboard/admin/reports", icon: FileText },
     { name: "Calendar", href: "/dashboard/admin/calendar", icon: Calendar },
@@ -70,6 +72,10 @@ export default function DashboardLayout({ children, userType }: DashboardLayoutP
   ]
 
   const navItems = userType === "admin" ? adminNavItems : userType === "staff" ? staffNavItems : parentNavItems
+
+  const handleLogout = async () => {
+    await logout()
+  }
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -114,7 +120,7 @@ export default function DashboardLayout({ children, userType }: DashboardLayoutP
                 {userType === "admin" ? "Administrator" : userType === "staff" ? "Teacher" : "Parent"}
               </span>
             </div>
-            <Button variant="ghost" size="icon" className="ml-auto">
+            <Button variant="ghost" size="icon" className="ml-auto" onClick={handleLogout}>
               <LogOut className="h-4 w-4" />
               <span className="sr-only">Log out</span>
             </Button>
@@ -167,7 +173,7 @@ export default function DashboardLayout({ children, userType }: DashboardLayoutP
                   {userType === "admin" ? "Administrator" : userType === "staff" ? "Teacher" : "Parent"}
                 </span>
               </div>
-              <Button variant="ghost" size="icon" className="ml-auto">
+              <Button variant="ghost" size="icon" className="ml-auto" onClick={handleLogout}>
                 <LogOut className="h-4 w-4" />
                 <span className="sr-only">Log out</span>
               </Button>

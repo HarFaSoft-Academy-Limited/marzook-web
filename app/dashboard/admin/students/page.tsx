@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -5,12 +7,104 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import DashboardLayout from "@/components/dashboard-layout"
-import { Download, Edit, Eye, FileText, MoreHorizontal, Search } from "lucide-react"
+import { Download, Edit, Eye, FileText, MoreHorizontal, Search, Trash2 } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Badge } from "@/components/ui/badge"
 import { RegisterStudentDialog } from "@/components/register-student-dialog"
+import { useEffect, useState } from "react"
+import { getStudents, getStudentsByClass, deleteStudent, searchStudents } from "@/services/student";
+import { EditStudentDialog } from "@/components/edit-student-dialog"
 
+import { getClasses } from "@/services/class";
+import { getSections } from "@/services/section";
+
+type Sections ={
+  id: number;
+  name: string;
+  description: string;
+} 
+type Classes = {
+  id: number;
+  name: string;
+  description: string;
+}
+type Section = {
+  id: number;
+  name: string;
+  description: string;
+  created_at: string;
+  updated_at: string;
+  pivot: {
+    staff_id: number;
+    section_id: number;
+  };
+}
 export default function StudentsPage() {
+  const [students, setStudents] = useState([]);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [classes, setClasses] = useState<Classes[]>([]);
+  const [sections, setSections] = useState<Section[]>([]);
+  const [selectedClass, setSelectedClass] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const fetchStudents = async () => {
+    const studentsData = await getStudents();
+    setStudents(studentsData);
+  };
+
+  const fetchStudentsByClass = async (classId: any) => {
+    if (classId === "all") {
+      fetchStudents();
+    } else {
+      const studentsData = await getStudentsByClass(classId);
+      setStudents(studentsData);
+    }
+  };
+
+  const searchStudentsByTerm = async (term: any) => {
+    const studentsData = await searchStudents(term);
+    setStudents(studentsData);
+  };
+
+  const fetchClasses = async () => {
+    const classesData = await getClasses();
+    setClasses(classesData);
+  };
+
+  const fetchSections = async () => {
+    const sectionsData = await getSections();
+    setSections(sectionsData);
+  };
+
+  useEffect(() => {
+    fetchStudents();
+    fetchClasses();
+    fetchSections();
+  }, []);
+
+  useEffect(() => {
+    if (searchTerm) {
+      searchStudentsByTerm(searchTerm);
+    } else {
+      fetchStudents();
+    }
+  }, [searchTerm]);
+
+  useEffect(() => {
+    fetchStudentsByClass(selectedClass);
+  }, [selectedClass]);
+
+  const handleDelete = async (studentId: any) => {
+    const success = await deleteStudent(studentId);
+    if (success) {
+      fetchStudents();
+      alert("Student deleted successfully!");
+    } else {
+      alert("Failed to delete student.");
+    }
+  };
+
   return (
     <DashboardLayout userType="admin">
       <div className="flex flex-col gap-4">
@@ -22,7 +116,7 @@ export default function StudentsPage() {
         <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
           <div className="relative w-full md:w-80">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input type="search" placeholder="Search students..." className="w-full pl-8" />
+            <Input type="search" placeholder="Search students..." className="w-full pl-8" onChange={(e) => setSearchTerm(e.target.value)} />
           </div>
           <div className="flex gap-2 w-full md:w-auto">
             <Select defaultValue="all">
@@ -31,24 +125,24 @@ export default function StudentsPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Sections</SelectItem>
-                <SelectItem value="primary">Primary</SelectItem>
-                <SelectItem value="secondary">Secondary</SelectItem>
-                <SelectItem value="islamiyya">Islamiyya</SelectItem>
-                <SelectItem value="tahfeez">Tahfeez</SelectItem>
+                {sections.map((section) => (
+                  <SelectItem key={section.id} value={section.id.toString()}>
+                    {section.name}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
-            <Select defaultValue="all">
+            <Select defaultValue="all" onValueChange={setSelectedClass}>
               <SelectTrigger className="w-full md:w-[180px]">
                 <SelectValue placeholder="Filter by class" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Classes</SelectItem>
-                <SelectItem value="primary1">Primary 1</SelectItem>
-                <SelectItem value="primary2">Primary 2</SelectItem>
-                <SelectItem value="primary3">Primary 3</SelectItem>
-                <SelectItem value="jss1">JSS 1</SelectItem>
-                <SelectItem value="jss2">JSS 2</SelectItem>
-                <SelectItem value="jss3">JSS 3</SelectItem>
+                {classes.map((classItem) => (
+                  <SelectItem key={classItem.id} value={classItem.id.toString()}>
+                    {classItem.name}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
             <Button variant="outline" size="icon">
@@ -71,8 +165,9 @@ export default function StudentsPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>ID</TableHead>
-                      <TableHead>Name</TableHead>
+                      <TableHead>Admission No</TableHead>
+                      <TableHead>First Name</TableHead>
+                      <TableHead>First Name</TableHead>
                       <TableHead>Class</TableHead>
                       <TableHead>Section(s)</TableHead>
                       <TableHead>Parent</TableHead>
@@ -81,65 +176,26 @@ export default function StudentsPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {[
-                      {
-                        id: "STD-001",
-                        name: "Amina Ibrahim",
-                        class: "Primary 3",
-                        sections: ["Primary", "Islamiyya"],
-                        parent: "Ibrahim Suleiman",
-                        status: "Active",
-                      },
-                      {
-                        id: "STD-002",
-                        name: "Yusuf Mohammed",
-                        class: "JSS 1",
-                        sections: ["Secondary", "Tahfeez"],
-                        parent: "Mohammed Yusuf",
-                        status: "Active",
-                      },
-                      {
-                        id: "STD-003",
-                        name: "Fatima Abubakar",
-                        class: "Primary 5",
-                        sections: ["Primary"],
-                        parent: "Abubakar Usman",
-                        status: "Active",
-                      },
-                      {
-                        id: "STD-004",
-                        name: "Umar Abdullahi",
-                        class: "JSS 2",
-                        sections: ["Secondary"],
-                        parent: "Abdullahi Umar",
-                        status: "Active",
-                      },
-                      {
-                        id: "STD-005",
-                        name: "Aisha Sani",
-                        class: "Primary 2",
-                        sections: ["Primary", "Islamiyya", "Tahfeez"],
-                        parent: "Sani Abubakar",
-                        status: "Active",
-                      },
-                    ].map((student) => (
+                    {students.length > 0 && students.map((student:  any) => (
                       <TableRow key={student.id}>
-                        <TableCell>{student.id}</TableCell>
-                        <TableCell className="font-medium">{student.name}</TableCell>
-                        <TableCell>{student.class}</TableCell>
+                        <TableCell>{student.admission_no}</TableCell>
+                        <TableCell className="font-medium">{student.first_name}</TableCell>
+                        <TableCell className="font-medium">{student.last_name}</TableCell>
+
+                        <TableCell>
+                          {`${student?.class?.level ?? ''} ${student?.class?.name ?? ''}`}
+                        </TableCell>
                         <TableCell>
                           <div className="flex flex-wrap gap-1">
-                            {student.sections.map((section) => (
-                              <Badge key={section} variant="outline" className="text-xs">
-                                {section}
+                              <Badge variant="outline" className="text-xs">
+                                {student?.section?.name ?? 'N/A'}
                               </Badge>
-                            ))}
                           </div>
                         </TableCell>
-                        <TableCell>{student.parent}</TableCell>
+                        <TableCell>{"N/A"}</TableCell>
                         <TableCell>
                           <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-800">
-                            {student.status}
+                            {"Active"}
                           </span>
                         </TableCell>
                         <TableCell className="text-right">
@@ -151,17 +207,20 @@ export default function StudentsPage() {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuItem>
+                              <DropdownMenuItem onSelect={() => window.location.href = `/dashboard/admin/students/${student.id}`}>
                                 <Eye className="mr-2 h-4 w-4" />
                                 View Profile
                               </DropdownMenuItem>
-                              <DropdownMenuItem>
+                              <DropdownMenuItem onSelect={() => {
+                                setSelectedStudent(student);
+                                setEditDialogOpen(true);
+                              }}>
                                 <Edit className="mr-2 h-4 w-4" />
                                 Edit
                               </DropdownMenuItem>
-                              <DropdownMenuItem>
-                                <FileText className="mr-2 h-4 w-4" />
-                                View Results
+                              <DropdownMenuItem onSelect={() => handleDelete(student.id)}>
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Delete
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
@@ -223,6 +282,13 @@ export default function StudentsPage() {
           </TabsContent>
         </Tabs>
       </div>
+      {selectedStudent && (
+        <EditStudentDialog
+          student={selectedStudent}
+          showModal={editDialogOpen}
+          hideModal={setEditDialogOpen}
+        />
+      )}
     </DashboardLayout>
   )
 }

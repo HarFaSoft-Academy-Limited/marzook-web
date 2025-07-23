@@ -1,0 +1,23 @@
+
+import axios from "axios";
+import { customBaseUrl } from "./http";
+
+export const getSections = async () => {
+  try {
+    const res = await axios.get(`${customBaseUrl.baseUrl}/api/v1/sections`, {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem("access_token"),
+        'ngrok-skip-browser-warning': 'true'
+      }
+    });
+    if (res.status === 200) {
+      return res.data.data.data;
+    } else {
+      console.error("Failed to fetch sections data:", res.statusText);
+      return [];
+    }
+  } catch (error) {
+    console.error("Error fetching sections data:", error);
+    return [];
+  }
+};
