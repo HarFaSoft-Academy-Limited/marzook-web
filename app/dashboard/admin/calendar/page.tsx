@@ -59,7 +59,7 @@ export default function CalendarPage() {
 
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
-  const generateCalendarDays = (date) => {
+  const generateCalendarDays = (date: Date) => {
     const year = date.getFullYear()
     const month = date.getMonth()
     const firstDayOfMonth = new Date(year, month, 1).getDay()

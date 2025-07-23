@@ -19,7 +19,7 @@ export const getPayments = async (params) => {
 
 export const createPayment = async (paymentData) => {
     try {
-        const response = await axios.post(`${customBaseUrl.baseUrl}/api/v1/payments`, paymentData, {
+        const response = await axios.post(`${customBaseUrl.baseUrl}/api/v1/student-payments`, paymentData, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("access_token")}`,
                 'Content-Type': 'application/json',
