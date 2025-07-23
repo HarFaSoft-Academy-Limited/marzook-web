@@ -3,6 +3,13 @@
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command"
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -13,16 +20,21 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { Plus } from "lucide-react"
+import { ChevronsUpDown, Plus } from "lucide-react"
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
 import { createPayment } from "@/services/payments";
 import { getStudents } from "@/services/student";
-import { getFeeStructures } from "@/services/fees";
+import { getFeeStructures, getAcademicSessions } from "@/services/fees";
 import {
   Form,
   FormControl,
@@ -49,6 +61,8 @@ export function AddPaymentDialog({setReload, reload}) {
   const [open, setOpen] = useState(false);
   const [students, setStudents] = useState([]);
   const [feeStructures, setFeeStructures] = useState([]);
+  const [academicSessions, setAcademicSessions] = useState([]);
+  const [selectedSession, setSelectedSession] = useState(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -67,8 +81,10 @@ export function AddPaymentDialog({setReload, reload}) {
     const fetchData = async () => {
       const studentsData = await getStudents();
       const feeStructuresData = await getFeeStructures();
+      const academicSessionsData = await getAcademicSessions();
       setStudents(studentsData);
       setFeeStructures(feeStructuresData);
+      setAcademicSessions(academicSessionsData);
     };
     fetchData();
   }, []);
@@ -108,29 +124,71 @@ export function AddPaymentDialog({setReload, reload}) {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
             <FormField
-              control={form.control}
-              name="student_id"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Student</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select student" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {students.map((student: any) => (
-                        <SelectItem key={student.id} value={String(student.id)}>
-                          {student.first_name} {student.last_name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                control={form.control}
+                name="student_id"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Student</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            className="w-full justify-between"
+                          >
+                            {field.value
+                              ? students.find(
+                                  (student) => String(student.id) === field.value
+                                )?.first_name + ' ' + students.find(
+                                    (student) => String(student.id) === field.value
+                                  )?.last_name
+                              : "Select student"}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-full p-0">
+                        <Command>
+                          <CommandInput placeholder="Search student..." />
+                          <CommandEmpty>No student found.</CommandEmpty>
+                          <CommandGroup>
+                            {students.map((student) => (
+                              <CommandItem
+                                value={student.first_name + ' ' + student.last_name}
+                                key={student.id}
+                                onSelect={() => {
+                                  form.setValue("student_id", String(student.id))
+                                }}
+                              >
+                                {student.first_name} {student.last_name} - {student.admission_no}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            <FormItem>
+              <FormLabel>Session</FormLabel>
+              <Select onValueChange={setSelectedSession}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select session" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {academicSessions.map((session: any) => (
+                    <SelectItem key={session.id} value={String(session.id)}>
+                      {session.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FormItem>
             <FormField
               control={form.control}
               name="fee_structure_id"
@@ -155,7 +213,9 @@ export function AddPaymentDialog({setReload, reload}) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {feeStructures.map((fs: any) => (
+                      {feeStructures
+                        .filter((fs: any) => !selectedSession || String(fs.academic_session_id) === selectedSession)
+                        .map((fs: any) => (
                         <SelectItem key={fs.id} value={String(fs.id)}>
                           {fs.schedule?.name} - {fs.academic_session?.name} - {fs.section?.name || "N/A"} - {fs.school_class?.name || "N/A"}
                         </SelectItem>

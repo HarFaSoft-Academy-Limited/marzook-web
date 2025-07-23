@@ -95,7 +95,7 @@ export default function FeesPage() {
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold tracking-tight">Fees & Payments</h1>
           <div className="flex gap-2">
-            <FeeStructureDialog />
+            {/* <FeeStructureDialog /> */}
             <AddPaymentDialog  reload={reload} setReload={setReload}/>
             <AddFeeScheduleDialog />
             <AddFeeStructureDialog />

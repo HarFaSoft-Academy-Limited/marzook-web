@@ -99,12 +99,12 @@ export function SimplifiedFeeStructureDialog() {
       <DialogTrigger asChild>
         <Button variant="outline">
           <Settings className="mr-2 h-4 w-4" />
-          Simplified Fee Structure
+           Fee Structure
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[900px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Simplified Fee Structure</DialogTitle>
+          <DialogTitle>Fee Structure</DialogTitle>
           <DialogDescription>View fee structures with filters</DialogDescription>
         </DialogHeader>
         <div className="py-4 space-y-4">
