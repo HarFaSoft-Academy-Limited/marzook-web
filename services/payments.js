@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 import { customBaseUrl } from './http';
 
@@ -74,6 +73,22 @@ export const deletePayment = async (id) => {
         return response.data;
     } catch (error) {
         console.error(`Failed to delete payment with id ${id}:`, error);
+        return error.response?.data;
+    }
+};
+
+export const getStudentPayments = async (params) => {
+    try {
+        const response = await axios.get(`${customBaseUrl.baseUrl}/api/v1/student-payments`, {
+            params,
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+                'Content-Type': 'application/json',
+            }
+        });
+        return response.data.data;
+    } catch (error) {
+        console.error("Failed to fetch student payments:", error);
         return error.response?.data;
     }
 };

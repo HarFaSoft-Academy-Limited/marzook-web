@@ -3,9 +3,9 @@
 		"_postman_id": "67ec40e9-01e4-4036-8c12-604b5fdd4b28",
 		"name": "School Management System API",
 		"description": "Complete API collection for the School Management System including authentication, user management, class management, staff management, subject management, role & permission management, and timetable management.",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "13399467",
-		"_collection_link": "https://lively-flare-633656.postman.co/workspace/HarFaSoft~f1ddc920-7993-41d6-92e2-bf0c43d7a943/collection/13399467-67ec40e9-01e4-4036-8c12-604b5fdd4b28?action=share&source=collection_link&creator=13399467"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46983759",
+		"_collection_link": "https://lively-flare-633656.postman.co/workspace/HarFaSoft~f1ddc920-7993-41d6-92e2-bf0c43d7a943/collection/13399467-67ec40e9-01e4-4036-8c12-604b5fdd4b28?action=share&source=collection_link&creator=46983759"
 	},
 	"item": [
 		{
@@ -31,7 +31,15 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"Super Admin\",\n    \"email\": \"super@example.com\",\n    \"password\": \"password\",\n    \"password_confirmation\": \"password\",\n    \"role\": \"super-admin\"\n}"
 						},
-						"url": "{{base_url}}/register",
+						"url": {
+							"raw": "{{base_url}}/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"register"
+							]
+						},
 						"description": "Register a new user with a specific role. Valid roles: super-admin, principal, vice-principal, head-of-department, teacher, accountant, admin-staff, student"
 					},
 					"response": []
@@ -56,7 +64,15 @@
 							"mode": "raw",
 							"raw": "{\n    \"email\": \"super@example.com\",\n    \"password\": \"password\"\n}"
 						},
-						"url": "{{base_url}}/login",
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						},
 						"description": "Login with email and password to get access token"
 					},
 					"response": []
@@ -66,9 +82,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -83,7 +103,15 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/logout",
+						"url": {
+							"raw": "{{base_url}}/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"logout"
+							]
+						},
 						"description": "Logout and revoke all access tokens"
 					},
 					"response": []
@@ -99,9 +127,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -116,7 +148,15 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/users",
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						},
 						"description": "Get all users with pagination, search, filtering, and sorting. Requires super-admin or principal role."
 					},
 					"response": []
@@ -126,9 +166,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -152,7 +196,15 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"Jane Smith\",\n    \"email\": \"jane.smith1@example.com\",\n    \"password\": \"password123\",\n    \"password_confirmation\": \"password123\",\n    \"role\": \"teacher\"\n}"
 						},
-						"url": "{{base_url}}/users",
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						},
 						"description": "Create a new user with a specific role. Requires super-admin or principal role."
 					},
 					"response": []
@@ -162,9 +214,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -179,7 +235,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/users/22",
+						"url": {
+							"raw": "{{base_url}}/users/22",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"22"
+							]
+						},
 						"description": "Get a specific user by ID with roles and permissions. Requires super-admin or principal role."
 					},
 					"response": []
@@ -189,9 +254,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [
@@ -215,7 +284,16 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"Jane Smith Updated\",\n    \"email\": \"jane.updated@example.com\",\n    \"password\": \"newpassword123\",\n    \"password_confirmation\": \"newpassword123\",\n    \"role\": \"teacher\"\n}"
 						},
-						"url": "{{base_url}}/users/7",
+						"url": {
+							"raw": "{{base_url}}/users/7",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"7"
+							]
+						},
 						"description": "Update an existing user. All fields are optional. Requires super-admin or principal role."
 					},
 					"response": []
@@ -225,9 +303,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [
@@ -242,7 +324,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/users/1",
+						"url": {
+							"raw": "{{base_url}}/users/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						},
 						"description": "Delete a user by ID. Cannot delete super-admin users or your own account. Requires super-admin or principal role."
 					},
 					"response": []
@@ -252,9 +343,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -269,7 +364,17 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/users/1/roles-permissions",
+						"url": {
+							"raw": "{{base_url}}/users/1/roles-permissions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"roles-permissions"
+							]
+						},
 						"description": "Get roles and permissions for a specific user. Requires super-admin or principal role."
 					},
 					"response": []
@@ -279,9 +384,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -305,7 +414,17 @@
 							"mode": "raw",
 							"raw": "{\n    \"role\": \"principal\"\n}"
 						},
-						"url": "{{base_url}}/users/1/role",
+						"url": {
+							"raw": "{{base_url}}/users/1/role",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"role"
+							]
+						},
 						"description": "Assign a role to a specific user. Requires super-admin or principal role."
 					},
 					"response": []
@@ -315,9 +434,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -341,7 +464,16 @@
 							"mode": "raw",
 							"raw": "{\n    \"user_ids\": [17,18]\n}"
 						},
-						"url": "{{base_url}}/users/bulk-delete",
+						"url": {
+							"raw": "{{base_url}}/users/bulk-delete",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"bulk-delete"
+							]
+						},
 						"description": "Delete multiple users at once. Cannot delete super-admin users or your own account. Requires super-admin or principal role."
 					},
 					"response": []
@@ -351,9 +483,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -368,7 +504,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/users/available-roles",
+						"url": {
+							"raw": "{{base_url}}/users/available-roles",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"available-roles"
+							]
+						},
 						"description": "Get all available roles for assignment. Requires super-admin or principal role."
 					},
 					"response": []
@@ -384,9 +529,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -401,7 +550,15 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/profile",
+						"url": {
+							"raw": "{{base_url}}/profile",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"profile"
+							]
+						},
 						"description": "Get current authenticated user's profile with roles and permissions."
 					},
 					"response": []
@@ -411,9 +568,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [
@@ -437,7 +598,15 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"Updated Name\",\n    \"email\": \"updated.email@example.com\"\n}"
 						},
-						"url": "{{base_url}}/profile",
+						"url": {
+							"raw": "{{base_url}}/profile",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"profile"
+							]
+						},
 						"description": "Update current authenticated user's profile. Password change requires current password verification."
 					},
 					"response": []
@@ -453,9 +622,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -520,9 +693,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -546,7 +723,15 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"Advanced Mathematics\",\n    \"code\": \"ADV_MATH\",\n    \"description\": \"Advanced mathematics including calculus and linear algebra\"\n}"
 						},
-						"url": "{{base_url}}/subjects",
+						"url": {
+							"raw": "{{base_url}}/subjects",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"subjects"
+							]
+						},
 						"description": "Create a new subject. Requires super-admin or principal role."
 					},
 					"response": []
@@ -556,9 +741,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -573,7 +762,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/subjects/1",
+						"url": {
+							"raw": "{{base_url}}/subjects/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"subjects",
+								"1"
+							]
+						},
 						"description": "Get a specific subject by ID with staff and classes relationships. Requires super-admin or principal role."
 					},
 					"response": []
@@ -583,9 +781,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [
@@ -609,7 +811,16 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"Updated Mathematics\",\n    \"code\": \"MATH_UPD\",\n    \"description\": \"Updated description for mathematics\"\n}"
 						},
-						"url": "{{base_url}}/subjects/1",
+						"url": {
+							"raw": "{{base_url}}/subjects/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"subjects",
+								"1"
+							]
+						},
 						"description": "Update an existing subject. All fields are optional. Requires super-admin or principal role."
 					},
 					"response": []
@@ -619,9 +830,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [
@@ -636,7 +851,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/subjects/23",
+						"url": {
+							"raw": "{{base_url}}/subjects/23",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"subjects",
+								"23"
+							]
+						},
 						"description": "Delete a subject by ID. Cannot delete if subject is used in timetables. Requires super-admin or principal role."
 					},
 					"response": []
@@ -646,9 +870,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -672,7 +900,16 @@
 							"mode": "raw",
 							"raw": "{\n    \"subject_ids\": [2, 3, 4]\n}"
 						},
-						"url": "{{base_url}}/subjects/bulk-delete",
+						"url": {
+							"raw": "{{base_url}}/subjects/bulk-delete",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"subjects",
+								"bulk-delete"
+							]
+						},
 						"description": "Delete multiple subjects at once. Cannot delete subjects used in timetables. Requires super-admin or principal role."
 					},
 					"response": []
@@ -688,9 +925,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -705,7 +946,15 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/classes",
+						"url": {
+							"raw": "{{base_url}}/classes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"classes"
+							]
+						},
 						"description": "Get all classes with pagination. Requires super-admin or principal role."
 					},
 					"response": []
@@ -715,9 +964,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -741,7 +994,15 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"SSS 3C\",\n    \"class_teacher_id\": 6, \n    \"section_id\": 1\n}"
 						},
-						"url": "{{base_url}}/classes",
+						"url": {
+							"raw": "{{base_url}}/classes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"classes"
+							]
+						},
 						"description": "Create a new class. Requires super-admin or principal role."
 					},
 					"response": []
@@ -751,9 +1012,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -768,7 +1033,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/classes/1",
+						"url": {
+							"raw": "{{base_url}}/classes/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"classes",
+								"1"
+							]
+						},
 						"description": "Get a specific class by ID with teacher and timetable information. Requires super-admin or principal role."
 					},
 					"response": []
@@ -778,9 +1052,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [
@@ -804,7 +1082,16 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"Class 10A Updated\",\n    \"section_ids\": [1, 3],\n    \"class_teacher_id\": 4\n}"
 						},
-						"url": "{{base_url}}/classes/1",
+						"url": {
+							"raw": "{{base_url}}/classes/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"classes",
+								"1"
+							]
+						},
 						"description": "Update an existing class. All fields are optional. Requires super-admin or principal role."
 					},
 					"response": []
@@ -814,9 +1101,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [
@@ -831,7 +1122,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/classes/1",
+						"url": {
+							"raw": "{{base_url}}/classes/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"classes",
+								"1"
+							]
+						},
 						"description": "Delete a class by ID. Requires super-admin or principal role."
 					},
 					"response": []
@@ -841,9 +1141,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -867,7 +1171,17 @@
 							"mode": "raw",
 							"raw": "{\n    \"user_id\": 3\n}"
 						},
-						"url": "{{base_url}}/classes/2/assign-teacher",
+						"url": {
+							"raw": "{{base_url}}/classes/2/assign-teacher",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"classes",
+								"2",
+								"assign-teacher"
+							]
+						},
 						"description": "Assign a teacher to a specific class. Requires super-admin or principal role."
 					},
 					"response": []
@@ -877,9 +1191,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -903,7 +1221,17 @@
 							"mode": "raw",
 							"raw": "{\n    \"subjects\": [1, 2, 3, 4, 5],\n    \"user_id\": 1\n}"
 						},
-						"url": "{{base_url}}/classes/2/subjects",
+						"url": {
+							"raw": "{{base_url}}/classes/2/subjects",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"classes",
+								"2",
+								"subjects"
+							]
+						},
 						"description": "Assign subjects to a specific class. This will replace existing assignments. Requires super-admin or principal role."
 					},
 					"response": []
@@ -913,9 +1241,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -930,7 +1262,17 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/classes/2/subjects",
+						"url": {
+							"raw": "{{base_url}}/classes/2/subjects",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"classes",
+								"2",
+								"subjects"
+							]
+						},
 						"description": "Get all subjects assigned to a specific class. Requires super-admin or principal role."
 					},
 					"response": []
@@ -940,9 +1282,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -957,7 +1303,17 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/classes/2/subjects-by-class",
+						"url": {
+							"raw": "{{base_url}}/classes/2/subjects-by-class",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"classes",
+								"2",
+								"subjects-by-class"
+							]
+						},
 						"description": "Get all subjects assigned to a specific class. Requires super-admin or principal role."
 					},
 					"response": []
@@ -973,9 +1329,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -990,7 +1350,17 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/classes/2/timetable",
+						"url": {
+							"raw": "{{base_url}}/classes/2/timetable",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"classes",
+								"2",
+								"timetable"
+							]
+						},
 						"description": "Get the complete timetable for a specific class. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1000,9 +1370,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -1026,7 +1400,17 @@
 							"mode": "raw",
 							"raw": "{\n    \"timetable\": [\n        {\n            \"day\": \"Monday\",\n            \"period\": 1,\n            \"subject_id\": 1,\n            \"user_id\": 1,\n            \"start_time\": \"08:00\",\n            \"end_time\": \"09:00\"\n        },\n        {\n            \"day\": \"Monday\",\n            \"period\": 2,\n            \"subject_id\": 2,\n            \"user_id\": 2,\n            \"start_time\": \"09:00\",\n            \"end_time\": \"10:00\"\n        },\n        {\n            \"day\": \"Tuesday\",\n            \"period\": 1,\n            \"subject_id\": 3,\n            \"user_id\": 3,\n            \"start_time\": \"08:00\",\n            \"end_time\": \"09:00\"\n        }\n    ]\n}"
 						},
-						"url": "{{base_url}}/classes/2/timetable",
+						"url": {
+							"raw": "{{base_url}}/classes/2/timetable",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"classes",
+								"2",
+								"timetable"
+							]
+						},
 						"description": "Create or update the complete timetable for a class. This will replace all existing timetable entries. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1042,9 +1426,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -1089,9 +1477,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -1115,7 +1507,15 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"Jane Smith 11\",\n    \"email\": \"jane.smith11@example.com\",\n    \"phone\": \"+1234567800\",\n    \"address\": \"No 2 Old Market Road Unguwan Dosa\",\n    \"gender\": \"Female\",\n    \"date_of_birth\": \"01-01-2000\",\n    \"nationality\": \"Nigerian\",\n    \"religion\": \"Christianity\",\n    \"marital_status\": \"Widowed\",\n    \"designation\": \"Subject Teacher I\",\n    \"position\": \"Mathematics Teacher\",\n    \"department\": \"Mathematics\",\n    \"hire_date\": \"2023-01-15\",\n    \"sections\": [1,2],\n    \"subjects\": [1,3,5]\n}"
 						},
-						"url": "{{base_url}}/staff",
+						"url": {
+							"raw": "{{base_url}}/staff",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"staff"
+							]
+						},
 						"description": "Create a new staff member. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1125,9 +1525,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -1142,7 +1546,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/staff/8",
+						"url": {
+							"raw": "{{base_url}}/staff/8",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"staff",
+								"8"
+							]
+						},
 						"description": "Get a specific staff member by ID. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1152,9 +1565,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [
@@ -1178,7 +1595,16 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"Jane Smith Updated\",\n    \"position\": \"Senior Mathematics Teacher\",\n    \"department\": \"Mathematics\",\n    \"subjects\": [2,3],\n    \"sections\": [4,5]\n}"
 						},
-						"url": "{{base_url}}/staff/7",
+						"url": {
+							"raw": "{{base_url}}/staff/7",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"staff",
+								"7"
+							]
+						},
 						"description": "Update an existing staff member. All fields are optional. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1188,9 +1614,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [
@@ -1205,7 +1635,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/staff/8",
+						"url": {
+							"raw": "{{base_url}}/staff/8",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"staff",
+								"8"
+							]
+						},
 						"description": "Delete a staff member by ID. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1215,9 +1654,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -1241,7 +1684,17 @@
 							"mode": "raw",
 							"raw": "{\n    \"sections\": [1, 2, 3]\n}"
 						},
-						"url": "{{base_url}}/staff/1/sections",
+						"url": {
+							"raw": "{{base_url}}/staff/1/sections",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"staff",
+								"1",
+								"sections"
+							]
+						},
 						"description": "Assign sections to a staff member. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1251,9 +1704,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -1277,7 +1734,17 @@
 							"mode": "raw",
 							"raw": "{\n    \"subjects\": [1, 2, 3]\n}"
 						},
-						"url": "{{base_url}}/staff/1/subjects",
+						"url": {
+							"raw": "{{base_url}}/staff/1/subjects",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"staff",
+								"1",
+								"subjects"
+							]
+						},
 						"description": "Assign subjects to a staff member. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1287,9 +1754,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -1313,7 +1784,17 @@
 							"mode": "raw",
 							"raw": "{\n    \"role\": \"teacher\"\n}"
 						},
-						"url": "{{base_url}}/staff/1/role",
+						"url": {
+							"raw": "{{base_url}}/staff/1/role",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"staff",
+								"1",
+								"role"
+							]
+						},
 						"description": "Assign a role to a staff member. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1323,9 +1804,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -1340,7 +1825,17 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/staff/1/subjects",
+						"url": {
+							"raw": "{{base_url}}/staff/1/subjects",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"staff",
+								"1",
+								"subjects"
+							]
+						},
 						"description": "Get all subjects assigned to a specific staff member. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1356,9 +1851,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -1373,7 +1872,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/roles-permissions/roles",
+						"url": {
+							"raw": "{{base_url}}/roles-permissions/roles",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"roles-permissions",
+								"roles"
+							]
+						},
 						"description": "Get all available roles. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1383,9 +1891,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -1409,7 +1921,16 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"class-teacher\",\n    \"guard_name\": \"web\"\n}"
 						},
-						"url": "{{base_url}}/roles-permissions/roles",
+						"url": {
+							"raw": "{{base_url}}/roles-permissions/roles",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"roles-permissions",
+								"roles"
+							]
+						},
 						"description": "Create a new role. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1419,9 +1940,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -1436,7 +1961,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/roles-permissions/permissions",
+						"url": {
+							"raw": "{{base_url}}/roles-permissions/permissions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"roles-permissions",
+								"permissions"
+							]
+						},
 						"description": "Get all available permissions. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1446,9 +1980,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -1472,7 +2010,16 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"view-reports\",\n    \"guard_name\": \"web\"\n}"
 						},
-						"url": "{{base_url}}/roles-permissions/permissions",
+						"url": {
+							"raw": "{{base_url}}/roles-permissions/permissions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"roles-permissions",
+								"permissions"
+							]
+						},
 						"description": "Create a new permission. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1482,9 +2029,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -1508,7 +2059,18 @@
 							"mode": "raw",
 							"raw": "{\n    // \"permissions\": [\"view students\", \"delete students\", \"view staff\"]\n        \"permissions\": [\"edit staff\"]\n\n}"
 						},
-						"url": "{{base_url}}/roles-permissions/roles/11/permissions",
+						"url": {
+							"raw": "{{base_url}}/roles-permissions/roles/11/permissions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"roles-permissions",
+								"roles",
+								"11",
+								"permissions"
+							]
+						},
 						"description": "Assign permissions to a specific role. Requires super-admin or principal role."
 					},
 					"response": []
@@ -1518,9 +2080,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -1544,7 +2110,18 @@
 							"mode": "raw",
 							"raw": "{\n    \"role\": \"accountant\"\n}"
 						},
-						"url": "{{base_url}}/roles-permissions/users/1/role",
+						"url": {
+							"raw": "{{base_url}}/roles-permissions/users/1/role",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"roles-permissions",
+								"users",
+								"1",
+								"role"
+							]
+						},
 						"description": "Assign a role to a specific user (Legacy endpoint). Requires super-admin or principal role."
 					},
 					"response": []
@@ -1560,9 +2137,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -1572,7 +2153,15 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/sections"
+						"url": {
+							"raw": "{{base_url}}/sections",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"sections"
+							]
+						}
 					},
 					"response": []
 				},
@@ -1581,9 +2170,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -1593,7 +2186,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/sections/1"
+						"url": {
+							"raw": "{{base_url}}/sections/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"sections",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -1602,9 +2204,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -1623,7 +2229,15 @@
 								}
 							}
 						},
-						"url": "{{base_url}}/sections"
+						"url": {
+							"raw": "{{base_url}}/sections",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"sections"
+							]
+						}
 					},
 					"response": []
 				},
@@ -1632,9 +2246,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [
@@ -1653,7 +2271,16 @@
 								}
 							}
 						},
-						"url": "{{base_url}}/sections/1"
+						"url": {
+							"raw": "{{base_url}}/sections/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"sections",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -1662,9 +2289,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [
@@ -1674,7 +2305,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/sections/1"
+						"url": {
+							"raw": "{{base_url}}/sections/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"sections",
+								"1"
+							]
+						}
 					},
 					"response": []
 				}
@@ -1688,9 +2328,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -1705,7 +2349,15 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/calendars",
+						"url": {
+							"raw": "{{base_url}}/calendars",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"calendars"
+							]
+						},
 						"description": "Retrieve all academic calendar events, ordered by event date"
 					},
 					"response": []
@@ -1715,9 +2367,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -1756,9 +2412,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -1782,7 +2442,15 @@
 							"mode": "raw",
 							"raw": "{\n    \"academic_session_id\": 1,\n    \"event_date\": \"2025-09-15\",\n    \"title\": \"Parent-Teacher Meeting\",\n    \"description\": \"First term parent-teacher meeting for all classes\"\n}"
 						},
-						"url": "{{base_url}}/calendars",
+						"url": {
+							"raw": "{{base_url}}/calendars",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"calendars"
+							]
+						},
 						"description": "Create a new academic calendar event"
 					},
 					"response": []
@@ -1792,9 +2460,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -1809,7 +2481,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/calendars/1",
+						"url": {
+							"raw": "{{base_url}}/calendars/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"calendars",
+								"1"
+							]
+						},
 						"description": "Retrieve a specific calendar event with its session information"
 					},
 					"response": []
@@ -1819,9 +2500,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [
@@ -1845,7 +2530,16 @@
 							"mode": "raw",
 							"raw": "{\n    \"event_date\": \"2025-09-20\",\n    \"title\": \"Parent-Teacher Meeting (Updated)\",\n    \"description\": \"Updated description for parent-teacher meeting\"\n}"
 						},
-						"url": "{{base_url}}/calendars/1",
+						"url": {
+							"raw": "{{base_url}}/calendars/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"calendars",
+								"1"
+							]
+						},
 						"description": "Update an existing calendar event"
 					},
 					"response": []
@@ -1855,9 +2549,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [
@@ -1872,7 +2570,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/calendars/1",
+						"url": {
+							"raw": "{{base_url}}/calendars/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"calendars",
+								"1"
+							]
+						},
 						"description": "Delete a calendar event"
 					},
 					"response": []
@@ -1888,9 +2595,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -1905,7 +2616,15 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/sessions",
+						"url": {
+							"raw": "{{base_url}}/sessions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"sessions"
+							]
+						},
 						"description": "Retrieve all academic sessions with pagination and calendar count"
 					},
 					"response": []
@@ -1915,9 +2634,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -1941,7 +2664,15 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"2027 / 2028\",\n    \"start_date\": \"2026-09-01\",\n    \"end_date\": \"2027-07-31\",\n    \"current\": false\n}"
 						},
-						"url": "{{base_url}}/sessions",
+						"url": {
+							"raw": "{{base_url}}/sessions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"sessions"
+							]
+						},
 						"description": "Create a new academic session. If current is set to true, all other sessions will be marked as not current."
 					},
 					"response": []
@@ -1951,9 +2682,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -1968,7 +2703,15 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}sessions/1",
+						"url": {
+							"raw": "{{base_url}}sessions/1",
+							"host": [
+								"{{base_url}}sessions"
+							],
+							"path": [
+								"1"
+							]
+						},
 						"description": "Retrieve a specific academic session with its calendar events"
 					},
 					"response": []
@@ -1998,7 +2741,17 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"2025 / 2026 Updated\",\n    \"start_date\": \"2025-09-01\",\n    \"end_date\": \"2026-07-31\",\n    \"current\": true\n}"
 						},
-						"url": "{{base_url}}/v1/sessions/1",
+						"url": {
+							"raw": "{{base_url}}/v1/sessions/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"sessions",
+								"1"
+							]
+						},
 						"description": "Update an academic session. If current is set to true, all other sessions will be marked as not current."
 					},
 					"response": []
@@ -2008,9 +2761,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [
@@ -2025,7 +2782,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/sessions/1",
+						"url": {
+							"raw": "{{base_url}}/sessions/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"sessions",
+								"1"
+							]
+						},
 						"description": "Delete an academic session. This will also delete all associated calendar events."
 					},
 					"response": []
@@ -2102,7 +2868,17 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"Umaru Bello\",\n    \"email\": \"umaru.bello@example.com\",\n    \"password\": \"password123\",\n    \"phone\": \"08123456789\",\n    \"gender\": \"Male\",\n    \"occupation\": \"Engineer\",\n    \"address\": \"Barnawa Kaduna\"\n}"
 						},
-						"url": "{{base_url}}/api/v1/parents",
+						"url": {
+							"raw": "{{base_url}}/api/v1/parents",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"parents"
+							]
+						},
 						"description": "Create a new parent with user account"
 					},
 					"response": []
@@ -2123,7 +2899,18 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/api/v1/parents/1",
+						"url": {
+							"raw": "{{base_url}}/api/v1/parents/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"parents",
+								"1"
+							]
+						},
 						"description": "Retrieve a specific parent by ID"
 					},
 					"response": []
@@ -2153,7 +2940,18 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"Umaru Bello Updated\",\n    \"phone\": \"08123456789\",\n    \"occupation\": \"Senior Engineer\",\n    \"address\": \"Barnawa Kaduna, Nigeria\"\n}"
 						},
-						"url": "{{base_url}}/api/v1/parents/1",
+						"url": {
+							"raw": "{{base_url}}/api/v1/parents/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"parents",
+								"1"
+							]
+						},
 						"description": "Update parent information"
 					},
 					"response": []
@@ -2174,7 +2972,18 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/api/v1/parents/1",
+						"url": {
+							"raw": "{{base_url}}/api/v1/parents/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"parents",
+								"1"
+							]
+						},
 						"description": "Delete a parent (this will also delete the associated user account)"
 					},
 					"response": []
@@ -2190,9 +2999,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -2207,7 +3020,15 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/students",
+						"url": {
+							"raw": "{{base_url}}/students",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"students"
+							]
+						},
 						"description": "Retrieve all students"
 					},
 					"response": []
@@ -2217,9 +3038,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -2243,7 +3068,15 @@
 							"mode": "raw",
 							"raw": "{\n    \"first_name\": \"Aisha\",\n    \"last_name\": \"Bello\",\n    \"other_name\": \"Fatima\",\n    \"gender\": \"Female\",\n    \"date_of_birth\": \"2010-03-15\",\n    \"nationality\": \"Nigerian\",\n    \"religion\": \"Islam\",\n    \"email\": \"aisha.belld4o@1student.com\",\n    \"phone\": \"08012345678\",\n    \"address\": \"Barnawa Kaduna\",\n    \"admission_no\": \"STU02d2\",\n    \"admission_date\": \"2023-09-01\",\n    \"parent_id\": 1,\n    \"relationship\": \"Father\",\n}"
 						},
-						"url": "{{base_url}}/students",
+						"url": {
+							"raw": "{{base_url}}/students",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"students"
+							]
+						},
 						"description": "Create a new student with parent assignment"
 					},
 					"response": []
@@ -2253,9 +3086,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -2279,7 +3116,17 @@
 							"mode": "raw",
 							"raw": "{\n    \"sections\": [1,2]\n}"
 						},
-						"url": "{{base_url}}/students/2/assign-sections",
+						"url": {
+							"raw": "{{base_url}}/students/2/assign-sections",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"students",
+								"2",
+								"assign-sections"
+							]
+						},
 						"description": "Create a new student with parent assignment"
 					},
 					"response": []
@@ -2289,9 +3136,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -2315,7 +3166,17 @@
 							"mode": "raw",
 							"raw": "{\n    \"academic_session_id\": 2,\n    \"records\": [\n        {\n            \"section_id\": 2,\n            \"school_class_id\": 2\n        }\n    ]\n}"
 						},
-						"url": "{{base_url}}/students/2/assign-new-class",
+						"url": {
+							"raw": "{{base_url}}/students/2/assign-new-class",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"students",
+								"2",
+								"assign-new-class"
+							]
+						},
 						"description": "Create a new student with parent assignment"
 					},
 					"response": []
@@ -2325,9 +3186,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -2342,7 +3207,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/students/2",
+						"url": {
+							"raw": "{{base_url}}/students/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"students",
+								"2"
+							]
+						},
 						"description": "Retrieve a specific student by ID"
 					},
 					"response": []
@@ -2352,9 +3226,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [
@@ -2378,7 +3256,16 @@
 							"mode": "raw",
 							"raw": "{\n    \"parent_id\": 2,\n    \"relationship\": \"Father\"\n}"
 						},
-						"url": "{{base_url}}/students/1",
+						"url": {
+							"raw": "{{base_url}}/students/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"students",
+								"1"
+							]
+						},
 						"description": "Assign a parent to a student"
 					},
 					"response": []
@@ -2388,9 +3275,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [
@@ -2405,7 +3296,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/students/1",
+						"url": {
+							"raw": "{{base_url}}/students/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"students",
+								"1"
+							]
+						},
 						"description": "Delete a student"
 					},
 					"response": []
@@ -2421,9 +3321,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -2447,7 +3351,15 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"Fatima Ahmed\",\n    \"email\": \"fatima.ahmded@example.com\",\n    \"password\": \"password123\",\n    \"phone\": \"08098765432\",\n    \"gender\": \"Female\",\n    \"occupation\": \"Doctor\",\n    \"address\": \"Ungwan Rimi Kaduna\"\n}"
 						},
-						"url": "{{base_url}}/parents",
+						"url": {
+							"raw": "{{base_url}}/parents",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"parents"
+							]
+						},
 						"description": "Create sample parent Fatima Ahmed"
 					},
 					"response": []
@@ -2457,13 +3369,25 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{base_url}}/parents"
+						"url": {
+							"raw": "{{base_url}}/parents",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"parents"
+							]
+						}
 					},
 					"response": []
 				},
@@ -2472,13 +3396,26 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{base_url}}/parents/1"
+						"url": {
+							"raw": "{{base_url}}/parents/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"parents",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -2487,9 +3424,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [
@@ -2508,7 +3449,16 @@
 								}
 							}
 						},
-						"url": "{{base_url}}/parents/1"
+						"url": {
+							"raw": "{{base_url}}/parents/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"parents",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -2517,9 +3467,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [
@@ -2529,7 +3483,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/parents/1"
+						"url": {
+							"raw": "{{base_url}}/parents/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"parents",
+								"1"
+							]
+						}
 					},
 					"response": []
 				}
@@ -2544,9 +3507,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -2561,7 +3528,15 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/attendances"
+						"url": {
+							"raw": "{{base_url}}/attendances",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"attendances"
+							]
+						}
 					},
 					"response": []
 				},
@@ -2570,9 +3545,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -2596,7 +3575,15 @@
 							"mode": "raw",
 							"raw": "{\n    \"attendance\": [\n  {\n    \"student_id\": 1,\n    \"school_class_id\": 1,\n    \"date\": \"2025-09-14\",\n    \"status\": \"present\",\n    \"term_id\": 3,\n    \"academic_session_id\": 1\n  },\n  {\n    \"student_id\": 2,\n    \"school_class_id\": 1,\n    \"date\": \"2025-09-14\",\n    \"term_id\": 3,\n    \"academic_session_id\": 1,\n    \"status\": \"absent\"\n  }\n]\n}"
 						},
-						"url": "{{base_url}}/attendances"
+						"url": {
+							"raw": "{{base_url}}/attendances",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"attendances"
+							]
+						}
 					},
 					"response": []
 				},
@@ -2605,9 +3592,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -2622,7 +3613,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/attendances/1"
+						"url": {
+							"raw": "{{base_url}}/attendances/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"attendances",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -2631,9 +3631,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [
@@ -2657,7 +3661,16 @@
 							"mode": "raw",
 							"raw": "{\n  \"status\": \"late\"\n}"
 						},
-						"url": "{{base_url}}/attendances/1"
+						"url": {
+							"raw": "{{base_url}}/attendances/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"attendances",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -2666,9 +3679,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [
@@ -2683,7 +3700,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/attendances/1"
+						"url": {
+							"raw": "{{base_url}}/attendances/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"attendances",
+								"1"
+							]
+						}
 					},
 					"response": []
 				}
@@ -2697,9 +3723,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -2714,7 +3744,15 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/behaviours"
+						"url": {
+							"raw": "{{base_url}}/behaviours",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"behaviours"
+							]
+						}
 					},
 					"response": []
 				},
@@ -2723,9 +3761,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -2749,7 +3791,15 @@
 							"mode": "raw",
 							"raw": "{\n  \"student_id\": 1,\n  \"type\": \"positive\",\n  \"title\": \"Helped clean lab\",\n  \"points\": 5,\n  \"recorded_by\": 2,\n  \"date\": \"2025-10-01\",\n  \"note\": \"Excellent behavior\"\n}"
 						},
-						"url": "{{base_url}}/behaviours"
+						"url": {
+							"raw": "{{base_url}}/behaviours",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"behaviours"
+							]
+						}
 					},
 					"response": []
 				},
@@ -2758,9 +3808,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -2775,7 +3829,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/behaviours/1"
+						"url": {
+							"raw": "{{base_url}}/behaviours/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"behaviours",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -2784,9 +3847,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [
@@ -2810,7 +3877,16 @@
 							"mode": "raw",
 							"raw": "{\n  \"points\": 10,\n  \"note\": \"Updated note\"\n}"
 						},
-						"url": "{{base_url}}/behaviours/1"
+						"url": {
+							"raw": "{{base_url}}/behaviours/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"behaviours",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -2819,9 +3895,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [
@@ -2836,7 +3916,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/behaviours/1"
+						"url": {
+							"raw": "{{base_url}}/behaviours/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"behaviours",
+								"1"
+							]
+						}
 					},
 					"response": []
 				}
@@ -2850,9 +3939,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -2867,7 +3960,15 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/exam-results"
+						"url": {
+							"raw": "{{base_url}}/exam-results",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"exam-results"
+							]
+						}
 					},
 					"response": []
 				},
@@ -2876,9 +3977,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -2902,7 +4007,15 @@
 							"mode": "raw",
 							"raw": "{\n  \"exam_id\": 2,\n  \"student_id\": 1,\n  \"subject_id\": 3,\n  \"score\": 73\n}"
 						},
-						"url": "{{base_url}}/exam-results"
+						"url": {
+							"raw": "{{base_url}}/exam-results",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"exam-results"
+							]
+						}
 					},
 					"response": []
 				},
@@ -2922,7 +4035,18 @@
 								"type": "text"
 							}
 						],
-						"url": "{{BASE_URL}}/api/v1/exam-results/1"
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/exam-results/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"exam-results",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -2951,7 +4075,18 @@
 							"mode": "raw",
 							"raw": "{\n  \"score\": 75\n}"
 						},
-						"url": "{{BASE_URL}}/api/v1/exam-results/1"
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/exam-results/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"exam-results",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -2971,7 +4106,18 @@
 								"type": "text"
 							}
 						],
-						"url": "{{BASE_URL}}/api/v1/exam-results/1"
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/exam-results/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"exam-results",
+								"1"
+							]
+						}
 					},
 					"response": []
 				}
@@ -2985,9 +4131,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -3002,7 +4152,15 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/grade-scales"
+						"url": {
+							"raw": "{{base_url}}/grade-scales",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"grade-scales"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3011,9 +4169,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -3037,7 +4199,15 @@
 							"mode": "raw",
 							"raw": "{\n  \"min\": 70,\n  \"max\": 100,\n  \"grade\": \"A\",\n  \"remark\": \"Excellent\"\n}"
 						},
-						"url": "{{base_url}}/grade-scales"
+						"url": {
+							"raw": "{{base_url}}/grade-scales",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"grade-scales"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3046,9 +4216,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [
@@ -3072,7 +4246,16 @@
 							"mode": "raw",
 							"raw": "{\n  \"min\": 75,\n  \"max\": 100,\n  \"grade\": \"A+\",\n  \"remark\": \"Outstanding\"\n}"
 						},
-						"url": "{{base_url}}/grade-scales/1"
+						"url": {
+							"raw": "{{base_url}}/grade-scales/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"grade-scales",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3081,9 +4264,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [
@@ -3098,7 +4285,16 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/grade-scales/1"
+						"url": {
+							"raw": "{{base_url}}/grade-scales/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"grade-scales",
+								"1"
+							]
+						}
 					},
 					"response": []
 				}
@@ -3112,7 +4308,15 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "{{base_url}}/attendances"
+						"url": {
+							"raw": "{{base_url}}/attendances",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"attendances"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3130,7 +4334,15 @@
 							"mode": "raw",
 							"raw": "{\n  \"student_id\": 1,\n  \"date\": \"2024-09-15\",\n  \"status\": \"present\",\n  \"remark\": \"Student present\"\n}"
 						},
-						"url": "{{base_url}}/attendances"
+						"url": {
+							"raw": "{{base_url}}/attendances",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"attendances"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3139,7 +4351,15 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "{{base_url}}/staff-attendance"
+						"url": {
+							"raw": "{{base_url}}/staff-attendance",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"staff-attendance"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3148,9 +4368,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -3163,7 +4387,15 @@
 							"mode": "raw",
 							"raw": "{\n  \"staff_id\": 1,\n  \"date\": \"2025-07-21\",\n  \"status\": \"present\",\n  \"time_in\": \"08:00:00\",\n  \"time_out\": \"16:00:00\"\n}"
 						},
-						"url": "{{base_url}}/staff-attendance"
+						"url": {
+							"raw": "{{base_url}}/staff-attendance",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"staff-attendance"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3172,13 +4404,26 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{base_url}}/staff-attendance/today"
+						"url": {
+							"raw": "{{base_url}}/staff-attendance/today",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"staff-attendance",
+								"today"
+							]
+						}
 					},
 					"response": []
 				}
@@ -3192,9 +4437,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -3204,7 +4453,15 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/exams"
+						"url": {
+							"raw": "{{base_url}}/exams",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"exams"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3213,9 +4470,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -3228,7 +4489,15 @@
 							"mode": "raw",
 							"raw": "{\n  \"name\": \"Mid-Term Examination\",\n  \"subject_id\": 1,\n  \"class_id\": 1,\n  \"term_id\": 1,\n  \"section_id\": 1,\n  \"academic_session_id\": 1,\n  \"start_date\": \"2024-10-15\",\n  \"end_date\": \"2025-08-01\",\n  \"weight\": 100\n}"
 						},
-						"url": "{{base_url}}/exams"
+						"url": {
+							"raw": "{{base_url}}/exams",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"exams"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3237,13 +4506,25 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{base_url}}/exam-results"
+						"url": {
+							"raw": "{{base_url}}/exam-results",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"exam-results"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3252,9 +4533,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -3267,7 +4552,15 @@
 							"mode": "raw",
 							"raw": "{\n  \"student_id\": 1,\n  \"exam_id\": 1,\n  \"subject_id\": 1,\n  \"test1_score\": 12,\n  \"test2_score\": 15,\n  \"exam_score\": 40,\n  \"grade\": \"A\",\n  \"remark\": \"Excellent performance\"\n}"
 						},
-						"url": "{{base_url}}/exam-results"
+						"url": {
+							"raw": "{{base_url}}/exam-results",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"exam-results"
+							]
+						}
 					},
 					"response": []
 				}
@@ -3281,13 +4574,25 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{base_url}}/fee-schedules"
+						"url": {
+							"raw": "{{base_url}}/fee-schedules",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"fee-schedules"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3296,9 +4601,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -3316,7 +4625,15 @@
 							"mode": "raw",
 							"raw": "{\n  \"name\": \"Tuition Fee\",\n  \"description\": \"Annual tuition fee\",\n  \"is_mandatory\": true\n}"
 						},
-						"url": "{{base_url}}/fee-schedules"
+						"url": {
+							"raw": "{{base_url}}/fee-schedules",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"fee-schedules"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3325,13 +4642,25 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{base_url}}/fee-structures"
+						"url": {
+							"raw": "{{base_url}}/fee-structures",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"fee-structures"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3340,9 +4669,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -3355,7 +4688,15 @@
 							"mode": "raw",
 							"raw": "{\n  \"fee_schedule_id\": 1,\n  \"academic_session_id\": 1,\n  \"term_id\": 1,\n  \"class_id\": 1,\n  \"amount\": 50000\n}"
 						},
-						"url": "{{base_url}}/fee-structures"
+						"url": {
+							"raw": "{{base_url}}/fee-structures",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"fee-structures"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3364,13 +4705,25 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{base_url}}/student-payments"
+						"url": {
+							"raw": "{{base_url}}/student-payments",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"student-payments"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3388,7 +4741,15 @@
 							"mode": "raw",
 							"raw": "{\n  \"student_id\": 1,\n  \"fee_structure_id\": 1,\n  \"amount_paid\": 25000,\n  \"payment_date\": \"2024-09-15\",\n  \"payment_method\": \"bank_transfer\",\n  \"reference\": \"TXN123456\"\n}"
 						},
-						"url": "{{base_url}}/student-payments"
+						"url": {
+							"raw": "{{base_url}}/student-payments",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"student-payments"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3397,9 +4758,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -3412,7 +4777,16 @@
 							"mode": "raw",
 							"raw": "{\n  \"staff_id\": 1,\n  \"for_month\": \"2024-09-01\",\n  \"basic_salary\": 100000,\n  \"allowances\": 20000\n}"
 						},
-						"url": "{{base_url}}/payroll/voucher"
+						"url": {
+							"raw": "{{base_url}}/payroll/voucher",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"payroll",
+								"voucher"
+							]
+						}
 					},
 					"response": []
 				}
@@ -3426,13 +4800,26 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{base_url}}/reports/types"
+						"url": {
+							"raw": "{{base_url}}/reports/types",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"types"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3441,9 +4828,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -3456,7 +4847,16 @@
 							"mode": "raw",
 							"raw": "{\n  \"report_type\": \"attendance\",\n  \"start_date\": \"2024-09-01\",\n  \"end_date\": \"2024-09-30\"\n}"
 						},
-						"url": "{{base_url}}/reports/stats"
+						"url": {
+							"raw": "{{base_url}}/reports/stats",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"stats"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3465,9 +4865,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
@@ -3496,9 +4900,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
@@ -3536,7 +4944,16 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "{{base_url}}/dashboard/overview"
+						"url": {
+							"raw": "{{base_url}}/dashboard/overview",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"dashboard",
+								"overview"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3545,7 +4962,16 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "{{base_url}}/dashboard/academic-performance"
+						"url": {
+							"raw": "{{base_url}}/dashboard/academic-performance",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"dashboard",
+								"academic-performance"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3554,7 +4980,16 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "{{base_url}}/dashboard/financial"
+						"url": {
+							"raw": "{{base_url}}/dashboard/financial",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"dashboard",
+								"financial"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3563,7 +4998,16 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "{{base_url}}/dashboard/attendance"
+						"url": {
+							"raw": "{{base_url}}/dashboard/attendance",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"dashboard",
+								"attendance"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3572,7 +5016,16 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "{{base_url}}/dashboard/enrollment"
+						"url": {
+							"raw": "{{base_url}}/dashboard/enrollment",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"dashboard",
+								"enrollment"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3581,7 +5034,16 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "{{base_url}}/dashboard/staff"
+						"url": {
+							"raw": "{{base_url}}/dashboard/staff",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"dashboard",
+								"staff"
+							]
+						}
 					},
 					"response": []
 				}
@@ -3595,13 +5057,25 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{base_url}}/school-settings"
+						"url": {
+							"raw": "{{base_url}}/school-settings",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"school-settings"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3610,9 +5084,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [
@@ -3625,7 +5103,15 @@
 							"mode": "raw",
 							"raw": "{\n  \"school_name\": \"Updated School Name\",\n  \"school_address\": \"Updated Address\",\n  \"school_phone\": \"+1234567890\",\n  \"school_email\": \"updated@school.com\"\n}"
 						},
-						"url": "{{base_url}}/school-settings"
+						"url": {
+							"raw": "{{base_url}}/school-settings",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"school-settings"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3634,9 +5120,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
@@ -3664,9 +5154,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -3694,7 +5188,16 @@
 								}
 							]
 						},
-						"url": "{{base_url}}/school-settings/upload-file"
+						"url": {
+							"raw": "{{base_url}}/school-settings/upload-file",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"school-settings",
+								"upload-file"
+							]
+						}
 					},
 					"response": []
 				},
@@ -3703,13 +5206,26 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{BEARER}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{base_url}}/school-settings/public-info"
+						"url": {
+							"raw": "{{base_url}}/school-settings/public-info",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"school-settings",
+								"public-info"
+							]
+						}
 					},
 					"response": []
 				}

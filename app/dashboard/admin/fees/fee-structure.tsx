@@ -1,6 +1,82 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { getFeeSchedules, getFeeStructures, getAcademicSessions } from "@/services/fees";
+import { getClasses } from "@/services/class";
+import { getSections } from "@/services/section";
+
+export type FeeSchedule = {
+  id: number;
+  name: string;
+  description: string;
+  is_mandatory: boolean;
+};
+
+export type FeeStructure = {
+  id: number;
+  fee_schedule_id: number;
+  academic_session_id: number;
+  term_id: number;
+  class_id: number;
+  amount: number;
+};
+
+export type AcademicSession = {
+  id: number;
+  name: string;
+  start_date: string;
+  end_date: string;
+  current: boolean;
+};
+
+export type Class = {
+  id: number;
+  name: string;
+  section_id: number;
+};
+
+export type Section = {
+  id: number;
+  name: string;
+};
+
+export type Student = {
+  id: number;
+  first_name: string;
+  last_name: string;
+  other_name?: string;
+  gender: string;
+  date_of_birth: string;
+  nationality: string;
+  religion: string;
+  email: string;
+  phone: string;
+  address: string;
+  admission_no: string;
+  admission_date: string;
+  parent_id: number;
+  relationship: string;
+  current_class_id: number;
+  current_academic_session_id: number;
+  current_term_id: number;
+  class: Class;
+};
+
+export type Payment = {
+  id: number;
+  student_id: number;
+  fee_structure_id: number;
+  amount_paid: number;
+  payment_date: string;
+  payment_method: string;
+  reference: string;
+  student: Student;
+  fee_structure: FeeStructure & {
+    class: Class & {
+      section: Section;
+    };
+  };
+};
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -16,7 +92,31 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Settings } from "lucide-react"
 
 export function FeeStructureDialog() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
+  const [feeSchedules, setFeeSchedules] = useState([]);
+  const [feeStructures, setFeeStructures] = useState([]);
+  const [academicSessions, setAcademicSessions] = useState([]);
+  const [classes, setClasses] = useState([]);
+  const [sections, setSections] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const schedules = await getFeeSchedules();
+      const structures = await getFeeStructures();
+      const sessions = await getAcademicSessions();
+      const classesData = await getClasses();
+      const sectionsData = await getSections();
+      setFeeSchedules(schedules);
+      setFeeStructures(structures);
+      setAcademicSessions(sessions);
+      setClasses(classesData);
+      setSections(sectionsData);
+    };
+    fetchData();
+  }, []);
+  // const [academicSessions, setAcademicSessions] = useState([]);
+  // const [classes, setClasses] = useState([]);
+  // const [sections, setSections] = useState([]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -34,243 +134,80 @@ export function FeeStructureDialog() {
         <div className="py-4">
           <Tabs defaultValue="primary" className="w-full">
             <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="primary">Primary</TabsTrigger>
-              <TabsTrigger value="secondary">Secondary</TabsTrigger>
-              <TabsTrigger value="islamiyya">Islamiyya</TabsTrigger>
-              <TabsTrigger value="tahfeez">Tahfeez</TabsTrigger>
+              {sections.map((section) => (
+                <TabsTrigger key={section.id} value={section.name.toLowerCase()}>
+                  {section.name}
+                </TabsTrigger>
+              ))}
             </TabsList>
-            <TabsContent value="primary" className="mt-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Primary Section Fee Structure</CardTitle>
-                  <CardDescription>2024/2025 Academic Session</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Fee Item</TableHead>
-                        <TableHead>Nursery</TableHead>
-                        <TableHead>Primary 1-3</TableHead>
-                        <TableHead>Primary 4-6</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell className="font-medium">Tuition Fee</TableCell>
-                        <TableCell>₦60,000</TableCell>
-                        <TableCell>₦70,000</TableCell>
-                        <TableCell>₦80,000</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Books & Materials</TableCell>
-                        <TableCell>₦15,000</TableCell>
-                        <TableCell>₦20,000</TableCell>
-                        <TableCell>₦25,000</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Development Levy</TableCell>
-                        <TableCell>₦10,000</TableCell>
-                        <TableCell>₦10,000</TableCell>
-                        <TableCell>₦10,000</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Uniform (Optional)</TableCell>
-                        <TableCell>₦8,000</TableCell>
-                        <TableCell>₦8,000</TableCell>
-                        <TableCell>₦8,000</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Transportation (Optional)</TableCell>
-                        <TableCell>₦25,000</TableCell>
-                        <TableCell>₦25,000</TableCell>
-                        <TableCell>₦25,000</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium font-bold">Total (Required Fees)</TableCell>
-                        <TableCell className="font-bold">₦85,000</TableCell>
-                        <TableCell className="font-bold">₦100,000</TableCell>
-                        <TableCell className="font-bold">₦115,000</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                  <div className="mt-4 flex justify-end">
-                    <Button variant="outline" size="sm" className="mr-2">
-                      Edit Structure
-                    </Button>
-                    <Button size="sm" className="bg-green-600 hover:bg-green-700">
-                      Print
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-            <TabsContent value="secondary" className="mt-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Secondary Section Fee Structure</CardTitle>
-                  <CardDescription>2024/2025 Academic Session</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Fee Item</TableHead>
-                        <TableHead>JSS 1-3</TableHead>
-                        <TableHead>SS 1-3</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell className="font-medium">Tuition Fee</TableCell>
-                        <TableCell>₦90,000</TableCell>
-                        <TableCell>₦100,000</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Books & Materials</TableCell>
-                        <TableCell>₦30,000</TableCell>
-                        <TableCell>₦35,000</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Laboratory Fee</TableCell>
-                        <TableCell>₦10,000</TableCell>
-                        <TableCell>₦15,000</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Development Levy</TableCell>
-                        <TableCell>₦15,000</TableCell>
-                        <TableCell>₦15,000</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Uniform (Optional)</TableCell>
-                        <TableCell>₦10,000</TableCell>
-                        <TableCell>₦10,000</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Transportation (Optional)</TableCell>
-                        <TableCell>₦30,000</TableCell>
-                        <TableCell>₦30,000</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium font-bold">Total (Required Fees)</TableCell>
-                        <TableCell className="font-bold">₦145,000</TableCell>
-                        <TableCell className="font-bold">₦165,000</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                  <div className="mt-4 flex justify-end">
-                    <Button variant="outline" size="sm" className="mr-2">
-                      Edit Structure
-                    </Button>
-                    <Button size="sm" className="bg-green-600 hover:bg-green-700">
-                      Print
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-            <TabsContent value="islamiyya" className="mt-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Islamiyya Section Fee Structure</CardTitle>
-                  <CardDescription>2024/2025 Academic Session</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Fee Item</TableHead>
-                        <TableHead>Level 1-2</TableHead>
-                        <TableHead>Level 3-4</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell className="font-medium">Tuition Fee</TableCell>
-                        <TableCell>₦40,000</TableCell>
-                        <TableCell>₦50,000</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Books & Materials</TableCell>
-                        <TableCell>₦15,000</TableCell>
-                        <TableCell>₦20,000</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Development Levy</TableCell>
-                        <TableCell>₦5,000</TableCell>
-                        <TableCell>₦5,000</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Uniform (Optional)</TableCell>
-                        <TableCell>₦7,000</TableCell>
-                        <TableCell>₦7,000</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium font-bold">Total (Required Fees)</TableCell>
-                        <TableCell className="font-bold">₦60,000</TableCell>
-                        <TableCell className="font-bold">₦75,000</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                  <div className="mt-4 flex justify-end">
-                    <Button variant="outline" size="sm" className="mr-2">
-                      Edit Structure
-                    </Button>
-                    <Button size="sm" className="bg-green-600 hover:bg-green-700">
-                      Print
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-            <TabsContent value="tahfeez" className="mt-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Tahfeez Section Fee Structure</CardTitle>
-                  <CardDescription>2024/2025 Academic Session</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Fee Item</TableHead>
-                        <TableHead>All Levels</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell className="font-medium">Tuition Fee</TableCell>
-                        <TableCell>₦35,000</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Books & Materials</TableCell>
-                        <TableCell>₦10,000</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Development Levy</TableCell>
-                        <TableCell>₦5,000</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Uniform (Optional)</TableCell>
-                        <TableCell>₦7,000</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium font-bold">Total (Required Fees)</TableCell>
-                        <TableCell className="font-bold">₦50,000</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                  <div className="mt-4 flex justify-end">
-                    <Button variant="outline" size="sm" className="mr-2">
-                      Edit Structure
-                    </Button>
-                    <Button size="sm" className="bg-green-600 hover:bg-green-700">
-                      Print
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
+            {sections.map((section) => (
+              <TabsContent value={section.name.toLowerCase()} className="mt-4" key={section.id}>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>{section.name} Section Fee Structure</CardTitle>
+                    {academicSessions.length > 0 && (
+                      <CardDescription>{academicSessions.find(session => session.current)?.name} Academic Session</CardDescription>
+                    )}
+                  </CardHeader>
+                  <CardContent>
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Fee Item</TableHead>
+                          {classes
+                            .filter((cls) => cls.section_id === section.id)
+                            .map((cls) => (
+                              <TableHead key={cls.id}>{cls.name}</TableHead>
+                            ))}
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {feeSchedules.length > 0 && feeSchedules.map((schedule) => (
+                          <TableRow key={schedule.id}>
+                            <TableCell className="font-medium">{schedule.name}</TableCell>
+                            {classes
+                              .filter((cls) => cls.section_id === section.id)
+                              .map((cls) => {
+                                const fee = feeStructures.find(
+                                  (fs) =>
+                                    fs.fee_schedule_id === schedule.id &&
+                                    fs.class_id === cls.id &&
+                                    fs.academic_session_id === academicSessions.find(session => session.current)?.id
+                                );
+                                return <TableCell key={cls.id}>{fee ? `₦${fee.amount.toLocaleString()}` : "-"}</TableCell>;
+                              })}
+                          </TableRow>
+                        ))}
+                        <TableRow>
+                          <TableCell className="font-medium font-bold">Total (Required Fees)</TableCell>
+                          {classes
+                            .filter((cls) => cls.section_id === section.id)
+                            .map((cls) => {
+                              const total = feeStructures
+                                .filter(
+                                  (fs) =>
+                                    fs.class_id === cls.id &&
+                                    fs.academic_session_id === academicSessions.find(session => session.current)?.id &&
+                                    feeSchedules.find(s => s.id === fs.fee_schedule_id)?.is_mandatory
+                                )
+                                .reduce((sum, fs) => sum + fs.amount, 0);
+                              return <TableCell key={cls.id} className="font-bold">₦{total.toLocaleString()}</TableCell>;
+                            })}
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                    <div className="mt-4 flex justify-end">
+                      <Button variant="outline" size="sm" className="mr-2">
+                        Edit Structure
+                      </Button>
+                      <Button size="sm" className="bg-green-600 hover:bg-green-700">
+                        Print
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            ))}
           </Tabs>
         </div>
       </DialogContent>

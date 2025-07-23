@@ -107,3 +107,48 @@ export const assignFeeToClass = async (data) => {
         return error.response?.data;
     }
 };
+
+export const getFeeSchedules = async () => {
+    try {
+        const response = await axios.get(`${customBaseUrl.baseUrl}/api/v1/fee-schedules`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+                'Content-Type': 'application/json',
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Failed to fetch fee schedules:", error);
+        return error.response?.data;
+    }
+};
+
+export const getFeeStructures = async () => {
+    try {
+        const response = await axios.get(`${customBaseUrl.baseUrl}/api/v1/fee-structures`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+                'Content-Type': 'application/json',
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Failed to fetch fee structures:", error);
+        return error.response?.data;
+    }
+};
+
+export const getAcademicSessions = async () => {
+    try {
+        const response = await axios.get(`${customBaseUrl.baseUrl}/api/v1/sessions`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+                'Content-Type': 'application/json',
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Failed to fetch academic sessions:", error);
+        return error.response?.data;
+    }
+};
