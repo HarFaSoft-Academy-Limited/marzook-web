@@ -18,10 +18,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Settings } from "lucide-react";
+import { Settings, Download } from "lucide-react";
 import { getFeeSchedules, getFeeStructures, getAcademicSessions } from "@/services/fees";
 import { getClasses } from "@/services/class";
 import { getSections } from "@/services/section";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 export function SimplifiedFeeStructureDialog() {
   const [open, setOpen] = useState(false);
@@ -58,6 +60,39 @@ export function SimplifiedFeeStructureDialog() {
     const matchesTerm = selectedTerm ? fs.term_id === parseInt(selectedTerm) : true;
     return matchesSection && matchesSession && matchesClass && matchesTerm;
   });
+
+  const handleDownloadPdf = () => {
+    const doc = new jsPDF();
+    doc.text("Simplified Fee Structure", 14, 16);
+
+    const tableColumn = ["Fee Item", "Amount", "Section", "Class", "Academic Session", "Term"];
+    const tableRows: any = [];
+
+    filteredFeeStructures.forEach((fs: any) => {
+      const feeData = [
+        fs.schedule?.name,
+        `₦${parseFloat(fs.amount).toLocaleString()}`,
+        fs.section?.name || "N/A",
+        fs.school_class?.name || "N/A",
+        fs.academic_session?.name,
+        fs.term_id === 1 ? "First Term" : fs.term_id === 2 ? "Second Term" : "Third Term",
+      ];
+      tableRows.push(feeData);
+    });
+
+    const totalAmount = filteredFeeStructures.reduce((sum: number, fs: any) => sum + parseFloat(fs.amount), 0);
+    tableRows.push([
+      "Total:",
+      `₦${totalAmount.toLocaleString()}`,
+      "",
+      "",
+      "",
+      "",
+    ]);
+
+    (doc as any).autoTable(tableColumn, tableRows, { startY: 20 });
+    doc.save("simplified-fee-structure.pdf");
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -127,6 +162,10 @@ export function SimplifiedFeeStructureDialog() {
                 <SelectItem value="3">Third Term</SelectItem>
               </SelectContent>
             </Select>
+            <Button onClick={handleDownloadPdf} className="ml-auto">
+              <Download className="mr-2 h-4 w-4" />
+              Download PDF
+            </Button>
           </div>
 
           <Table>
@@ -142,16 +181,23 @@ export function SimplifiedFeeStructureDialog() {
             </TableHeader>
             <TableBody>
               {filteredFeeStructures.length > 0 ? (
-                filteredFeeStructures.map((fs: any) => (
-                  <TableRow key={fs.id}>
-                    <TableCell className="font-medium">{fs.schedule?.name}</TableCell>
-                    <TableCell>₦{parseFloat(fs.amount).toLocaleString()}</TableCell>
-                    <TableCell>{fs.section?.name || "N/A"}</TableCell>
-                    <TableCell>{fs.school_class?.name || "N/A"}</TableCell>
-                    <TableCell>{fs.academic_session?.name}</TableCell>
-                    <TableCell>{fs.term_id === 1 ? "First Term" : fs.term_id === 2 ? "Second Term" : "Third Term"}</TableCell>
+                <>
+                  {filteredFeeStructures.map((fs: any) => (
+                    <TableRow key={fs.id}>
+                      <TableCell className="font-medium">{fs.schedule?.name}</TableCell>
+                      <TableCell>₦{parseFloat(fs.amount).toLocaleString()}</TableCell>
+                      <TableCell>{fs.section?.name || "N/A"}</TableCell>
+                      <TableCell>{fs.school_class?.name || "N/A"}</TableCell>
+                      <TableCell>{fs.academic_session?.name}</TableCell>
+                      <TableCell>{fs.term_id === 1 ? "First Term" : fs.term_id === 2 ? "Second Term" : "Third Term"}</TableCell>
+                    </TableRow>
+                  ))}
+                  <TableRow>
+                    <TableCell colSpan={1} className="font-bold text-right">Total:</TableCell>
+                    <TableCell className="font-bold">₦{filteredFeeStructures.reduce((sum: number, fs: any) => sum + parseFloat(fs.amount), 0).toLocaleString()}</TableCell>
+                    <TableCell colSpan={4}></TableCell>
                   </TableRow>
-                ))
+                </>
               ) : (
                 <TableRow>
                   <TableCell colSpan={6} className="text-center">No fee structures found for the selected filters.</TableCell>
