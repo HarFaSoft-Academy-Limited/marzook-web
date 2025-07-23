@@ -34,6 +34,7 @@ export function SimplifiedFeeStructureDialog() {
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
   const [selectedSession, setSelectedSession] = useState<string | null>(null);
   const [selectedClass, setSelectedClass] = useState<string | null>(null);
+  const [selectedTerm, setSelectedTerm] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,14 +51,12 @@ export function SimplifiedFeeStructureDialog() {
     };
     fetchData();
   }, []);
-
-  console.log({feeStructures: feeStructures.length });
   const filteredFeeStructures = feeStructures.length > 0 && feeStructures.filter((fs: any, e) => {
     const matchesSection = selectedSection ? fs.section_id === parseInt(selectedSection) : true;
     const matchesSession = selectedSession ? fs.academic_session_id === parseInt(selectedSession) : true;
     const matchesClass = selectedClass ? fs.school_class_id === parseInt(selectedClass) : true;
-    console.log({matchesSection, matchesSession, matchesClass, selectedSection, selectedSession, selectedClass});
-    return matchesSection && matchesSession && matchesClass;
+    const matchesTerm = selectedTerm ? fs.term_id === parseInt(selectedTerm) : true;
+    return matchesSection && matchesSession && matchesClass && matchesTerm;
   });
 
   return (
@@ -114,6 +113,18 @@ export function SimplifiedFeeStructureDialog() {
                     {cls.name}
                   </SelectItem>
                 ))}
+              </SelectContent>
+            </Select>
+
+            <Select onValueChange={setSelectedTerm} value={selectedTerm || ""}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Filter by Term" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Terms</SelectItem>
+                <SelectItem value="1">First Term</SelectItem>
+                <SelectItem value="2">Second Term</SelectItem>
+                <SelectItem value="3">Third Term</SelectItem>
               </SelectContent>
             </Select>
           </div>
