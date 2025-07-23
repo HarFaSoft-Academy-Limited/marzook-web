@@ -1,11 +1,21 @@
 import axios from "axios";
 import { customBaseUrl } from "./http";
 
+const getAuthHeader = () => {
+  if (typeof window !== 'undefined' && window.localStorage) {
+    const token = localStorage.getItem("access_token");
+    if (token) {
+      return 'Bearer ' + token;
+    }
+  }
+  return '';
+};
+
 export const getStudents = async () => {
   try {
     const res = await axios.get(`${customBaseUrl.baseUrl}/api/v1/students`, {
       headers: {
-        Authorization: 'Bearer ' + localStorage.getItem("access_token"),
+        Authorization: getAuthHeader(),
         'ngrok-skip-browser-warning': 'true'
       }
     });
@@ -25,7 +35,7 @@ export const createStudent = async (studentData) => {
   try {
     const res = await axios.post(`${customBaseUrl.baseUrl}/api/v1/students`, studentData, {
       headers: {
-        Authorization: 'Bearer ' + localStorage.getItem("access_token"),
+        Authorization: getAuthHeader(),
         'ngrok-skip-browser-warning': 'true'
       }
     });
@@ -40,7 +50,7 @@ export const updateStudent = async (studentId, studentData) => {
   try {
     const res = await axios.put(`${customBaseUrl.baseUrl}/api/v1/students/${studentId}`, studentData, {
       headers: {
-        Authorization: 'Bearer ' + localStorage.getItem("access_token"),
+        Authorization: getAuthHeader(),
         'ngrok-skip-browser-warning': 'true'
       }
     });
@@ -55,7 +65,7 @@ export const deleteStudent = async (studentId) => {
   try {
     const res = await axios.delete(`${customBaseUrl.baseUrl}/api/v1/students/${studentId}`, {
       headers: {
-        Authorization: 'Bearer ' + localStorage.getItem("access_token"),
+        Authorization: getAuthHeader(),
         'ngrok-skip-browser-warning': 'true'
       }
     });
@@ -70,7 +80,7 @@ export const getStudentsByClass = async (classId) => {
   try {
     const res = await axios.get(`${customBaseUrl.baseUrl}/api/v1/classes/${classId}`, {
       headers: {
-        Authorization: 'Bearer ' + localStorage.getItem("access_token"),
+        Authorization: getAuthHeader(),
         'ngrok-skip-browser-warning': 'true'
       }
     });
@@ -90,7 +100,7 @@ export const searchStudents = async (searchTerm) => {
   try {
     const res = await axios.get(`${customBaseUrl.baseUrl}/api/v1/students?search=${searchTerm}`, {
       headers: {
-        Authorization: 'Bearer ' + localStorage.getItem("access_token"),
+        Authorization: getAuthHeader(),
         'ngrok-skip-browser-warning': 'true'
       }
     });
@@ -110,7 +120,7 @@ export const getStudentById = async (studentId) => {
   try {
     const res = await axios.get(`${customBaseUrl.baseUrl}/api/v1/students/${studentId}`, {
       headers: {
-        Authorization: 'Bearer ' + localStorage.getItem("access_token"),
+        Authorization: getAuthHeader(),
         'ngrok-skip-browser-warning': 'true'
       }
     });

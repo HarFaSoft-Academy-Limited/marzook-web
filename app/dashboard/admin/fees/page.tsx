@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { getStudentPayments } from "@/services/payments";
 import { Button } from "@/components/ui/button"
-import { FeeSchedule, FeeStructure, AcademicSession, Class, Section } from "./fee-structure";
+// import { FeeSchedule, FeeStructure, AcademicSession, Class, Section } from "./fee-structure";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -60,20 +60,20 @@ export default function FeesPage() {
       setSections(sectionsData);
       setPayments(studentPayments);
 
-      const currentSession = sessions.find(session => session.current);
+      const currentSession = sessions.find((session:any) => session.current);
       if (currentSession) {
         let totalExpected = 0;
         let totalCollected = 0;
 
-       structures.lenght  > 0 && structures.forEach(fs => {
+       structures.lenght  > 0 && structures.forEach((fs:any) => {
           if (fs.academic_session_id === currentSession.id) {
             totalExpected += parseFloat(fs.amount);
           }
         });
 
-        studentPayments.forEach(payment => {
+        studentPayments.forEach((payment:any) => {
           // Assuming payment.fee_structure_id links to feeStructures
-          const feeStructure = structures.length > 0 && structures.find(fs => fs.id === payment.fee_structure_id);
+          const feeStructure = structures.length > 0 && structures.find((fs:any) => fs.id === payment.fee_structure_id);
           if (feeStructure && feeStructure.academic_session_id === currentSession.id) {
             totalCollected += parseFloat(payment.amount_paid);
           }
@@ -246,7 +246,7 @@ export default function FeesPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {payments.length > 0 && payments.map((payment) => (
+                    {payments.length > 0 && payments.map((payment: any) => (
                       <TableRow key={payment.id}>
                         <TableCell>{payment.id}</TableCell>
                         <TableCell className="font-medium">{payment?.student?.first_name} {payment?.student?.last_name}</TableCell>
@@ -303,12 +303,12 @@ export default function FeesPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {payments.length > 0 && payments.filter(payment => {
+                    {payments.length > 0 && payments.filter((payment: any) => {
                       const feeStructure = feeStructures.length > 0 && feeStructures.find(fs => fs.id === payment.fee_structure_id);
                       const currentSession = academicSessions.length > 0 && academicSessions.find(session => session.current);
                       return feeStructure && currentSession && feeStructure.academic_session_id === currentSession.id && payment.amount_paid < feeStructure.amount;
-                    }).map((payment) => {
-                      const feeStructure = feeStructures.find(fs => fs.id === payment.fee_structure_id);
+                    }).map((payment: any) => {
+                      const feeStructure:any = feeStructures.find((fs:any) => fs.id === payment.fee_structure_id);
                       const outstanding = parseFloat(feeStructure?.amount || '0') - payment.amount_paid;
                       return (
                         <TableRow key={payment.id}>

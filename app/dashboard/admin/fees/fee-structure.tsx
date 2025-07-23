@@ -95,9 +95,9 @@ import { Settings } from "lucide-react"
 
 export function FeeStructureDialog() {
   const [open, setOpen] = useState(false);
-  const [feeSchedules, setFeeSchedules] = useState([]);
+  const [feeSchedules, setFeeSchedules] = useState<any>([]);
   const [feeStructures, setFeeStructures] = useState([]);
-  const [academicSessions, setAcademicSessions] = useState([]);
+  const [academicSessions, setAcademicSessions] = useState<any>([]);
   const [classes, setClasses] = useState([]);
   const [sections, setSections] = useState([]);
 
@@ -136,19 +136,19 @@ export function FeeStructureDialog() {
         <div className="py-4">
           <Tabs defaultValue="primary" className="w-full">
             <TabsList className="grid w-full grid-cols-4">
-              {sections.map((section) => (
+              {sections.map((section: any) => (
                 <TabsTrigger key={section.id} value={section.name.toLowerCase()}>
                   {section.name}
                 </TabsTrigger>
               ))}
             </TabsList>
-            {sections.map((section) => (
+            {sections.map((section: any) => (
               <TabsContent value={section.name.toLowerCase()} className="mt-4" key={section.id}>
                 <Card>
                   <CardHeader>
                     <CardTitle>{section.name} Section Fee Structure</CardTitle>
                     {academicSessions.length > 0 && (
-                      <CardDescription>{academicSessions.find(session => session.current)?.name} Academic Session</CardDescription>
+                      <CardDescription>{academicSessions.find((session: any) => session.current)?.name} Academic Session</CardDescription>
                     )}
                   </CardHeader>
                   <CardContent>
@@ -157,24 +157,24 @@ export function FeeStructureDialog() {
                         <TableRow>
                           <TableHead>Fee Item</TableHead>
                           {classes
-                            .filter((cls) => cls.section_id === section.id)
-                            .map((cls) => (
+                            .filter((cls: any) => cls.section_id === section.id)
+                            .map((cls:any) => (
                               <TableHead key={cls.id}>{cls.name}</TableHead>
                             ))}
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {feeSchedules.length > 0 && feeSchedules.map((schedule) => (
+                        {feeSchedules.length > 0 && feeSchedules.map((schedule: any) => (
                           <TableRow key={schedule.id}>
                             <TableCell className="font-medium">{schedule.name}</TableCell>
                             {classes
-                              .filter((cls) => cls.section_classes.filter((section) => section.section_id === section.id))
-                              .map((cls) => {
-                                const fee = feeStructures.length > 0 && feeStructures.find(
-                                  (fs) =>
+                              .filter((cls: any) => cls.section_classes.filter((section: any) => section.section_id === section.id))
+                              .map((cls: any) => {
+                                const fee: any = feeStructures.length > 0 && feeStructures.find(
+                                  (fs: any) =>
                                     fs.fee_schedule_id === schedule.id &&
                                     fs.school_class_id === cls.id &&
-                                    fs.academic_session_id === academicSessions.find(session => session.current)?.id
+                                    fs.academic_session_id === academicSessions.find((session: any) => session.current)?.id
                                 );
                                 return <TableCell key={cls.id}>{fee ? `₦${parseFloat(fee.amount).toLocaleString()}` : "-"}</TableCell>;
                               })}
@@ -183,16 +183,16 @@ export function FeeStructureDialog() {
                         <TableRow>
                           <TableCell className="font-medium font-bold">Total (Required Fees)</TableCell>
                           {classes
-                            .filter((cls) => cls.section_id === section.id)
-                            .map((cls) => {
+                            .filter((cls: any) => cls.section_id === section.id)
+                            .map((cls: any) => {
                               const total = feeStructures
                                 .filter(
-                                  (fs) =>
+                                  (fs: any) =>
                                     fs.class_id === cls.id &&
-                                    fs.academic_session_id === academicSessions.find(session => session.current)?.id &&
-                                    feeSchedules.find(s => s.id === fs.fee_schedule_id)?.is_mandatory
+                                    fs.academic_session_id === academicSessions.find((session: any) => session.current)?.id &&
+                                    feeSchedules.find((s: any) => s.id === fs.fee_schedule_id)?.is_mandatory
                                 )
-                                .reduce((sum, fs) => sum + parseFloat(fs.amount), 0);
+                                .reduce((sum, fs:any) => sum + parseFloat(fs.amount), 0);
                               return <TableCell key={cls.id} className="font-bold">₦{total.toLocaleString()}</TableCell>;
                             })}
                         </TableRow>

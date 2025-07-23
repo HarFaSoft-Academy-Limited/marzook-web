@@ -57,12 +57,12 @@ const formSchema = z.object({
   notes: z.string().optional(),
 });
 
-export function AddPaymentDialog({setReload, reload}) {
+export function AddPaymentDialog({setReload, reload}:any) {
   const [open, setOpen] = useState(false);
-  const [students, setStudents] = useState([]);
+  const [students, setStudents] = useState<any>([]);
   const [feeStructures, setFeeStructures] = useState([]);
   const [academicSessions, setAcademicSessions] = useState([]);
-  const [selectedSession, setSelectedSession] = useState(null);
+  const [selectedSession, setSelectedSession] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -139,9 +139,9 @@ export function AddPaymentDialog({setReload, reload}) {
                           >
                             {field.value
                               ? students.find(
-                                  (student) => String(student.id) === field.value
+                                  (student: any) => String(student.id) === field.value
                                 )?.first_name + ' ' + students.find(
-                                    (student) => String(student.id) === field.value
+                                    (student: any) => String(student.id) === field.value
                                   )?.last_name
                               : "Select student"}
                             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -153,7 +153,7 @@ export function AddPaymentDialog({setReload, reload}) {
                           <CommandInput placeholder="Search student..." />
                           <CommandEmpty>No student found.</CommandEmpty>
                           <CommandGroup>
-                            {students.map((student) => (
+                            {students.map((student:any) => (
                               <CommandItem
                                 value={student.first_name + ' ' + student.last_name}
                                 key={student.id}
@@ -198,7 +198,7 @@ export function AddPaymentDialog({setReload, reload}) {
                   <Select
                     onValueChange={(value) => {
                       field.onChange(value);
-                      const selectedFeeStructure = feeStructures.find(
+                      const selectedFeeStructure: any = feeStructures.find(
                         (fs: any) => String(fs.id) === value
                       );
                       if (selectedFeeStructure) {

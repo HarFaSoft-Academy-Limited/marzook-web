@@ -15,6 +15,9 @@ import { getClasses } from "@/services/class";
 import { getStudents } from "@/services/student";
 import { getSubjects } from "@/services/subject";
 import { getAcademicSessions } from "@/services/fees";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { ChevronsUpDown } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { sub } from "date-fns";
 
@@ -24,11 +27,11 @@ export default function ExamResultsPage() {
   const [reload, setReload] = useState(false);
   const [academicSessions, setAcademicSessions] = useState([]);
   const [classes, setClasses] = useState([]);
-  const [students, setStudents] = useState([]);
+  const [students, setStudents] = useState<any>([]);
   const [subjects, setSubjects] = useState([]);
   const [selectedSession, setSelectedSession] = useState("");
   const [selectedClass, setSelectedClass] = useState("");
-  const [selectedStudent, setSelectedStudent] = useState("");
+  const [selectedStudent, setSelectedStudent] = useState<any>("");
   const [selectedSubject, setSelectedSubject] = useState("");
   const [selectedExam, setSelectedExam] = useState("");
 
@@ -88,19 +91,47 @@ export default function ExamResultsPage() {
                 ))}
               </SelectContent>
             </Select>
-            <Select onValueChange={setSelectedStudent} value={selectedStudent}>
-              <SelectTrigger className="w-full md:w-[180px]">
-                <SelectValue placeholder="Filter by Student" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Students</SelectItem>
-                {students.length > 0 && students.map((student: any) => (
-                  <SelectItem key={student.id} value={String(student.id)}>
-                    {student.first_name} {student.last_name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  className="w-full md:w-[180px] justify-between"
+                >
+                  {selectedStudent
+                    ? students.find((student: any) => String(student.id) === selectedStudent)?.first_name + " " + students.find((student: any) => String(student.id) === selectedStudent)?.last_name
+                    : "Select student"}
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-full md:w-[180px] p-0">
+                <Command>
+                  <CommandInput placeholder="Search student..." />
+                  <CommandEmpty>No student found.</CommandEmpty>
+                  <CommandGroup>
+                    <CommandItem
+                      value="all"
+                      onSelect={() => {
+                        setSelectedStudent("");
+                      }}
+                    >
+                      All Students
+                    </CommandItem>
+                    {students.map((student: any) => (
+                      <CommandItem
+                        value={student.first_name + " " + student.last_name}
+                        key={student.id}
+                        onSelect={() => {
+                          setSelectedStudent(String(student.id));
+                        }}
+                      >
+                        {student.first_name} {student.last_name} - {student.admission_no}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </Command>
+              </PopoverContent>
+            </Popover>
             <Select onValueChange={setSelectedSubject} value={selectedSubject}>
               <SelectTrigger className="w-full md:w-[180px]">
                 <SelectValue placeholder="Filter by Subject" />

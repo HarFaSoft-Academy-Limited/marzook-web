@@ -19,7 +19,7 @@ import { UserPlus } from "lucide-react"
 
 import { updateStudent } from "@/services/student";
 
-export function EditStudentDialog({ student, hideModal, showModal }) {
+export function EditStudentDialog({ student, hideModal, showModal }: any) {
   const [open, setOpen] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
