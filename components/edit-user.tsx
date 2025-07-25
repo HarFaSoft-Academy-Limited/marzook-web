@@ -21,7 +21,7 @@ import axios from "axios"
 
 
 
-export function EditDialog({user, subjects, hideModal,  showModal}) {
+export function EditDialog({user, hideModal,  showModal}) {
 
 
   const [open, setOpen] = useState(false)
@@ -34,7 +34,6 @@ export function EditDialog({user, subjects, hideModal,  showModal}) {
     username: user?.username,
     password: "",
     sections: user?.sections.map((s) => s.id),
-    subjects: user?.subjects.map((s) => s.id),
     address: user?.address,
     gender: user?.gender,
     date_of_birth: user?.date_of_birth,
@@ -65,9 +64,7 @@ export function EditDialog({user, subjects, hideModal,  showModal}) {
 
 useEffect(() => {
   const section  = []
-  const  subject = []
   user?.sections.map((s) => section.push(s.id))
-  user?.subjects.map((s) => subject.push(s.id))
   
 
 setFormData({
@@ -77,7 +74,6 @@ setFormData({
   username: user?.username,
   password: "",
   sections: section,
-  subjects: subject,
   address: user?.address,
   gender: user?.gender,
   date_of_birth: user?.date_of_birth,
@@ -344,30 +340,7 @@ console.log({user})
                           ))}
                         </div>
                       </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="section">Subjects</Label>
-                        <div className="grid grid-cols-2 gap-2 pt-1">
-                          {subjects.length > 0 && subjects.map((sub) => (
-                            <div key={sub.id} className="flex items-center space-x-2">
-                            <Checkbox
-                              id={sub.name}
-                              checked={formData?.subjects?.includes(sub.id)}
-                              onCheckedChange={(checked) => {
-                                setFormData((prev) => ({
-                                  ...prev,
-                                  subjects: checked
-                                    ? [...prev.subjects, sub.id]
-                                    : prev.subjects.filter((id) => id !== sub.id),
-                                }));
-                              }}
-                            />
-                              <label htmlFor={sub.name} className="text-sm">
-                                {sub.name}
-                              </label>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
+                      
                 {/* <div className="space-y-2">
                   <Label htmlFor="form-class">Form Class (if Form Teacher)</Label>
                   <Select disabled>

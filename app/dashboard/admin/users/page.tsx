@@ -9,13 +9,14 @@ import DashboardLayout from "@/components/dashboard-layout"
 import { Download, Edit, MoreHorizontal, Search, Trash2 } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { AddUserDialog } from "@/components/add-user-dialog"
-import { EditDialog } from "@/components/edit-user"
+import { EditDialog } from "@/components/edit-user";
 import { getParents, deleteParent } from "@/services/parent";
 import { AddParentDialog } from "@/components/add-parent-dialog";
 import { EditParentDialog } from "@/components/edit-parent-dialog";
-import { useEffect, useState } from "react"
-import axios from "axios"
-import { customBaseUrl } from "@/services/http"
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { customBaseUrl } from "@/services/http";
+import Link from "next/link";
 
 export default function UsersPage() {
   type Staff = {
@@ -58,7 +59,7 @@ export default function UsersPage() {
       };
     }[];
   };
-  type Subject  = {
+  type Subject = {
     id: number;
     name: string;
     code: string;
@@ -71,7 +72,7 @@ export default function UsersPage() {
     user: {
       name: string;
       email: string;
-    }
+    };
   };
 
   const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -85,17 +86,14 @@ export default function UsersPage() {
   const [editParentDialogOpen, setEditParentDialogOpen] = useState(false);
   const [selectedParent, setSelectedParent] = useState<Parent | null>(null);
 
-
-  const getStaff = async () =>  {
-    try{
-      const res  = await axios.get(`${customBaseUrl.baseUrl}/api/v1/staff`,
-        {
-          headers: {
-            Authorization: 'Bearer '+ localStorage.getItem("access_token"),
-            'ngrok-skip-browser-warning': 'true' 
-          }
-        }
-      )
+  const getStaff = async () => {
+    try {
+      const res = await axios.get(`${customBaseUrl.baseUrl}/api/v1/staff`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+          "ngrok-skip-browser-warning": "true",
+        },
+      });
       if (res.status === 200) {
         setStaff(res.data.data);
       } else {
@@ -105,18 +103,18 @@ export default function UsersPage() {
       console.error("Error fetching staff data:", error);
       // Handle error appropriately, e.g., show a notification or alert
     }
-  }
+  };
 
   const getAllUsers = async () => {
     try {
       const res = await axios.get(`${customBaseUrl.baseUrl}/api/v1/users`, {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem("access_token"),
-          'ngrok-skip-browser-warning': 'true'
-        }
-      })
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+          "ngrok-skip-browser-warning": "true",
+        },
+      });
       if (res.status === 200) {
-        console.log('>>>>>>>><<<<<<<<<',res.data.data.data);
+        console.log(">>>>>>>><<<<<<<<<", res.data.data.data);
         setAllUsersData(res.data.data.data);
       } else {
         console.error("Failed to fetch all users data:", res.statusText);
@@ -124,33 +122,35 @@ export default function UsersPage() {
     } catch (error) {
       console.error("Error fetching all users data:", error);
     }
-  }
+  };
 
-      const fetchSubjects = async () => {
-        try {
-          const res = await axios.get(`${customBaseUrl.baseUrl}/api/v1/subjects`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            },
-          })
-          console.log('kkkkkkkkkkk',res.data.data);
-          setSubjects(res.data.data.data)
-        } catch (error) {
-          console.error("Error fetching subjects:", error)
+  const fetchSubjects = async () => {
+    try {
+      const res = await axios.get(
+        `${customBaseUrl.baseUrl}/api/v1/subjects`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
         }
-      }
+      );
+      console.log("kkkkkkkkkkk", res.data.data);
+      setSubjects(res.data.data.data);
+    } catch (error) {
+      console.error("Error fetching subjects:", error);
+    }
+  };
 
   const fetchParents = async () => {
     const parentsData = await getParents();
     setParents(parentsData);
   };
 
-  useEffect(() =>  {
+  useEffect(() => {
     getStaff();
     getAllUsers();
     fetchSubjects();
     fetchParents();
-
   }, []);
 
   const handleDeleteParent = async (parentId: any) => {
@@ -163,22 +163,30 @@ export default function UsersPage() {
     }
   };
 
-
   return (
     <DashboardLayout userType="admin">
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold tracking-tight">User Management</h1>
+          <h1 className="text-2xl font-bold tracking-tight">
+            User Management
+          </h1>
           <div className="flex gap-2">
             <AddUserDialog subjects={subjects} />
-            <Button onClick={() => setAddParentDialogOpen(true)}>Add Parent</Button>
+            <Button onClick={() => setAddParentDialogOpen(true)}>
+              Add Parent
+            </Button>
           </div>
         </div>
 
         <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
           <div className="relative w-full md:w-80">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input type="search" onChange={(e) => setSearchWord(e.target.value)} placeholder="Search users..." className="w-full pl-8" />
+            <Input
+              type="search"
+              onChange={(e) => setSearchWord(e.target.value)}
+              placeholder="Search users..."
+              className="w-full pl-8"
+            />
           </div>
           {/* <div className="flex gap-2 w-full md:w-auto" hidden>
             <Select defaultValue="all">
@@ -234,44 +242,52 @@ export default function UsersPage() {
                   <TableBody>
                     {allUsersData.length > 0 &&
                       allUsersData
-                      ?.filter(
-                        (user) =>
-                          user?.name.toLowerCase().includes(searchWord.toLowerCase()) ||
-                          user.email.toLowerCase().includes(searchWord.toLowerCase())
-                      )
-                      .map((user) => (
-                        <TableRow key={user.email}>
-                          <TableCell className="font-medium">{user.name}</TableCell>
-                          <TableCell>{user?.email}</TableCell>
-                          <TableCell>{user?.roles[0]?.name || "N/A"}</TableCell>
-                          <TableCell>{"N/A"}</TableCell>
-                          <TableCell>
-                            <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-800">
-                              {user.status ?? "Active"}
-                            </span>
-                          </TableCell>
-                          <TableCell className="text-right" hidden>
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon">
-                                  <MoreHorizontal className="h-4 w-4" />
-                                  <span className="sr-only">Open menu</span>
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
-                                <DropdownMenuItem>
-                                  <Edit className="mr-2 h-4 w-4" />
-                                  Edit
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                  <Trash2 className="mr-2 h-4 w-4" />
-                                  Delete
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </TableCell>
-                        </TableRow>
-                      ))}
+                        ?.filter(
+                          (user) =>
+                            user?.name
+                              .toLowerCase()
+                              .includes(searchWord.toLowerCase()) ||
+                            user.email
+                              .toLowerCase()
+                              .includes(searchWord.toLowerCase())
+                        )
+                        .map((user) => (
+                          <TableRow key={user.email}>
+                            <TableCell className="font-medium">
+                              {user.name}
+                            </TableCell>
+                            <TableCell>{user?.email}</TableCell>
+                            <TableCell>
+                              {user?.roles[0]?.name || "N/A"}
+                            </TableCell>
+                            <TableCell>{"N/A"}</TableCell>
+                            <TableCell>
+                              <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-800">
+                                {user.status ?? "Active"}
+                              </span>
+                            </TableCell>
+                            <TableCell className="text-right" hidden>
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button variant="ghost" size="icon">
+                                    <MoreHorizontal className="h-4 w-4" />
+                                    <span className="sr-only">Open menu</span>
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                  <DropdownMenuItem>
+                                    <Edit className="mr-2 h-4 w-4" />
+                                    Edit
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem>
+                                    <Trash2 className="mr-2 h-4 w-4" />
+                                    Delete
+                                  </DropdownMenuItem>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </TableCell>
+                          </TableRow>
+                        ))}
                   </TableBody>
                 </Table>
               </CardContent>
@@ -318,51 +334,55 @@ export default function UsersPage() {
                         user.user.email.toLowerCase().includes(searchWord.toLowerCase())
                       )
                       .map((user) => (
-                      <TableRow key={user?.email}>
-                        <TableCell className="font-medium">{user.user.name}</TableCell>
-                        <TableCell>{user.user.email}</TableCell>
-                        <TableCell>{user.designation}</TableCell>
-                        <TableCell>
-                        {user.sections.map((e) => (
-                          <span
-                          key={e.id}
-                          className="inline-block mr-1 px-2 py-1 bg-blue-100 text-blue-800 rounded"
-                          >
-                          {e.name}
-                          </span>
-                        ))}
-                        </TableCell>
-                        <TableCell>
-                        <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-800">
-                          {user.status ?? "N/A"}
-                        </span>
-                        </TableCell>
-                        <TableCell className="text-right">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon">
-                            <MoreHorizontal className="h-4 w-4" />
-                            <span className="sr-only">Open menu</span>
-                          </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                          <DropdownMenuItem
-                            onClick={() => {
-                            setSelectedUser(user);
-                            setEditDialogOpen(true);
-                            }}
-                          >
-                            <Edit className="mr-2 h-4 w-4" />
-                            Edit
-                          </DropdownMenuItem>
-                          <DropdownMenuItem>
-                            <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
-                          </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                        </TableCell>
-                      </TableRow>
+                        <TableRow key={user?.email}>
+                          <TableCell className="font-medium">
+                            <Link href={`/dashboard/admin/users/staff/${user.id}`}>
+                              {user.user.name}
+                            </Link>
+                          </TableCell>
+                          <TableCell>{user.user.email}</TableCell>
+                          <TableCell>{user.designation}</TableCell>
+                          <TableCell>
+                            {user.sections.map((e) => (
+                              <span
+                                key={e.id}
+                                className="inline-block mr-1 px-2 py-1 bg-blue-100 text-blue-800 rounded"
+                              >
+                                {e.name}
+                              </span>
+                            ))}
+                          </TableCell>
+                          <TableCell>
+                            <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-800">
+                              {user.status ?? "N/A"}
+                            </span>
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="icon">
+                                  <MoreHorizontal className="h-4 w-4" />
+                                  <span className="sr-only">Open menu</span>
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuItem
+                                  onClick={() => {
+                                    setSelectedUser(user);
+                                    setEditDialogOpen(true);
+                                  }}
+                                >
+                                  <Edit className="mr-2 h-4 w-4" />
+                                  Edit
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                  <Trash2 className="mr-2 h-4 w-4" />
+                                  Delete
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </TableCell>
+                        </TableRow>
                       ))}
                   </TableBody>
                 </Table>
@@ -437,7 +457,6 @@ export default function UsersPage() {
           hideModal={setEditDialogOpen}
           showModal={editDialogOpen}
           user={selectedUser}
-          subjects={subjects}
         />
     </DashboardLayout>
   )

@@ -1488,3 +1488,31 @@
         "total": 1
     }
 }
+
+{
+    "id": 3,
+    "staff_id": 5,
+    "for_month": "2025-01-01",
+    "basic_salary": 100000,
+    "allowances": 20000,
+    "deductions": "1000.00",
+    "net_pay": 119000,
+    "created_at": "2025-07-25T14:11:30.000000Z",
+    "updated_at": "2025-07-25T23:41:21.000000Z",
+    "staff": {
+        "id": 5,
+        "user_id": 6,
+        "email": "umar.ibrahim@school.com",
+        "phone": "08123456793",
+        "address": "123 Main St, Anytown, USA",
+        "gender": "Male",
+        "date_of_birth": "01-01-1990",
+        "nationality": "American",
+        "religion": "Islam",
+        "marital_status": "Single",
+        "photo": "https://api.harfasoftacademy.com.ng/storage/https://via.placeholder.com/150",
+        "designation": "School Accountant",
+        "created_at": "2025-07-21T08:00:25.000000Z",
+        "updated_at": "2025-07-21T08:00:25.000000Z"
+    }
+}
