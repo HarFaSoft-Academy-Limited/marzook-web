@@ -14,7 +14,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import DashboardLayout from "@/components/dashboard-layout"
+import DashboardLayout from "@/components/dashboard-layout";
+import { AddDeductionDialog } from "@/components/add-deduction-dialog";
 
 
 const PayrollPage = () => {
@@ -23,24 +24,25 @@ const PayrollPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isAddDeductionDialogOpen, setIsAddDeductionDialogOpen] = useState(false);
   const perPage = 15;
 
-  useEffect(() => {
-    const fetchDeductions = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await getStaffDeductions(currentPage, perPage);
-        setDeductions(response.data);
-        setTotalPages(response.totalPages);
-      } catch (err) {
-        setError("Failed to fetch deductions. Please try again.");
-        console.error("Error fetching deductions:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchDeductions = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await getStaffDeductions(currentPage, perPage);
+      setDeductions(response.data);
+      setTotalPages(response.totalPages);
+    } catch (err) {
+      setError("Failed to fetch deductions. Please try again.");
+      console.error("Error fetching deductions:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchDeductions();
   }, [currentPage]);
 
@@ -52,15 +54,22 @@ const PayrollPage = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };
 
+  const handleAddDeductionSuccess = () => {
+    fetchDeductions(); // Re-fetch deductions after a successful addition
+  };
+
   return (
     <DashboardLayout userType="admin">
     <div className="space-y-6">
       <Card>
-        <CardHeader>
-          <CardTitle>Staff Payroll Deductions</CardTitle>
-          <CardDescription>
-            A comprehensive list of all staff payroll deductions.
-          </CardDescription>
+        <CardHeader className="flex flex-row justify-between items-center">
+          <div>
+            <CardTitle>Staff Payroll Deductions</CardTitle>
+            <CardDescription>
+              A comprehensive list of all staff payroll deductions.
+            </CardDescription>
+          </div>
+          <Button onClick={() => setIsAddDeductionDialogOpen(true)}>Add Deduction</Button>
         </CardHeader>
         <CardContent>
           {loading ? (
@@ -80,22 +89,20 @@ const PayrollPage = () => {
                   <TableRow>
                     <TableHead>Staff Name</TableHead>
                     <TableHead>Deduction Type</TableHead>
-                    <TableHead>Designation</TableHead>
                     <TableHead>Amount</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Status</TableHead>
+                    <TableHead>For Month</TableHead>
+                    <TableHead>Created At</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {deductions.length > 0 ? (
                     deductions.map((deduction) => (
                       <TableRow key={deduction.id}>
-                        <TableCell>{deduction.staff.email}</TableCell>
+                        <TableCell>{deduction.staff.name}</TableCell>
                         <TableCell>{deduction.type}</TableCell>
-                        <TableCell>{deduction.staff.designation}</TableCell>
                         <TableCell>{deduction.amount}</TableCell>
-                        <TableCell>{new Date(deduction.date).toLocaleDateString()}</TableCell>
-                        <TableCell>{deduction.status}</TableCell>
+                        <TableCell>{deduction.for_month}</TableCell>
+                        <TableCell>{new Date(deduction.created_at).toLocaleDateString()}</TableCell>
                       </TableRow>
                     ))
                   ) : (
@@ -125,6 +132,11 @@ const PayrollPage = () => {
           )}
         </CardContent>
       </Card>
+      <AddDeductionDialog
+        isOpen={isAddDeductionDialogOpen}
+        onClose={() => setIsAddDeductionDialogOpen(false)}
+        onSuccess={handleAddDeductionSuccess}
+      />
     </div>
     </DashboardLayout>
   );
