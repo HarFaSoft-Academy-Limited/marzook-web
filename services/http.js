@@ -2,7 +2,10 @@ import axios from 'axios';
 import envConfig from './envConfig';
 
 
-let { baseUrl } = envConfig;
+let { baseUrl, clientId, clientType } = envConfig;
+
+const CLIENT_ID = clientId;
+const CLIENT_TYPE = clientType;
 
 const authUrl = `${baseUrl}/auth-service`; // http://157.245.84.14:1000
 

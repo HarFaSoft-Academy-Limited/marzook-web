@@ -21,6 +21,7 @@ import {
   User,
   Users,
   X,
+  DollarSign,
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -47,6 +48,7 @@ export default function DashboardLayout({ children, userType }: DashboardLayoutP
     { name: "Classes", href: "/dashboard/admin/classes", icon: BookOpen },
     { name: "Academic Records", href: "/dashboard/admin/academic-records", icon: BookOpen },
     { name: "Fees & Payments", href: "/dashboard/admin/fees", icon: CreditCard },
+    { name: "Payroll", href: "/dashboard/admin/payroll", icon: DollarSign },
     { name: "Exam Results", href: "/dashboard/admin/exam-results", icon: FileText },
     { name: "Communication", href: "/dashboard/admin/communication", icon: MessageSquare },
     { name: "Reports", href: "/dashboard/admin/reports", icon: FileText },
