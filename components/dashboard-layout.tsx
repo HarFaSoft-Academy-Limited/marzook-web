@@ -44,6 +44,7 @@ export default function DashboardLayout({ children, userType }: DashboardLayoutP
   const adminNavItems = [
     { name: "Dashboard", href: "/dashboard/admin", icon: Home },
     { name: "Users", href: "/dashboard/admin/users", icon: Users },
+    { name: "Staff", href: "/dashboard/admin/staff", icon: Users },
     { name: "Students", href: "/dashboard/admin/students", icon: User },
     { name: "Classes", href: "/dashboard/admin/classes", icon: BookOpen },
     // { name: "Academic Records", href: "/dashboard/admin/academic-records", icon: BookOpen },
