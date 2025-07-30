@@ -34,3 +34,18 @@ export const createStaffDeduction = async (deductionData) => {
     throw error;
   }
 };
+
+export const generatePayroll = async (payrollData) => {
+  try {
+    const response = await axios.post(`${customBaseUrl.baseUrl}/api/v1/payroll/voucher`, payrollData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Failed to generate payroll:", error);
+    throw error;
+  }
+};

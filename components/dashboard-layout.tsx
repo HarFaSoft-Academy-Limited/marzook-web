@@ -46,7 +46,7 @@ export default function DashboardLayout({ children, userType }: DashboardLayoutP
     { name: "Users", href: "/dashboard/admin/users", icon: Users },
     { name: "Students", href: "/dashboard/admin/students", icon: User },
     { name: "Classes", href: "/dashboard/admin/classes", icon: BookOpen },
-    { name: "Academic Records", href: "/dashboard/admin/academic-records", icon: BookOpen },
+    // { name: "Academic Records", href: "/dashboard/admin/academic-records", icon: BookOpen },
     { name: "Fees & Payments", href: "/dashboard/admin/fees", icon: CreditCard },
     { name: "Payroll", href: "/dashboard/admin/payroll", icon: DollarSign },
     { name: "Exam Results", href: "/dashboard/admin/exam-results", icon: FileText },

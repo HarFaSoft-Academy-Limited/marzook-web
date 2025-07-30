@@ -1516,3 +1516,1575 @@
         "updated_at": "2025-07-21T08:00:25.000000Z"
     }
 }
+
+{
+    "data": [
+        {
+            "id": 1,
+            "first_name": "Aisha",
+            "last_name": "Bello",
+            "other_name": "Fatima",
+            "full_name": "Aisha Bello Fatima",
+            "admission_no": "STU001",
+            "gender": "Female",
+            "date_of_birth": "15th Mar 2010",
+            "nationality": "Nigerian",
+            "religion": "Islam",
+            "address": "Barnawa Kaduna",
+            "photo": null,
+            "previous_school_attended": "",
+            "relationship": "Parent",
+            "status": "",
+            "created_at": "25th Jul 2025",
+            "updated_at": "25th Jul 2025",
+            "parent": {
+                "id": 1,
+                "name": "Umaru Bello",
+                "phone": "08123456789",
+                "email": "umaru.bello@example.com",
+                "address": "Barnawa Kaduna",
+                "occupation": "Engineer",
+                "gender": "Male"
+            },
+            "classes": [
+                {
+                    "id": 1,
+                    "student_id": 1,
+                    "school_class_id": 2,
+                    "section_id": 6,
+                    "academic_session_id": 2,
+                    "created_by": 7,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 2 - Primary Section",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "STU001",
+                        "class": "JSS 2",
+                        "section": "Primary Section",
+                        "session": "2025 / 2026"
+                    }
+                },
+                {
+                    "id": 6,
+                    "student_id": 1,
+                    "school_class_id": 1,
+                    "section_id": 8,
+                    "academic_session_id": 1,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Senior Secondary Section",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "STU001",
+                        "class": "JSS 1",
+                        "section": "Senior Secondary Section",
+                        "session": "2024 / 2025"
+                    }
+                },
+                {
+                    "id": 11,
+                    "student_id": 1,
+                    "school_class_id": 1,
+                    "section_id": 7,
+                    "academic_session_id": 3,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Junior Secondary Section",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "STU001",
+                        "class": "JSS 1",
+                        "section": "Junior Secondary Section",
+                        "session": "2026 / 2027"
+                    }
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "first_name": "Hassan",
+            "last_name": "Ahmed",
+            "other_name": "Yusuf",
+            "full_name": "Hassan Ahmed Yusuf",
+            "admission_no": "STU002",
+            "gender": "Male",
+            "date_of_birth": "22nd Jul 2009",
+            "nationality": "Nigerian",
+            "religion": "Islam",
+            "address": "Ungwan Rimi Kaduna",
+            "photo": null,
+            "previous_school_attended": "",
+            "relationship": "Guardian",
+            "status": "",
+            "created_at": "25th Jul 2025",
+            "updated_at": "25th Jul 2025",
+            "parent": {
+                "id": 2,
+                "name": "Fatima Ahmed",
+                "phone": "08098765432",
+                "email": "fatima.ahmed@example.com",
+                "address": "Ungwan Rimi Kaduna",
+                "occupation": "Doctor",
+                "gender": "Female"
+            },
+            "classes": [
+                {
+                    "id": 2,
+                    "student_id": 2,
+                    "school_class_id": 3,
+                    "section_id": 4,
+                    "academic_session_id": 2,
+                    "created_by": 3,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 3 - Islamiyah",
+                    "student_class_info": {
+                        "student_name": "Hassan Ahmed",
+                        "admission_no": "STU002",
+                        "class": "JSS 3",
+                        "section": "Islamiyah",
+                        "session": "2025 / 2026"
+                    }
+                },
+                {
+                    "id": 7,
+                    "student_id": 2,
+                    "school_class_id": 1,
+                    "section_id": 6,
+                    "academic_session_id": 1,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Primary Section",
+                    "student_class_info": {
+                        "student_name": "Hassan Ahmed",
+                        "admission_no": "STU002",
+                        "class": "JSS 1",
+                        "section": "Primary Section",
+                        "session": "2024 / 2025"
+                    }
+                },
+                {
+                    "id": 12,
+                    "student_id": 2,
+                    "school_class_id": 1,
+                    "section_id": 9,
+                    "academic_session_id": 3,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Science Section",
+                    "student_class_info": {
+                        "student_name": "Hassan Ahmed",
+                        "admission_no": "STU002",
+                        "class": "JSS 1",
+                        "section": "Science Section",
+                        "session": "2026 / 2027"
+                    }
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "first_name": "Zainab",
+            "last_name": "Mohammed",
+            "other_name": "Aisha",
+            "full_name": "Zainab Mohammed Aisha",
+            "admission_no": "STU003",
+            "gender": "Female",
+            "date_of_birth": "8th Nov 2011",
+            "nationality": "Nigerian",
+            "religion": "Islam",
+            "address": "Nasarawa GRA Kaduna",
+            "photo": null,
+            "previous_school_attended": "",
+            "relationship": "Parent",
+            "status": "",
+            "created_at": "25th Jul 2025",
+            "updated_at": "25th Jul 2025",
+            "parent": {
+                "id": 3,
+                "name": "Yusuf Mohammed",
+                "phone": "07012345678",
+                "email": "yusuf.mohammed@example.com",
+                "address": "Nasarawa GRA Kaduna",
+                "occupation": "Teacher",
+                "gender": "Male"
+            },
+            "classes": [
+                {
+                    "id": 3,
+                    "student_id": 3,
+                    "school_class_id": 4,
+                    "section_id": 3,
+                    "academic_session_id": 2,
+                    "created_by": 11,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "SSS 1 - Secondary",
+                    "student_class_info": {
+                        "student_name": "Zainab Mohammed",
+                        "admission_no": "STU003",
+                        "class": "SSS 1",
+                        "section": "Secondary",
+                        "session": "2025 / 2026"
+                    }
+                },
+                {
+                    "id": 8,
+                    "student_id": 3,
+                    "school_class_id": 1,
+                    "section_id": 10,
+                    "academic_session_id": 1,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Arts Section",
+                    "student_class_info": {
+                        "student_name": "Zainab Mohammed",
+                        "admission_no": "STU003",
+                        "class": "JSS 1",
+                        "section": "Arts Section",
+                        "session": "2024 / 2025"
+                    }
+                },
+                {
+                    "id": 13,
+                    "student_id": 3,
+                    "school_class_id": 1,
+                    "section_id": 10,
+                    "academic_session_id": 3,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Arts Section",
+                    "student_class_info": {
+                        "student_name": "Zainab Mohammed",
+                        "admission_no": "STU003",
+                        "class": "JSS 1",
+                        "section": "Arts Section",
+                        "session": "2026 / 2027"
+                    }
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "first_name": "Omar",
+            "last_name": "Ibrahim",
+            "other_name": "Musa",
+            "full_name": "Omar Ibrahim Musa",
+            "admission_no": "STU004",
+            "gender": "Male",
+            "date_of_birth": "12th May 2008",
+            "nationality": "Nigerian",
+            "religion": "Islam",
+            "address": "Malali Kaduna",
+            "photo": null,
+            "previous_school_attended": "",
+            "relationship": "Guardian",
+            "status": "",
+            "created_at": "25th Jul 2025",
+            "updated_at": "25th Jul 2025",
+            "parent": {
+                "id": 4,
+                "name": "Aisha Ibrahim",
+                "phone": "09087654321",
+                "email": "aisha.ibrahim@example.com",
+                "address": "Malali Kaduna",
+                "occupation": "Business Owner",
+                "gender": "Female"
+            },
+            "classes": [
+                {
+                    "id": 4,
+                    "student_id": 4,
+                    "school_class_id": 5,
+                    "section_id": 2,
+                    "academic_session_id": 2,
+                    "created_by": 4,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "SSS 2 - Primary",
+                    "student_class_info": {
+                        "student_name": "Omar Ibrahim",
+                        "admission_no": "STU004",
+                        "class": "SSS 2",
+                        "section": "Primary",
+                        "session": "2025 / 2026"
+                    }
+                },
+                {
+                    "id": 9,
+                    "student_id": 4,
+                    "school_class_id": 1,
+                    "section_id": 1,
+                    "academic_session_id": 1,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Nursery",
+                    "student_class_info": {
+                        "student_name": "Omar Ibrahim",
+                        "admission_no": "STU004",
+                        "class": "JSS 1",
+                        "section": "Nursery",
+                        "session": "2024 / 2025"
+                    }
+                },
+                {
+                    "id": 14,
+                    "student_id": 4,
+                    "school_class_id": 1,
+                    "section_id": 4,
+                    "academic_session_id": 3,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Islamiyah",
+                    "student_class_info": {
+                        "student_name": "Omar Ibrahim",
+                        "admission_no": "STU004",
+                        "class": "JSS 1",
+                        "section": "Islamiyah",
+                        "session": "2026 / 2027"
+                    }
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "first_name": "Fatima",
+            "last_name": "Abdullahi",
+            "other_name": "Hassan",
+            "full_name": "Fatima Abdullahi Hassan",
+            "admission_no": "STU005",
+            "gender": "Female",
+            "date_of_birth": "30th Jan 2012",
+            "nationality": "Nigerian",
+            "religion": "Islam",
+            "address": "Kaduna South",
+            "photo": null,
+            "previous_school_attended": "",
+            "relationship": "Parent",
+            "status": "",
+            "created_at": "25th Jul 2025",
+            "updated_at": "25th Jul 2025",
+            "parent": {
+                "id": 5,
+                "name": "Musa Abdullahi",
+                "phone": "08187654321",
+                "email": "musa.abdullahi@example.com",
+                "address": "Kaduna South",
+                "occupation": "Civil Servant",
+                "gender": "Male"
+            },
+            "classes": [
+                {
+                    "id": 5,
+                    "student_id": 5,
+                    "school_class_id": 4,
+                    "section_id": 1,
+                    "academic_session_id": 2,
+                    "created_by": 9,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "SSS 1 - Nursery",
+                    "student_class_info": {
+                        "student_name": "Fatima Abdullahi",
+                        "admission_no": "STU005",
+                        "class": "SSS 1",
+                        "section": "Nursery",
+                        "session": "2025 / 2026"
+                    }
+                },
+                {
+                    "id": 10,
+                    "student_id": 5,
+                    "school_class_id": 1,
+                    "section_id": 2,
+                    "academic_session_id": 1,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Primary",
+                    "student_class_info": {
+                        "student_name": "Fatima Abdullahi",
+                        "admission_no": "STU005",
+                        "class": "JSS 1",
+                        "section": "Primary",
+                        "session": "2024 / 2025"
+                    }
+                },
+                {
+                    "id": 15,
+                    "student_id": 5,
+                    "school_class_id": 1,
+                    "section_id": 4,
+                    "academic_session_id": 3,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Islamiyah",
+                    "student_class_info": {
+                        "student_name": "Fatima Abdullahi",
+                        "admission_no": "STU005",
+                        "class": "JSS 1",
+                        "section": "Islamiyah",
+                        "session": "2026 / 2027"
+                    }
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "first_name": "Aisha",
+            "last_name": "Bello",
+            "other_name": "Fatima",
+            "full_name": "Aisha Bello Fatima",
+            "admission_no": "MDS0001",
+            "gender": "Female",
+            "date_of_birth": "15th Mar 2010",
+            "nationality": "Nigerian",
+            "religion": "Islam",
+            "address": "Barnawa Kaduna",
+            "photo": null,
+            "previous_school_attended": "",
+            "relationship": "Guardian",
+            "status": "",
+            "created_at": "25th Jul 2025",
+            "updated_at": "25th Jul 2025",
+            "parent": {
+                "id": 1,
+                "name": "Umaru Bello",
+                "phone": "08123456789",
+                "email": "umaru.bello@example.com",
+                "address": "Barnawa Kaduna",
+                "occupation": "Engineer",
+                "gender": "Male"
+            },
+            "classes": [
+                {
+                    "id": 16,
+                    "student_id": 6,
+                    "school_class_id": 1,
+                    "section_id": 1,
+                    "academic_session_id": 2,
+                    "created_by": 12,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Nursery",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0001",
+                        "class": "JSS 1",
+                        "section": "Nursery",
+                        "session": "2025 / 2026"
+                    }
+                },
+                {
+                    "id": 17,
+                    "student_id": 6,
+                    "school_class_id": 2,
+                    "section_id": 3,
+                    "academic_session_id": 2,
+                    "created_by": 12,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 2 - Secondary",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0001",
+                        "class": "JSS 2",
+                        "section": "Secondary",
+                        "session": "2025 / 2026"
+                    }
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "first_name": "Aisha",
+            "last_name": "Bello",
+            "other_name": "Fatima",
+            "full_name": "Aisha Bello Fatima",
+            "admission_no": "MDS0002",
+            "gender": "Female",
+            "date_of_birth": "15th Mar 2010",
+            "nationality": "Nigerian",
+            "religion": "Islam",
+            "address": "Barnawa Kaduna",
+            "photo": null,
+            "previous_school_attended": "",
+            "relationship": "Guardian",
+            "status": "",
+            "created_at": "25th Jul 2025",
+            "updated_at": "25th Jul 2025",
+            "parent": {
+                "id": 1,
+                "name": "Umaru Bello",
+                "phone": "08123456789",
+                "email": "umaru.bello@example.com",
+                "address": "Barnawa Kaduna",
+                "occupation": "Engineer",
+                "gender": "Male"
+            },
+            "classes": [
+                {
+                    "id": 18,
+                    "student_id": 7,
+                    "school_class_id": 1,
+                    "section_id": 1,
+                    "academic_session_id": 2,
+                    "created_by": 12,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Nursery",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0002",
+                        "class": "JSS 1",
+                        "section": "Nursery",
+                        "session": "2025 / 2026"
+                    }
+                },
+                {
+                    "id": 19,
+                    "student_id": 7,
+                    "school_class_id": 2,
+                    "section_id": 3,
+                    "academic_session_id": 2,
+                    "created_by": 12,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 2 - Secondary",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0002",
+                        "class": "JSS 2",
+                        "section": "Secondary",
+                        "session": "2025 / 2026"
+                    }
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "first_name": "Aisha",
+            "last_name": "Bello",
+            "other_name": "Fatima",
+            "full_name": "Aisha Bello Fatima",
+            "admission_no": "MDS0003",
+            "gender": "Female",
+            "date_of_birth": "15th Mar 2010",
+            "nationality": "Nigerian",
+            "religion": "Islam",
+            "address": "Barnawa Kaduna",
+            "photo": null,
+            "previous_school_attended": "",
+            "relationship": "Guardian",
+            "status": "",
+            "created_at": "25th Jul 2025",
+            "updated_at": "25th Jul 2025",
+            "parent": {
+                "id": 1,
+                "name": "Umaru Bello",
+                "phone": "08123456789",
+                "email": "umaru.bello@example.com",
+                "address": "Barnawa Kaduna",
+                "occupation": "Engineer",
+                "gender": "Male"
+            },
+            "classes": [
+                {
+                    "id": 20,
+                    "student_id": 8,
+                    "school_class_id": 1,
+                    "section_id": 1,
+                    "academic_session_id": 2,
+                    "created_by": 12,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Nursery",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0003",
+                        "class": "JSS 1",
+                        "section": "Nursery",
+                        "session": "2025 / 2026"
+                    }
+                },
+                {
+                    "id": 21,
+                    "student_id": 8,
+                    "school_class_id": 2,
+                    "section_id": 3,
+                    "academic_session_id": 2,
+                    "created_by": 12,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 2 - Secondary",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0003",
+                        "class": "JSS 2",
+                        "section": "Secondary",
+                        "session": "2025 / 2026"
+                    }
+                }
+            ]
+        },
+        {
+            "id": 9,
+            "first_name": "Aisha",
+            "last_name": "Bello",
+            "other_name": "Fatima",
+            "full_name": "Aisha Bello Fatima",
+            "admission_no": "MDS0004",
+            "gender": "Female",
+            "date_of_birth": "15th Mar 2010",
+            "nationality": "Nigerian",
+            "religion": "Islam",
+            "address": "Barnawa Kaduna",
+            "photo": null,
+            "previous_school_attended": "",
+            "relationship": "Guardian",
+            "status": "",
+            "created_at": "25th Jul 2025",
+            "updated_at": "25th Jul 2025",
+            "parent": {
+                "id": 1,
+                "name": "Umaru Bello",
+                "phone": "08123456789",
+                "email": "umaru.bello@example.com",
+                "address": "Barnawa Kaduna",
+                "occupation": "Engineer",
+                "gender": "Male"
+            },
+            "classes": [
+                {
+                    "id": 22,
+                    "student_id": 9,
+                    "school_class_id": 1,
+                    "section_id": 1,
+                    "academic_session_id": 2,
+                    "created_by": 12,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Nursery",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0004",
+                        "class": "JSS 1",
+                        "section": "Nursery",
+                        "session": "2025 / 2026"
+                    }
+                },
+                {
+                    "id": 23,
+                    "student_id": 9,
+                    "school_class_id": 2,
+                    "section_id": 3,
+                    "academic_session_id": 2,
+                    "created_by": 12,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 2 - Secondary",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0004",
+                        "class": "JSS 2",
+                        "section": "Secondary",
+                        "session": "2025 / 2026"
+                    }
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "first_name": "Aisha",
+            "last_name": "Bello",
+            "other_name": "Fatima",
+            "full_name": "Aisha Bello Fatima",
+            "admission_no": "MDS0005",
+            "gender": "Female",
+            "date_of_birth": "15th Mar 2010",
+            "nationality": "Nigerian",
+            "religion": "Islam",
+            "address": "Barnawa Kaduna",
+            "photo": null,
+            "previous_school_attended": "",
+            "relationship": "Guardian",
+            "status": "",
+            "created_at": "25th Jul 2025",
+            "updated_at": "25th Jul 2025",
+            "parent": {
+                "id": 1,
+                "name": "Umaru Bello",
+                "phone": "08123456789",
+                "email": "umaru.bello@example.com",
+                "address": "Barnawa Kaduna",
+                "occupation": "Engineer",
+                "gender": "Male"
+            },
+            "classes": [
+                {
+                    "id": 24,
+                    "student_id": 10,
+                    "school_class_id": 1,
+                    "section_id": 1,
+                    "academic_session_id": 2,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Nursery",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0005",
+                        "class": "JSS 1",
+                        "section": "Nursery",
+                        "session": "2025 / 2026"
+                    }
+                },
+                {
+                    "id": 25,
+                    "student_id": 10,
+                    "school_class_id": 2,
+                    "section_id": 3,
+                    "academic_session_id": 2,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 2 - Secondary",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0005",
+                        "class": "JSS 2",
+                        "section": "Secondary",
+                        "session": "2025 / 2026"
+                    }
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "first_name": "Aisha",
+            "last_name": "Bello",
+            "other_name": "Fatima",
+            "full_name": "Aisha Bello Fatima",
+            "admission_no": "MDS0006",
+            "gender": "Female",
+            "date_of_birth": "15th Mar 2010",
+            "nationality": "Nigerian",
+            "religion": "Islam",
+            "address": "Barnawa Kaduna",
+            "photo": null,
+            "previous_school_attended": "",
+            "relationship": "Guardian",
+            "status": "",
+            "created_at": "25th Jul 2025",
+            "updated_at": "25th Jul 2025",
+            "parent": {
+                "id": 1,
+                "name": "Umaru Bello",
+                "phone": "08123456789",
+                "email": "umaru.bello@example.com",
+                "address": "Barnawa Kaduna",
+                "occupation": "Engineer",
+                "gender": "Male"
+            },
+            "classes": [
+                {
+                    "id": 26,
+                    "student_id": 11,
+                    "school_class_id": 1,
+                    "section_id": 1,
+                    "academic_session_id": 2,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Nursery",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0006",
+                        "class": "JSS 1",
+                        "section": "Nursery",
+                        "session": "2025 / 2026"
+                    }
+                },
+                {
+                    "id": 27,
+                    "student_id": 11,
+                    "school_class_id": 2,
+                    "section_id": 3,
+                    "academic_session_id": 2,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 2 - Secondary",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0006",
+                        "class": "JSS 2",
+                        "section": "Secondary",
+                        "session": "2025 / 2026"
+                    }
+                }
+            ]
+        },
+        {
+            "id": 12,
+            "first_name": "Aisha",
+            "last_name": "Bello",
+            "other_name": "Fatima",
+            "full_name": "Aisha Bello Fatima",
+            "admission_no": "MDS0007",
+            "gender": "Female",
+            "date_of_birth": "15th Mar 2010",
+            "nationality": "Nigerian",
+            "religion": "Islam",
+            "address": "Barnawa Kaduna",
+            "photo": null,
+            "previous_school_attended": "",
+            "relationship": "Guardian",
+            "status": "",
+            "created_at": "25th Jul 2025",
+            "updated_at": "25th Jul 2025",
+            "parent": {
+                "id": 1,
+                "name": "Umaru Bello",
+                "phone": "08123456789",
+                "email": "umaru.bello@example.com",
+                "address": "Barnawa Kaduna",
+                "occupation": "Engineer",
+                "gender": "Male"
+            },
+            "classes": [
+                {
+                    "id": 28,
+                    "student_id": 12,
+                    "school_class_id": 1,
+                    "section_id": 1,
+                    "academic_session_id": 2,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Nursery",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0007",
+                        "class": "JSS 1",
+                        "section": "Nursery",
+                        "session": "2025 / 2026"
+                    }
+                },
+                {
+                    "id": 29,
+                    "student_id": 12,
+                    "school_class_id": 2,
+                    "section_id": 3,
+                    "academic_session_id": 2,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 2 - Secondary",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0007",
+                        "class": "JSS 2",
+                        "section": "Secondary",
+                        "session": "2025 / 2026"
+                    }
+                }
+            ]
+        },
+        {
+            "id": 13,
+            "first_name": "Aisha",
+            "last_name": "Bello",
+            "other_name": "Fatima",
+            "full_name": "Aisha Bello Fatima",
+            "admission_no": "MDS0008",
+            "gender": "Female",
+            "date_of_birth": "15th Mar 2010",
+            "nationality": "Nigerian",
+            "religion": "Islam",
+            "address": "Barnawa Kaduna",
+            "photo": null,
+            "previous_school_attended": "",
+            "relationship": "Guardian",
+            "status": "",
+            "created_at": "25th Jul 2025",
+            "updated_at": "25th Jul 2025",
+            "parent": {
+                "id": 1,
+                "name": "Umaru Bello",
+                "phone": "08123456789",
+                "email": "umaru.bello@example.com",
+                "address": "Barnawa Kaduna",
+                "occupation": "Engineer",
+                "gender": "Male"
+            },
+            "classes": [
+                {
+                    "id": 30,
+                    "student_id": 13,
+                    "school_class_id": 1,
+                    "section_id": 1,
+                    "academic_session_id": 2,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Nursery",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0008",
+                        "class": "JSS 1",
+                        "section": "Nursery",
+                        "session": "2025 / 2026"
+                    }
+                },
+                {
+                    "id": 31,
+                    "student_id": 13,
+                    "school_class_id": 2,
+                    "section_id": 3,
+                    "academic_session_id": 2,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 2 - Secondary",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0008",
+                        "class": "JSS 2",
+                        "section": "Secondary",
+                        "session": "2025 / 2026"
+                    }
+                }
+            ]
+        },
+        {
+            "id": 14,
+            "first_name": "Aisha",
+            "last_name": "Bello",
+            "other_name": "Fatima",
+            "full_name": "Aisha Bello Fatima",
+            "admission_no": "MDS0009",
+            "gender": "Female",
+            "date_of_birth": "15th Mar 2010",
+            "nationality": "Nigerian",
+            "religion": "Islam",
+            "address": "Barnawa Kaduna",
+            "photo": null,
+            "previous_school_attended": "",
+            "relationship": "Guardian",
+            "status": "",
+            "created_at": "25th Jul 2025",
+            "updated_at": "25th Jul 2025",
+            "parent": {
+                "id": 1,
+                "name": "Umaru Bello",
+                "phone": "08123456789",
+                "email": "umaru.bello@example.com",
+                "address": "Barnawa Kaduna",
+                "occupation": "Engineer",
+                "gender": "Male"
+            },
+            "classes": [
+                {
+                    "id": 32,
+                    "student_id": 14,
+                    "school_class_id": 1,
+                    "section_id": 1,
+                    "academic_session_id": 2,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Nursery",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0009",
+                        "class": "JSS 1",
+                        "section": "Nursery",
+                        "session": "2025 / 2026"
+                    }
+                },
+                {
+                    "id": 33,
+                    "student_id": 14,
+                    "school_class_id": 2,
+                    "section_id": 3,
+                    "academic_session_id": 2,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 2 - Secondary",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0009",
+                        "class": "JSS 2",
+                        "section": "Secondary",
+                        "session": "2025 / 2026"
+                    }
+                }
+            ]
+        },
+        {
+            "id": 15,
+            "first_name": "Aisha",
+            "last_name": "Bello",
+            "other_name": "Fatima",
+            "full_name": "Aisha Bello Fatima",
+            "admission_no": "MDS0010",
+            "gender": "Female",
+            "date_of_birth": "15th Mar 2010",
+            "nationality": "Nigerian",
+            "religion": "Islam",
+            "address": "Barnawa Kaduna",
+            "photo": null,
+            "previous_school_attended": "",
+            "relationship": "Guardian",
+            "status": "",
+            "created_at": "25th Jul 2025",
+            "updated_at": "25th Jul 2025",
+            "parent": {
+                "id": 1,
+                "name": "Umaru Bello",
+                "phone": "08123456789",
+                "email": "umaru.bello@example.com",
+                "address": "Barnawa Kaduna",
+                "occupation": "Engineer",
+                "gender": "Male"
+            },
+            "classes": [
+                {
+                    "id": 34,
+                    "student_id": 15,
+                    "school_class_id": 1,
+                    "section_id": 1,
+                    "academic_session_id": 2,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Nursery",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0010",
+                        "class": "JSS 1",
+                        "section": "Nursery",
+                        "session": "2025 / 2026"
+                    }
+                },
+                {
+                    "id": 35,
+                    "student_id": 15,
+                    "school_class_id": 2,
+                    "section_id": 3,
+                    "academic_session_id": 2,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 2 - Secondary",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0010",
+                        "class": "JSS 2",
+                        "section": "Secondary",
+                        "session": "2025 / 2026"
+                    }
+                }
+            ]
+        },
+        {
+            "id": 16,
+            "first_name": "Aisha",
+            "last_name": "Bello",
+            "other_name": "Fatima",
+            "full_name": "Aisha Bello Fatima",
+            "admission_no": "MDS0011",
+            "gender": "Female",
+            "date_of_birth": "15th Mar 2010",
+            "nationality": "Nigerian",
+            "religion": "Islam",
+            "address": "Barnawa Kaduna",
+            "photo": null,
+            "previous_school_attended": "",
+            "relationship": "Guardian",
+            "status": "",
+            "created_at": "25th Jul 2025",
+            "updated_at": "25th Jul 2025",
+            "parent": {
+                "id": 1,
+                "name": "Umaru Bello",
+                "phone": "08123456789",
+                "email": "umaru.bello@example.com",
+                "address": "Barnawa Kaduna",
+                "occupation": "Engineer",
+                "gender": "Male"
+            },
+            "classes": [
+                {
+                    "id": 36,
+                    "student_id": 16,
+                    "school_class_id": 1,
+                    "section_id": 1,
+                    "academic_session_id": 2,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Nursery",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0011",
+                        "class": "JSS 1",
+                        "section": "Nursery",
+                        "session": "2025 / 2026"
+                    }
+                },
+                {
+                    "id": 37,
+                    "student_id": 16,
+                    "school_class_id": 2,
+                    "section_id": 3,
+                    "academic_session_id": 2,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 2 - Secondary",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0011",
+                        "class": "JSS 2",
+                        "section": "Secondary",
+                        "session": "2025 / 2026"
+                    }
+                }
+            ]
+        },
+        {
+            "id": 17,
+            "first_name": "Aisha",
+            "last_name": "Bello",
+            "other_name": "Fatima",
+            "full_name": "Aisha Bello Fatima",
+            "admission_no": "MDS0013",
+            "gender": "Female",
+            "date_of_birth": "15th Mar 2010",
+            "nationality": "Nigerian",
+            "religion": "Islam",
+            "address": "Barnawa Kaduna",
+            "photo": null,
+            "previous_school_attended": "",
+            "relationship": "Guardian",
+            "status": "",
+            "created_at": "25th Jul 2025",
+            "updated_at": "25th Jul 2025",
+            "parent": {
+                "id": 1,
+                "name": "Umaru Bello",
+                "phone": "08123456789",
+                "email": "umaru.bello@example.com",
+                "address": "Barnawa Kaduna",
+                "occupation": "Engineer",
+                "gender": "Male"
+            },
+            "classes": [
+                {
+                    "id": 38,
+                    "student_id": 17,
+                    "school_class_id": 1,
+                    "section_id": 1,
+                    "academic_session_id": 2,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Nursery",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0013",
+                        "class": "JSS 1",
+                        "section": "Nursery",
+                        "session": "2025 / 2026"
+                    }
+                },
+                {
+                    "id": 39,
+                    "student_id": 17,
+                    "school_class_id": 2,
+                    "section_id": 3,
+                    "academic_session_id": 2,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 2 - Secondary",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0013",
+                        "class": "JSS 2",
+                        "section": "Secondary",
+                        "session": "2025 / 2026"
+                    }
+                }
+            ]
+        },
+        {
+            "id": 18,
+            "first_name": "Aisha",
+            "last_name": "Bello",
+            "other_name": "Fatima",
+            "full_name": "Aisha Bello Fatima",
+            "admission_no": "MDS0014",
+            "gender": "Female",
+            "date_of_birth": "15th Mar 2010",
+            "nationality": "Nigerian",
+            "religion": "Islam",
+            "address": "Barnawa Kaduna",
+            "photo": null,
+            "previous_school_attended": "",
+            "relationship": "Guardian",
+            "status": "",
+            "created_at": "25th Jul 2025",
+            "updated_at": "25th Jul 2025",
+            "parent": {
+                "id": 1,
+                "name": "Umaru Bello",
+                "phone": "08123456789",
+                "email": "umaru.bello@example.com",
+                "address": "Barnawa Kaduna",
+                "occupation": "Engineer",
+                "gender": "Male"
+            },
+            "classes": [
+                {
+                    "id": 40,
+                    "student_id": 18,
+                    "school_class_id": 1,
+                    "section_id": 1,
+                    "academic_session_id": 2,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Nursery",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0014",
+                        "class": "JSS 1",
+                        "section": "Nursery",
+                        "session": "2025 / 2026"
+                    }
+                },
+                {
+                    "id": 41,
+                    "student_id": 18,
+                    "school_class_id": 2,
+                    "section_id": 3,
+                    "academic_session_id": 2,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 2 - Secondary",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0014",
+                        "class": "JSS 2",
+                        "section": "Secondary",
+                        "session": "2025 / 2026"
+                    }
+                }
+            ]
+        },
+        {
+            "id": 19,
+            "first_name": "Aisha",
+            "last_name": "Bello",
+            "other_name": "Fatima",
+            "full_name": "Aisha Bello Fatima",
+            "admission_no": "MDS0015",
+            "gender": "Female",
+            "date_of_birth": "15th Mar 2010",
+            "nationality": "Nigerian",
+            "religion": "Islam",
+            "address": "Barnawa Kaduna",
+            "photo": null,
+            "previous_school_attended": "",
+            "relationship": "Guardian",
+            "status": "",
+            "created_at": "25th Jul 2025",
+            "updated_at": "25th Jul 2025",
+            "parent": {
+                "id": 1,
+                "name": "Umaru Bello",
+                "phone": "08123456789",
+                "email": "umaru.bello@example.com",
+                "address": "Barnawa Kaduna",
+                "occupation": "Engineer",
+                "gender": "Male"
+            },
+            "classes": [
+                {
+                    "id": 42,
+                    "student_id": 19,
+                    "school_class_id": 1,
+                    "section_id": 1,
+                    "academic_session_id": 2,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Nursery",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0015",
+                        "class": "JSS 1",
+                        "section": "Nursery",
+                        "session": "2025 / 2026"
+                    }
+                },
+                {
+                    "id": 43,
+                    "student_id": 19,
+                    "school_class_id": 2,
+                    "section_id": 3,
+                    "academic_session_id": 2,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 2 - Secondary",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0015",
+                        "class": "JSS 2",
+                        "section": "Secondary",
+                        "session": "2025 / 2026"
+                    }
+                }
+            ]
+        },
+        {
+            "id": 20,
+            "first_name": "Aisha",
+            "last_name": "Bello",
+            "other_name": "Fatima",
+            "full_name": "Aisha Bello Fatima",
+            "admission_no": "MDS0016",
+            "gender": "Female",
+            "date_of_birth": "15th Mar 2010",
+            "nationality": "Nigerian",
+            "religion": "Islam",
+            "address": "Barnawa Kaduna",
+            "photo": null,
+            "previous_school_attended": "",
+            "relationship": "Guardian",
+            "status": "",
+            "created_at": "25th Jul 2025",
+            "updated_at": "25th Jul 2025",
+            "parent": {
+                "id": 1,
+                "name": "Umaru Bello",
+                "phone": "08123456789",
+                "email": "umaru.bello@example.com",
+                "address": "Barnawa Kaduna",
+                "occupation": "Engineer",
+                "gender": "Male"
+            },
+            "classes": [
+                {
+                    "id": 44,
+                    "student_id": 20,
+                    "school_class_id": 1,
+                    "section_id": 1,
+                    "academic_session_id": 2,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 1 - Nursery",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0016",
+                        "class": "JSS 1",
+                        "section": "Nursery",
+                        "session": "2025 / 2026"
+                    }
+                },
+                {
+                    "id": 45,
+                    "student_id": 20,
+                    "school_class_id": 2,
+                    "section_id": 3,
+                    "academic_session_id": 2,
+                    "created_by": 1,
+                    "created_at": "25th Jul 2025",
+                    "updated_at": "25th Jul 2025",
+                    "deleted_at": null,
+                    "assignment_status": "Active",
+                    "class_section_display": "JSS 2 - Secondary",
+                    "student_class_info": {
+                        "student_name": "Aisha Bello",
+                        "admission_no": "MDS0016",
+                        "class": "JSS 2",
+                        "section": "Secondary",
+                        "session": "2025 / 2026"
+                    }
+                }
+            ]
+        }
+    ],
+    "meta": {
+        "total": [
+            20,
+            30
+        ],
+        "per_page": [
+            20,
+            20
+        ],
+        "current_page": [
+            1,
+            1
+        ],
+        "last_page": [
+            2,
+            2
+        ],
+        "from": [
+            1,
+            1
+        ],
+        "to": [
+            20,
+            20
+        ],
+        "links": [
+            {
+                "url": null,
+                "label": "&laquo; Previous",
+                "active": false
+            },
+            {
+                "url": "https://api.harfasoftacademy.com.ng/api/v1/students?page=1",
+                "label": "1",
+                "active": true
+            },
+            {
+                "url": "https://api.harfasoftacademy.com.ng/api/v1/students?page=2",
+                "label": "2",
+                "active": false
+            },
+            {
+                "url": "https://api.harfasoftacademy.com.ng/api/v1/students?page=2",
+                "label": "Next &raquo;",
+                "active": false
+            }
+        ],
+        "path": "https://api.harfasoftacademy.com.ng/api/v1/students"
+    },
+    "links": {
+        "first": [
+            "https://api.harfasoftacademy.com.ng/api/v1/students?page=1",
+            "https://api.harfasoftacademy.com.ng/api/v1/students?page=1"
+        ],
+        "last": [
+            "https://api.harfasoftacademy.com.ng/api/v1/students?page=2",
+            "https://api.harfasoftacademy.com.ng/api/v1/students?page=2"
+        ],
+        "prev": [
+            null,
+            null
+        ],
+        "next": [
+            "https://api.harfasoftacademy.com.ng/api/v1/students?page=2",
+            "https://api.harfasoftacademy.com.ng/api/v1/students?page=2"
+        ]
+    }
+}

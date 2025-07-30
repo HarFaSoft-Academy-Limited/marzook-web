@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import DashboardLayout from "@/components/dashboard-layout"
-import { Download, Edit, Eye, FileText, MoreHorizontal, Search, Trash2 } from "lucide-react"
+import { Download, Edit, Eye, MoreHorizontal, Search, Trash2 } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Badge } from "@/components/ui/badge"
 import { RegisterStudentDialog } from "@/components/register-student-dialog"
@@ -18,11 +18,11 @@ import { EditStudentDialog } from "@/components/edit-student-dialog"
 import { getClasses } from "@/services/class";
 import { getSections } from "@/services/section";
 
-type Sections ={
+type Sections = {
   id: number;
   name: string;
   description: string;
-} 
+}
 type Classes = {
   id: number;
   name: string;
@@ -39,26 +39,82 @@ type Section = {
     section_id: number;
   };
 }
+
+type Student = {
+  id: number;
+  first_name: string;
+  last_name: string;
+  other_name: string;
+  full_name: string;
+  admission_no: string;
+  gender: string;
+  date_of_birth: string;
+  nationality: string;
+  religion: string;
+  address: string;
+  photo: string | null;
+  previous_school_attended: string;
+  relationship: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
+  parent: {
+    id: number;
+    name: string;
+    phone: string;
+    email: string;
+    address: string;
+    occupation: string;
+    gender: string;
+  };
+  classes: {
+    id: number;
+    student_id: number;
+    school_class_id: number;
+    section_id: number;
+    academic_session_id: number;
+    created_by: number;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+    assignment_status: string;
+    class_section_display: string;
+    student_class_info: {
+      student_name: string;
+      admission_no: string;
+      class: string;
+      section: string;
+      session: string;
+    };
+  }[];
+};
+
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
+
 export default function StudentsPage() {
-  const [students, setStudents] = useState([]);
+  const [students, setStudents] = useState<Student[]>([]);
+  const [meta, setMeta] = useState<any>(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
-  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
   const [classes, setClasses] = useState<Classes[]>([]);
   const [sections, setSections] = useState<Section[]>([]);
   const [selectedClass, setSelectedClass] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
 
-  const fetchStudents = async () => {
-    const studentsData = await getStudents();
-    setStudents(studentsData);
+  const fetchStudents = async (page: number) => {
+    const studentsData = await getStudents(page);
+    setStudents(studentsData.data);
+    setMeta(studentsData.meta);
   };
 
-  const fetchStudentsByClass = async (classId: any) => {
+  const fetchStudentsByClass = async (classId: any, page: number) => {
     if (classId === "all") {
-      fetchStudents();
+      fetchStudents(page);
     } else {
-      const studentsData = await getStudentsByClass(classId);
-      setStudents(studentsData);
+      const studentsData = await getStudentsByClass(classId, page);
+      setStudents(studentsData.data);
+      setMeta(studentsData.meta);
     }
   };
 
@@ -78,31 +134,35 @@ export default function StudentsPage() {
   };
 
   useEffect(() => {
-    fetchStudents();
+    fetchStudents(currentPage);
     fetchClasses();
     fetchSections();
-  }, []);
+  }, [currentPage]);
 
   useEffect(() => {
     if (searchTerm) {
       searchStudentsByTerm(searchTerm);
     } else {
-      fetchStudents();
+      fetchStudents(currentPage);
     }
   }, [searchTerm]);
 
   useEffect(() => {
-    fetchStudentsByClass(selectedClass);
+    fetchStudentsByClass(selectedClass, currentPage);
   }, [selectedClass]);
 
   const handleDelete = async (studentId: any) => {
     const success = await deleteStudent(studentId);
     if (success) {
-      fetchStudents();
+      fetchStudents(currentPage);
       alert("Student deleted successfully!");
     } else {
       alert("Failed to delete student.");
     }
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
   };
 
   return (
@@ -166,8 +226,7 @@ export default function StudentsPage() {
                   <TableHeader>
                     <TableRow>
                       <TableHead>Admission No</TableHead>
-                      <TableHead>First Name</TableHead>
-                      <TableHead>First Name</TableHead>
+                      <TableHead>Full Name</TableHead>
                       <TableHead>Class</TableHead>
                       <TableHead>Section(s)</TableHead>
                       <TableHead>Parent</TableHead>
@@ -176,26 +235,26 @@ export default function StudentsPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {students.length > 0 && students.map((student:  any) => (
+                    {students.length > 0 && students.map((student: Student) => (
                       <TableRow key={student.id}>
                         <TableCell>{student.admission_no}</TableCell>
-                        <TableCell className="font-medium">{student.first_name}</TableCell>
-                        <TableCell className="font-medium">{student.last_name}</TableCell>
-
+                        <TableCell className="font-medium">{student.full_name}</TableCell>
                         <TableCell>
-                          {`${student?.class?.level ?? ''} ${student?.class?.name ?? ''}`}
+                          {student.classes.length > 0 ? student.classes[0].student_class_info.class : 'N/A'}
                         </TableCell>
                         <TableCell>
                           <div className="flex flex-wrap gap-1">
-                              <Badge variant="outline" className="text-xs">
-                                {student?.section?.name ?? 'N/A'}
+                            {student.classes.map((c: any) => (
+                              <Badge key={c.id} variant="outline" className="text-xs">
+                                {c.student_class_info.section}
                               </Badge>
+                            ))}
                           </div>
                         </TableCell>
-                        <TableCell>{"N/A"}</TableCell>
+                        <TableCell>{student.parent ? student.parent.name : 'N/A'}</TableCell>
                         <TableCell>
-                          <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-800">
-                            {"Active"}
+                          <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${student.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                            {student.status || 'Inactive'}
                           </span>
                         </TableCell>
                         <TableCell className="text-right">
@@ -230,6 +289,25 @@ export default function StudentsPage() {
                   </TableBody>
                 </Table>
               </CardContent>
+              <div className="flex justify-center py-4">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious href="#" onClick={() => handlePageChange(currentPage - 1)} />
+                    </PaginationItem>
+                    {meta && Array.from({ length: meta.last_page }, (_, i) => i + 1).map((page) => (
+                      <PaginationItem key={page}>
+                        <PaginationLink href="#" onClick={() => handlePageChange(page)} isActive={currentPage === page}>
+                          {page}
+                        </PaginationLink>
+                      </PaginationItem>
+                    ))}
+                    <PaginationItem>
+                      <PaginationNext href="#" onClick={() => handlePageChange(currentPage + 1)} />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              </div>
             </Card>
           </TabsContent>
           <TabsContent value="primary" className="space-y-4">

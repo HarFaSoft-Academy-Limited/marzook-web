@@ -11,23 +11,23 @@ const getAuthHeader = () => {
   return '';
 };
 
-export const getStudents = async () => {
+export const getStudents = async (page = 1) => {
   try {
-    const res = await axios.get(`${customBaseUrl.baseUrl}/api/v1/students`, {
+    const res = await axios.get(`${customBaseUrl.baseUrl}/api/v1/students?page=${page}`, {
       headers: {
         Authorization: getAuthHeader(),
         'ngrok-skip-browser-warning': 'true'
       }
     });
     if (res.status === 200) {
-      return res.data.data;
+      return res.data;
     } else {
       console.error("Failed to fetch students data:", res.statusText);
-      return [];
+      return { data: [], meta: null };
     }
   } catch (error) {
     console.error("Error fetching students data:", error);
-    return [];
+    return { data: [], meta: null };
   }
 };
 
@@ -76,43 +76,43 @@ export const deleteStudent = async (studentId) => {
   }
 };
 
-export const getStudentsByClass = async (classId) => {
+export const getStudentsByClass = async (classId, page = 1) => {
   try {
-    const res = await axios.get(`${customBaseUrl.baseUrl}/api/v1/classes/${classId}`, {
+    const res = await axios.get(`${customBaseUrl.baseUrl}/api/v1/classes/${classId}?page=${page}`, {
       headers: {
         Authorization: getAuthHeader(),
         'ngrok-skip-browser-warning': 'true'
       }
     });
     if (res.status === 200) {
-      return res.data.data;
+      return res.data;
     } else {
       console.error("Failed to fetch students data:", res.statusText);
-      return [];
+      return { data: [], meta: null };
     }
   } catch (error) {
     console.error("Error fetching students data:", error);
-    return [];
+    return { data: [], meta: null };
   }
 };
 
-export const searchStudents = async (searchTerm) => {
+export const searchStudents = async (searchTerm, page = 1) => {
   try {
-    const res = await axios.get(`${customBaseUrl.baseUrl}/api/v1/students?search=${searchTerm}`, {
+    const res = await axios.get(`${customBaseUrl.baseUrl}/api/v1/students?search=${searchTerm}&page=${page}`, {
       headers: {
         Authorization: getAuthHeader(),
         'ngrok-skip-browser-warning': 'true'
       }
     });
     if (res.status === 200) {
-      return res.data.data;
+      return res.data;
     } else {
       console.error("Failed to fetch students data:", res.statusText);
-      return [];
+      return { data: [], meta: null };
     }
   } catch (error) {
     console.error("Error fetching students data:", error);
-    return [];
+    return { data: [], meta: null };
   }
 };
 

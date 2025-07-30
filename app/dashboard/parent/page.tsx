@@ -1,3 +1,4 @@
+"use client"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import DashboardLayout from "@/components/dashboard-layout"
@@ -5,15 +6,29 @@ import { BookOpen, CreditCard, Download, GraduationCap, MessageSquare, User } fr
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Progress } from "@/components/ui/progress"
+import { useEffect, useState } from "react"
+import { getParentDashboard } from "@/services/parentDashboard"
 
 export default function ParentDashboard() {
+  const [dashboardData, setDashboardData] = useState(null)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await getParentDashboard()
+      setDashboardData(response.data)
+    }
+    fetchData()
+  }, [])
+
   return (
     <DashboardLayout userType="parent">
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold tracking-tight">Parent Dashboard</h1>
           <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground">Current Term: 2nd Term 2024/2025</span>
+            <span className="text-sm text-muted-foreground">
+              Current Term: {dashboardData?.current_term?.name} {dashboardData?.current_session?.name}
+            </span>
           </div>
         </div>
 
@@ -31,7 +46,7 @@ export default function ParentDashboard() {
                   <User className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">3</div>
+                  <div className="text-2xl font-bold">{dashboardData?.children_summary?.total_children}</div>
                   <p className="text-xs text-muted-foreground">Enrolled in the school</p>
                 </CardContent>
               </Card>
@@ -41,7 +56,9 @@ export default function ParentDashboard() {
                   <CreditCard className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">₦120,000</div>
+                  <div className="text-2xl font-bold">
+                    ₦{Number(dashboardData?.financial_summary?.upcoming_fees).toLocaleString()}
+                  </div>
                   <p className="text-xs text-muted-foreground">Due in 14 days</p>
                 </CardContent>
               </Card>
@@ -51,7 +68,7 @@ export default function ParentDashboard() {
                   <MessageSquare className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">2</div>
+                  <div className="text-2xl font-bold">{dashboardData?.communication_summary?.unread_messages}</div>
                   <p className="text-xs text-muted-foreground">Unread messages</p>
                 </CardContent>
               </Card>
@@ -61,7 +78,7 @@ export default function ParentDashboard() {
                   <GraduationCap className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">1</div>
+                  <div className="text-2xl font-bold">{dashboardData?.academic_summary?.new_results}</div>
                   <p className="text-xs text-muted-foreground">New result available</p>
                 </CardContent>
               </Card>
@@ -75,32 +92,7 @@ export default function ParentDashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-6">
-                    {[
-                      {
-                        name: "Amina Ibrahim",
-                        class: "Primary 3",
-                        sections: ["Primary", "Islamiyya"],
-                        attendance: 95,
-                        performance: 87,
-                        quran: 12,
-                      },
-                      {
-                        name: "Ahmad Ibrahim",
-                        class: "Primary 1",
-                        sections: ["Primary", "Tahfeez"],
-                        attendance: 92,
-                        performance: 78,
-                        quran: 5,
-                      },
-                      {
-                        name: "Aisha Ibrahim",
-                        class: "Nursery 2",
-                        sections: ["Primary"],
-                        attendance: 90,
-                        performance: 82,
-                        quran: null,
-                      },
-                    ].map((child, index) => (
+                    {dashboardData?.children_summary?.children.map((child, index) => (
                       <div key={index} className="flex flex-col space-y-2">
                         <div className="flex items-center">
                           <Avatar className="h-10 w-10 mr-3">
@@ -110,7 +102,7 @@ export default function ParentDashboard() {
                           <div className="space-y-0.5">
                             <p className="text-sm font-medium">{child.name}</p>
                             <p className="text-xs text-muted-foreground">
-                              {child.class} | {child.sections.join(", ")} Section
+                              {child.class} | {child.section} Section
                             </p>
                           </div>
                           <Button variant="outline" size="sm" className="ml-auto">
@@ -122,24 +114,26 @@ export default function ParentDashboard() {
                           <div className="space-y-1">
                             <div className="flex items-center justify-between text-xs">
                               <span>Attendance</span>
-                              <span className="font-medium">{child.attendance}%</span>
+                              <span className="font-medium">{child.attendance_rate}%</span>
                             </div>
-                            <Progress value={child.attendance} className="h-1.5" />
+                            <Progress value={child.attendance_rate} className="h-1.5" />
                           </div>
                           <div className="space-y-1">
                             <div className="flex items-center justify-between text-xs">
                               <span>Performance</span>
-                              <span className="font-medium">{child.performance}%</span>
+                              <span className="font-medium">{child.overall_performance}%</span>
                             </div>
-                            <Progress value={child.performance} className="h-1.5" />
+                            <Progress value={child.overall_performance} className="h-1.5" />
                           </div>
                         </div>
-                        {child.quran && (
+                        {child.quran_progress && (
                           <div className="pt-1">
                             <div className="flex items-center text-xs">
                               <BookOpen className="h-3 w-3 mr-1 text-muted-foreground" />
                               <span className="text-muted-foreground">Qur'an Progress: </span>
-                              <span className="font-medium ml-1">Juz {child.quran} completed</span>
+                              <span className="font-medium ml-1">
+                                Juz {child.quran_progress} completed
+                              </span>
                             </div>
                           </div>
                         )}
@@ -155,40 +149,17 @@ export default function ParentDashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {[
-                      {
-                        icon: MessageSquare,
-                        title: "PTA Meeting",
-                        description: "PTA meeting scheduled for April 15, 2025",
-                        time: "2 days ago",
-                      },
-                      {
-                        icon: GraduationCap,
-                        title: "Result Published",
-                        description: "Amina's Primary 3 results are now available",
-                        time: "1 week ago",
-                      },
-                      {
-                        icon: CreditCard,
-                        title: "Fee Payment Reminder",
-                        description: "Second term fees due by April 20, 2025",
-                        time: "1 week ago",
-                      },
-                      {
-                        icon: BookOpen,
-                        title: "Qur'an Progress",
-                        description: "Ahmad completed Juz 5 in Tahfeez class",
-                        time: "2 weeks ago",
-                      },
-                    ].map((notification, index) => (
+                    {dashboardData?.recent_notifications.map((notification, index) => (
                       <div key={index} className="flex items-start">
                         <div className="mr-4 mt-0.5">
-                          <notification.icon className="h-5 w-5 text-muted-foreground" />
+                          <MessageSquare className="h-5 w-5 text-muted-foreground" />
                         </div>
                         <div className="space-y-1">
                           <p className="text-sm font-medium leading-none">{notification.title}</p>
-                          <p className="text-sm text-muted-foreground">{notification.description}</p>
-                          <p className="text-xs text-muted-foreground">{notification.time}</p>
+                          <p className="text-sm text-muted-foreground">{notification.message}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {new Date(notification.created_at).toLocaleDateString()}
+                          </p>
                         </div>
                       </div>
                     ))}

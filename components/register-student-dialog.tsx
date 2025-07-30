@@ -164,9 +164,9 @@ export function RegisterStudentDialog() {
                     <SelectValue placeholder="Select relationship" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Father">Father</SelectItem>
-                    <SelectItem value="Mother">Mother</SelectItem>
-                    <SelectItem value="Guardian">Guardian</SelectItem>
+                    {/* <SelectItem value="Father">Father</SelectItem> */}
+                    <SelectItem value="parent">Parent</SelectItem>
+                    <SelectItem value="guardian">Guardian</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

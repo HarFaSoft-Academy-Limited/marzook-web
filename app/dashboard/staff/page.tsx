@@ -1,17 +1,32 @@
+"use client"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import DashboardLayout from "@/components/dashboard-layout"
 import { BookOpen, Calendar, CheckCircle2, Clock, FileText, MessageSquare, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useEffect, useState } from "react"
+import { getStaffDashboard } from "@/services/staffDashboard"
 
 export default function StaffDashboard() {
+  const [dashboardData, setDashboardData] = useState(null)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await getStaffDashboard()
+      setDashboardData(response.data)
+    }
+    fetchData()
+  }, [])
+
   return (
     <DashboardLayout userType="staff">
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold tracking-tight">Staff Dashboard</h1>
           <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground">Current Term: 2nd Term 2024/2025</span>
+            <span className="text-sm text-muted-foreground">
+              Current Term: {dashboardData?.current_term?.name} {dashboardData?.current_session?.name}
+            </span>
           </div>
         </div>
 
@@ -29,8 +44,10 @@ export default function StaffDashboard() {
                   <BookOpen className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">5</div>
-                  <p className="text-xs text-muted-foreground">Across 2 sections</p>
+                  <div className="text-2xl font-bold">{dashboardData?.academic_summary?.assigned_classes}</div>
+                  <p className="text-xs text-muted-foreground">
+                    Across {dashboardData?.academic_summary?.assigned_sections} sections
+                  </p>
                 </CardContent>
               </Card>
               <Card>
@@ -39,7 +56,7 @@ export default function StaffDashboard() {
                   <Users className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">142</div>
+                  <div className="text-2xl font-bold">{dashboardData?.academic_summary?.total_students}</div>
                   <p className="text-xs text-muted-foreground">In your classes</p>
                 </CardContent>
               </Card>
@@ -49,7 +66,7 @@ export default function StaffDashboard() {
                   <Clock className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">3</div>
+                  <div className="text-2xl font-bold">{dashboardData?.task_summary?.pending_tasks}</div>
                   <p className="text-xs text-muted-foreground">Due this week</p>
                 </CardContent>
               </Card>
@@ -59,7 +76,7 @@ export default function StaffDashboard() {
                   <MessageSquare className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">5</div>
+                  <div className="text-2xl font-bold">{dashboardData?.communication_summary?.unread_messages}</div>
                   <p className="text-xs text-muted-foreground">Unread messages</p>
                 </CardContent>
               </Card>
@@ -69,16 +86,11 @@ export default function StaffDashboard() {
               <Card className="col-span-4">
                 <CardHeader>
                   <CardTitle>Today's Classes</CardTitle>
-                  <CardDescription>Monday, April 8, 2025</CardDescription>
+                  <CardDescription>{new Date().toDateString()}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {[
-                      { time: "8:00 AM - 9:30 AM", class: "Primary 3", subject: "Mathematics", section: "Primary" },
-                      { time: "10:00 AM - 11:30 AM", class: "Primary 5", subject: "Science", section: "Primary" },
-                      { time: "12:00 PM - 1:30 PM", class: "JSS 1", subject: "English", section: "Secondary" },
-                      { time: "2:00 PM - 3:30 PM", class: "Islamiyya Level 2", subject: "Fiqh", section: "Islamiyya" },
-                    ].map((session, index) => (
+                    {dashboardData?.schedule_summary?.today_classes.map((session, index) => (
                       <div key={index} className="flex items-start">
                         <div className="mr-4 mt-0.5">
                           <Calendar className="h-5 w-5 text-muted-foreground" />
@@ -103,29 +115,10 @@ export default function StaffDashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {[
-                      {
-                        icon: FileText,
-                        title: "Submit Test Scores",
-                        description: "Primary 3 Mathematics",
-                        deadline: "Due tomorrow",
-                      },
-                      {
-                        icon: BookOpen,
-                        title: "Update Qur'an Progress",
-                        description: "Tahfeez students",
-                        deadline: "Due in 2 days",
-                      },
-                      {
-                        icon: CheckCircle2,
-                        title: "Mark Attendance",
-                        description: "All assigned classes",
-                        deadline: "Due today",
-                      },
-                    ].map((task, index) => (
+                    {dashboardData?.task_summary?.tasks.map((task, index) => (
                       <div key={index} className="flex items-start">
                         <div className="mr-4 mt-0.5">
-                          <task.icon className="h-5 w-5 text-muted-foreground" />
+                          <FileText className="h-5 w-5 text-muted-foreground" />
                         </div>
                         <div className="space-y-1 flex-1">
                           <div className="flex items-center justify-between">
@@ -135,7 +128,7 @@ export default function StaffDashboard() {
                             </Button>
                           </div>
                           <p className="text-sm text-muted-foreground">{task.description}</p>
-                          <p className="text-xs text-red-500 font-medium">{task.deadline}</p>
+                          <p className="text-xs text-red-500 font-medium">{task.due_date}</p>
                         </div>
                       </div>
                     ))}

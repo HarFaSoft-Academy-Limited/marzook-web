@@ -16,6 +16,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Skeleton } from "@/components/ui/skeleton";
 import DashboardLayout from "@/components/dashboard-layout";
 import { AddDeductionDialog } from "@/components/add-deduction-dialog";
+import { GeneratePayrollModal } from "@/components/generate-payroll-modal";
 
 
 const PayrollPage = () => {
@@ -23,8 +24,9 @@ const PayrollPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
   const [isAddDeductionDialogOpen, setIsAddDeductionDialogOpen] = useState(false);
+  const [isGeneratePayrollModalOpen, setIsGeneratePayrollModalOpen] = useState(false);
   const perPage = 15;
 
   const fetchDeductions = async () => {
@@ -70,6 +72,7 @@ const PayrollPage = () => {
             </CardDescription>
           </div>
           <Button onClick={() => setIsAddDeductionDialogOpen(true)}>Add Deduction</Button>
+          <Button onClick={() => setIsGeneratePayrollModalOpen(true)}>Generate Payroll</Button>
         </CardHeader>
         <CardContent>
           {loading ? (
@@ -136,6 +139,11 @@ const PayrollPage = () => {
         isOpen={isAddDeductionDialogOpen}
         onClose={() => setIsAddDeductionDialogOpen(false)}
         onSuccess={handleAddDeductionSuccess}
+      />
+      <GeneratePayrollModal
+        isOpen={isGeneratePayrollModalOpen}
+        onClose={() => setIsGeneratePayrollModalOpen(false)}
+        onSuccess={fetchDeductions}
       />
     </div>
     </DashboardLayout>

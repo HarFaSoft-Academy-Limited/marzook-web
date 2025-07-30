@@ -1,6 +1,9 @@
-"use client"
+"use client";
 
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,148 +13,171 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import axios from "axios";
-import { customBaseUrl } from "@/services/http";
+import { toast } from "@/components/ui/use-toast";
+import { getStaff } from "@/services/staff";
+import { ComboBox } from "@/components/ui/combobox";
+import { generatePayroll } from "@/services/payroll";
 
-type GeneratePayrollModalProps = {
-  staff: any;
-  showModal: boolean;
-  hideModal: (open: boolean) => void;
-};
+const formSchema = z.object({
+  staff_id: z.string().optional(), // Optional for generating for all staff
+  for_month: z.string().min(1, { message: "Month is required." }),
+  basic_salary: z.preprocess(
+    (val) => Number(val),
+    z.number().min(0, { message: "Basic Salary must be a positive number." })
+  ),
+  allowances: z.preprocess(
+    (val) => Number(val),
+    z.number().min(0, { message: "Allowances must be a positive number." })
+  ),
+});
 
-export function GeneratePayrollModal({ staff, showModal, hideModal }: GeneratePayrollModalProps) {
-  const [formData, setFormData] = useState({
-    for_month: "",
-    basic_salary: "",
-    allowances: "",
+interface GeneratePayrollModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSuccess: () => void;
+}
+
+export function GeneratePayrollModal({ isOpen, onClose, onSuccess }: GeneratePayrollModalProps) {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      staff_id: "",
+      for_month: "",
+      basic_salary: 0,
+      allowances: 0,
+    },
   });
-  const [payrollResponse, setPayrollResponse] = useState<any>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const [isLoading, setIsLoading] = useState(false);
+  const [staffList, setStaffList] = useState<{ id: number; name: string }[]>([]);
 
-  const handleGenerate = async () => {
+  useEffect(() => {
+    const fetchStaff = async () => {
+      try {
+        const staff = await getStaff();
+        setStaffList(staff);
+      } catch (error) {
+        console.error("Failed to fetch staff:", error);
+        toast({
+          title: "Error",
+          description: "Failed to load staff list.",
+          variant: "destructive",
+        });
+      }
+    };
+    fetchStaff();
+  }, []);
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
     try {
-      const payload = {
-        staff_id: staff.id,
-        for_month: formData.for_month,
-        basic_salary: parseFloat(formData.basic_salary),
-        allowances: parseFloat(formData.allowances),
-      };
-
-      const response = await axios.post(`${customBaseUrl.baseUrl}/api/v1/payroll/voucher`, payload, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-          "Content-Type": "application/json",
-          "ngrok-skip-browser-warning": "true",
-        },
+      await generatePayroll(values);
+      toast({
+        title: "Payroll Generated",
+        description: "Payroll has been successfully generated.",
       });
-
-      setPayrollResponse(response.data);
-
-      alert("Payroll voucher generated successfully!");
+      onSuccess();
+      onClose();
     } catch (error) {
-      console.error("Error generating payroll voucher:", error);
-      alert("Failed to generate payroll voucher. Please try again.");
-    }
-  };
-
-  const handleDownloadVoucher = async () => {
-    try {
-      const response = await axios.post(`${customBaseUrl.baseUrl}/api/v1/payroll/voucher`, { staff_id: staff.id, for_month: formData.for_month }, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-          "ngrok-skip-browser-warning": "true",
-        },
-        responseType: 'blob',
+      toast({
+        title: "Failed to Generate Payroll",
+        description: "There was an error generating payroll. Please try again.",
+        variant: "destructive",
       });
-
-      const fileURL = window.URL.createObjectURL(new Blob([response.data]));
-      const fileLink = document.createElement('a');
-      fileLink.href = fileURL;
-      fileLink.setAttribute('download', `payroll_voucher_${staff.user.name}_${formData.for_month}.pdf`);
-      document.body.appendChild(fileLink);
-      fileLink.click();
-      fileLink.remove();
-    } catch (error) {
-      console.error("Error downloading payroll voucher:", error);
-      alert("Failed to download payroll voucher. Please try again.");
+      console.error("Error generating payroll:", error);
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }
 
   return (
-    <Dialog open={showModal} onOpenChange={hideModal}>
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Generate Payroll Voucher</DialogTitle>
+          <DialogTitle>Generate Payroll</DialogTitle>
           <DialogDescription>
-            Enter the details to generate the payroll voucher for {staff.user.name}.
+            Select staff and period to generate payroll.
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="for_month" className="text-right">
-              For Month
-            </Label>
-            <Input
-              id="for_month"
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
+            <FormField
+              control={form.control}
+              name="staff_id"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Staff (Optional)</FormLabel>
+                  <FormControl>
+                    <ComboBox
+                      options={staffList.map((staff) => ({
+                        value: staff.id.toString(),
+                        label: staff.user.name + '  ' + staff.phone,
+                      }))}
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      placeholder="Select a staff member (optional)"
+                      searchPlaceholder="Search staff..."
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="for_month"
-              type="date"
-              value={formData.for_month}
-              onChange={handleChange}
-              className="col-span-3"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>For Month (YYYY-MM-DD)</FormLabel>
+                  <FormControl>
+                    <Input type="date" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="basic_salary" className="text-right">
-              Basic Salary
-            </Label>
-            <Input
-              id="basic_salary"
+            <FormField
+              control={form.control}
               name="basic_salary"
-              type="number"
-              value={formData.basic_salary}
-              onChange={handleChange}
-              className="col-span-3"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Basic Salary</FormLabel>
+                  <FormControl>
+                    <Input type="number" step="0.01" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="allowances" className="text-right">
-              Allowances
-            </Label>
-            <Input
-              id="allowances"
+            <FormField
+              control={form.control}
               name="allowances"
-              type="number"
-              value={formData.allowances}
-              onChange={handleChange}
-              className="col-span-3"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Allowances</FormLabel>
+                  <FormControl>
+                    <Input type="number" step="0.01" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-        </div>
-        <DialogFooter>
-          <Button onClick={handleGenerate}>Generate</Button>
-        </DialogFooter>
-
-        {payrollResponse && (
-          <div className="mt-4 p-4 border rounded-md">
-            <h3 className="text-lg font-semibold">Payroll Details</h3>
-            <div className="grid grid-cols-2 gap-2 mt-2">
-              <p><span className="font-semibold">Staff ID:</span> {payrollResponse.staff_id}</p>
-              <p><span className="font-semibold">For Month:</span> {payrollResponse.for_month}</p>
-              <p><span className="font-semibold">Basic Salary:</span> {payrollResponse.basic_salary}</p>
-              <p><span className="font-semibold">Allowances:</span> {payrollResponse.allowances}</p>
-              <p><span className="font-semibold">Deductions:</span> {payrollResponse.deductions}</p>
-              <p><span className="font-semibold">Net Pay:</span> {payrollResponse.net_pay}</p>
-            </div>
-            <Button onClick={handleDownloadVoucher} className="mt-4">
-              Download Voucher
-            </Button>
-          </div>
-        )}
+            <DialogFooter>
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? "Generating..." : "Generate Payroll"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );

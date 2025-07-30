@@ -82,7 +82,7 @@ export function AddPaymentDialog({setReload, reload}:any) {
       const studentsData = await getStudents();
       const feeStructuresData = await getFeeStructures();
       const academicSessionsData = await getAcademicSessions();
-      setStudents(studentsData);
+      setStudents(studentsData.data);
       setFeeStructures(feeStructuresData);
       setAcademicSessions(academicSessionsData);
     };
@@ -153,7 +153,7 @@ export function AddPaymentDialog({setReload, reload}:any) {
                           <CommandInput placeholder="Search student..." />
                           <CommandEmpty>No student found.</CommandEmpty>
                           <CommandGroup>
-                            {students.map((student:any) => (
+                            {students.length >0 && students?.map((student:any) => (
                               <CommandItem
                                 value={student.first_name + ' ' + student.last_name}
                                 key={student.id}

@@ -16,48 +16,13 @@ import {
   Legend,
 } from "recharts"
 
-// Sample data for charts
-const sectionData = [
-  { name: "Primary", students: 520, fill: "#3b82f6" },
-  { name: "Secondary", students: 380, fill: "#22c55e" },
-  { name: "Islamiyya", students: 210, fill: "#eab308" },
-  { name: "Tahfeez", students: 138, fill: "#a855f7" },
-]
+export function SectionDistributionChart({ data }) {
+  const sectionData = data?.class_performance?.map((item, index) => ({
+    name: item.class_name,
+    students: item.student_count,
+    fill: ["#3b82f6", "#22c55e", "#eab308", "#a855f7"][index % 4],
+  }))
 
-const monthlyFeesData = [
-  { name: "Jan", amount: 3500000 },
-  { name: "Feb", amount: 2200000 },
-  { name: "Mar", amount: 1800000 },
-  { name: "Apr", amount: 4200000 },
-  { name: "May", amount: 3800000 },
-  { name: "Jun", amount: 2700000 },
-  { name: "Jul", amount: 1500000 },
-  { name: "Aug", amount: 500000 },
-  { name: "Sep", amount: 3200000 },
-  { name: "Oct", amount: 4500000 },
-  { name: "Nov", amount: 3700000 },
-  { name: "Dec", amount: 2900000 },
-]
-
-const performanceData = [
-  { subject: "Math", score: 78 },
-  { subject: "English", score: 82 },
-  { subject: "Science", score: 65 },
-  { subject: "Social Studies", score: 90 },
-  { subject: "ICT", score: 85 },
-  { subject: "Arabic", score: 72 },
-  { subject: "Islamic Studies", score: 88 },
-]
-
-const attendanceData = [
-  { day: "Mon", primary: 95, secondary: 92, islamiyya: 90 },
-  { day: "Tue", primary: 97, secondary: 94, islamiyya: 93 },
-  { day: "Wed", primary: 94, secondary: 90, islamiyya: 89 },
-  { day: "Thu", primary: 96, secondary: 91, islamiyya: 92 },
-  { day: "Fri", primary: 98, secondary: 95, islamiyya: 96 },
-]
-
-export function SectionDistributionChart() {
   return (
     <Card>
       <CardHeader>
@@ -78,7 +43,7 @@ export function SectionDistributionChart() {
                 fill="#8884d8"
                 dataKey="students"
               >
-                {sectionData.map((entry, index) => (
+                {sectionData?.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.fill} />
                 ))}
               </Pie>
@@ -92,7 +57,12 @@ export function SectionDistributionChart() {
   )
 }
 
-export function MonthlyFeesChart() {
+export function MonthlyFeesChart({ data }) {
+  const monthlyFeesData = data?.monthly_trends?.monthly_revenue?.map((item) => ({
+    name: item.month,
+    amount: item.revenue,
+  }))
+
   return (
     <Card>
       <CardHeader>
@@ -116,7 +86,12 @@ export function MonthlyFeesChart() {
   )
 }
 
-export function SubjectPerformanceChart() {
+export function SubjectPerformanceChart({ data }) {
+  const performanceData = data?.performance?.grade_distribution?.map((item) => ({
+    subject: item.grade,
+    score: item.count,
+  }))
+
   return (
     <Card>
       <CardHeader>
@@ -140,7 +115,12 @@ export function SubjectPerformanceChart() {
   )
 }
 
-export function AttendanceChart() {
+export function AttendanceChart({ data }) {
+  const attendanceData = data?.monthly_attendance?.map((item) => ({
+    day: item.month,
+    primary: item.attendance_rate,
+  }))
+
   return (
     <Card>
       <CardHeader>
