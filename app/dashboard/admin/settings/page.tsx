@@ -13,7 +13,7 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Separator } from "@/components/ui/separator"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { X } from "lucide-react"
 
 import { SubjectManagement } from "@/components/subject-management"
@@ -21,9 +21,19 @@ import { SubjectManagement } from "@/components/subject-management"
 import { RolesPermissionsManagement } from "@/components/roles-permissions-management"
 import { SectionManagement } from "@/components/section-management"
 import { SessionManagement } from "@/components/session-management"
+import { getSettings, updateSettings } from "@/services/settings"
 
 export default function SettingsPage() {
+  const [settings, setSettings] = useState(null);
   const [selectedLogo, setSelectedLogo] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      const settingsData = await getSettings();
+      setSettings(settingsData);
+    };
+    fetchSettings();
+  }, []);
 
   const handleLogoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -36,12 +46,16 @@ export default function SettingsPage() {
     }
   }
 
+  const handleSaveChanges = async () => {
+    await updateSettings(settings);
+  };
+
   return (
     <DashboardLayout userType="admin">
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold tracking-tight">System Settings</h1>
-          <Button className="bg-green-600 hover:bg-green-700">Save Changes</Button>
+          <Button className="bg-green-600 hover:bg-green-700" onClick={handleSaveChanges}>Save Changes</Button>
         </div>
 
         <Tabs defaultValue="general" className="space-y-4">
@@ -65,23 +79,23 @@ export default function SettingsPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="school-name">School Name</Label>
-                    <Input id="school-name" defaultValue="Marzook Model School" />
+                    <Input id="school-name" value={settings?.settings.school_name} onChange={(e) => setSettings({ ...settings, settings: { ...settings.settings, school_name: e.target.value } })} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="school-motto">School Motto</Label>
-                    <Input id="school-motto" defaultValue="Excellence and Virtue" />
+                    <Input id="school-motto" value={settings?.settings.school_motto} onChange={(e) => setSettings({ ...settings, settings: { ...settings.settings, school_motto: e.target.value } })} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="school-email">Email Address</Label>
-                    <Input id="school-email" type="email" defaultValue="info@marzook.edu.ng" />
+                    <Input id="school-email" type="email" value={settings?.settings.email} onChange={(e) => setSettings({ ...settings, settings: { ...settings.settings, email: e.target.value } })} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="school-phone">Phone Number</Label>
-                    <Input id="school-phone" defaultValue="+234 8012345678" />
+                    <Input id="school-phone" value={settings?.settings.phone_number} onChange={(e) => setSettings({ ...settings, settings: { ...settings.settings, phone_number: e.target.value } })} />
                   </div>
                   <div className="space-y-2 md:col-span-2">
                     <Label htmlFor="school-address">Address</Label>
-                    <Textarea id="school-address" defaultValue="123 School Road, Kano, Nigeria" />
+                    <Textarea id="school-address" value={settings?.settings.address} onChange={(e) => setSettings({ ...settings, settings: { ...settings.settings, address: e.target.value } })} />
                   </div>
                 </div>
               </CardContent>
@@ -145,14 +159,14 @@ export default function SettingsPage() {
                         <Label htmlFor="primary-color">Primary Color</Label>
                         <div className="flex gap-2">
                           <div className="w-10 h-10 rounded-md bg-green-600"></div>
-                          <Input id="primary-color" defaultValue="#16a34a" />
+                          <Input id="primary-color" value={settings?.settings.primary_color} onChange={(e) => setSettings({ ...settings, settings: { ...settings.settings, primary_color: e.target.value } })} />
                         </div>
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="secondary-color">Secondary Color</Label>
                         <div className="flex gap-2">
                           <div className="w-10 h-10 rounded-md bg-gray-800"></div>
-                          <Input id="secondary-color" defaultValue="#1f2937" />
+                          <Input id="secondary-color" value={settings?.settings.secondary_color} onChange={(e) => setSettings({ ...settings, settings: { ...settings.settings, secondary_color: e.target.value } })} />
                         </div>
                       </div>
                     </div>
@@ -160,7 +174,7 @@ export default function SettingsPage() {
                       <Label htmlFor="accent-color">Accent Color</Label>
                       <div className="flex gap-2">
                         <div className="w-10 h-10 rounded-md bg-amber-500"></div>
-                        <Input id="accent-color" defaultValue="#f59e0b" />
+                        <Input id="accent-color" value={settings?.settings.accent_color} onChange={(e) => setSettings({ ...settings, settings: { ...settings.settings, accent_color: e.target.value } })} />
                       </div>
                     </div>
                   </div>
@@ -177,27 +191,27 @@ export default function SettingsPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="principal-name">Principal's Name</Label>
-                    <Input id="principal-name" defaultValue="Dr. Ahmad Ibrahim" />
+                    <Input id="principal-name" value={settings?.settings.principal_name} onChange={(e) => setSettings({ ...settings, settings: { ...settings.settings, principal_name: e.target.value } })} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="principal-email">Principal's Email</Label>
-                    <Input id="principal-email" type="email" defaultValue="principal@marzook.edu.ng" />
+                    <Input id="principal-email" type="email" value={settings?.settings.email} onChange={(e) => setSettings({ ...settings, settings: { ...settings.settings, email: e.target.value } })} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="admin-email">Admin Email</Label>
-                    <Input id="admin-email" type="email" defaultValue="admin@marzook.edu.ng" />
+                    <Input id="admin-email" type="email" value={settings?.settings.email} onChange={(e) => setSettings({ ...settings, settings: { ...settings.settings, email: e.target.value } })} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="admin-phone">Admin Phone</Label>
-                    <Input id="admin-phone" defaultValue="+234 8023456789" />
+                    <Input id="admin-phone" value={settings?.settings.phone_number} onChange={(e) => setSettings({ ...settings, settings: { ...settings.settings, phone_number: e.target.value } })} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="website">School Website</Label>
-                    <Input id="website" defaultValue="https://www.marzook.edu.ng" />
+                    <Input id="website" value={settings?.settings.website} onChange={(e) => setSettings({ ...settings, settings: { ...settings.settings, website: e.target.value } })} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="social-media">Social Media Handles</Label>
-                    <Input id="social-media" defaultValue="@marzook" />
+                    <Input id="social-media" value={settings?.settings.facebook_url} onChange={(e) => setSettings({ ...settings, settings: { ...settings.settings, facebook_url: e.target.value } })} />
                   </div>
                 </div>
               </CardContent>
@@ -213,7 +227,7 @@ export default function SettingsPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="current-session">Current Academic Session</Label>
-                    <Select defaultValue="2024-2025">
+                    <Select value={settings?.settings.academic_year_start}>
                       <SelectTrigger id="current-session">
                         <SelectValue placeholder="Select session" />
                       </SelectTrigger>
@@ -226,7 +240,7 @@ export default function SettingsPage() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="current-term">Current Term</Label>
-                    <Select defaultValue="second">
+                    <Select value={settings?.settings.academic_terms[0].name}>
                       <SelectTrigger id="current-term">
                         <SelectValue placeholder="Select term" />
                       </SelectTrigger>
@@ -255,13 +269,13 @@ export default function SettingsPage() {
                               <Label htmlFor="first-term-start" className="text-xs">
                                 Start Date
                               </Label>
-                              <Input id="first-term-start" type="date" defaultValue="2024-09-10" />
+                              <Input id="first-term-start" type="date" value={settings?.settings.academic_terms[0].start_date} />
                             </div>
                             <div className="space-y-1">
                               <Label htmlFor="first-term-end" className="text-xs">
                                 End Date
                               </Label>
-                              <Input id="first-term-end" type="date" defaultValue="2024-12-10" />
+                              <Input id="first-term-end" type="date" value={settings?.settings.academic_terms[0].end_date} />
                             </div>
                           </div>
                         </CardContent>
@@ -276,13 +290,13 @@ export default function SettingsPage() {
                               <Label htmlFor="second-term-start" className="text-xs">
                                 Start Date
                               </Label>
-                              <Input id="second-term-start" type="date" defaultValue="2025-01-10" />
+                              <Input id="second-term-start" type="date" value={settings?.settings.academic_terms[1].start_date} />
                             </div>
                             <div className="space-y-1">
                               <Label htmlFor="second-term-end" className="text-xs">
                                 End Date
                               </Label>
-                              <Input id="second-term-end" type="date" defaultValue="2025-04-30" />
+                              <Input id="second-term-end" type="date" value={settings?.settings.academic_terms[1].end_date} />
                             </div>
                           </div>
                         </CardContent>
@@ -297,13 +311,13 @@ export default function SettingsPage() {
                               <Label htmlFor="third-term-start" className="text-xs">
                                 Start Date
                               </Label>
-                              <Input id="third-term-start" type="date" defaultValue="2025-05-10" />
+                              <Input id="third-term-start" type="date" value={settings?.settings.academic_terms[2].start_date} />
                             </div>
                             <div className="space-y-1">
                               <Label htmlFor="third-term-end" className="text-xs">
                                 End Date
                               </Label>
-                              <Input id="third-term-end" type="date" defaultValue="2025-07-30" />
+                              <Input id="third-term-end" type="date" value={settings?.settings.academic_terms[2].end_date} />
                             </div>
                           </div>
                         </CardContent>
@@ -334,9 +348,9 @@ export default function SettingsPage() {
                           { grade: "F", range: "0-39", remark: "Fail" },
                         ].map((item, index) => (
                           <div key={index} className="grid grid-cols-4 gap-2">
-                            <Input defaultValue={item.grade} className="col-span-1" />
-                            <Input defaultValue={item.range} className="col-span-1" />
-                            <Input defaultValue={item.remark} className="col-span-2" />
+                            <Input value={item.grade} className="col-span-1" />
+                            <Input value={item.range} className="col-span-1" />
+                            <Input value={item.remark} className="col-span-2" />
                           </div>
                         ))}
                       </div>
@@ -361,9 +375,9 @@ export default function SettingsPage() {
                           { grade: "F9", range: "0-39", remark: "Fail" },
                         ].map((item, index) => (
                           <div key={index} className="grid grid-cols-4 gap-2">
-                            <Input defaultValue={item.grade} className="col-span-1" />
-                            <Input defaultValue={item.range} className="col-span-1" />
-                            <Input defaultValue={item.remark} className="col-span-2" />
+                            <Input value={item.grade} className="col-span-1" />
+                            <Input value={item.range} className="col-span-1" />
+                            <Input value={item.remark} className="col-span-2" />
                           </div>
                         ))}
                       </div>
@@ -389,8 +403,8 @@ export default function SettingsPage() {
                         { name: "Examination", weight: 60 },
                       ].map((item, index) => (
                         <div key={index} className="flex items-center gap-2">
-                          <Input defaultValue={item.name} className="flex-1" />
-                          <Input type="number" defaultValue={item.weight} className="w-20" min="0" max="100" />
+                          <Input value={item.name} className="flex-1" />
+                          <Input type="number" value={item.weight} className="w-20" min="0" max="100" />
                           <span className="text-sm">%</span>
                         </div>
                       ))}
@@ -409,8 +423,8 @@ export default function SettingsPage() {
                         { name: "Examination", weight: 60 },
                       ].map((item, index) => (
                         <div key={index} className="flex items-center gap-2">
-                          <Input defaultValue={item.name} className="flex-1" />
-                          <Input type="number" defaultValue={item.weight} className="w-20" min="0" max="100" />
+                          <Input value={item.name} className="flex-1" />
+                          <Input type="number" value={item.weight} className="w-20" min="0" max="100" />
                           <span className="text-sm">%</span>
                         </div>
                       ))}
@@ -438,14 +452,14 @@ export default function SettingsPage() {
                       <Label htmlFor="min-average" className="min-w-40">
                         Minimum average score:
                       </Label>
-                      <Input id="min-average" type="number" defaultValue="45" className="w-20" />
+                      <Input id="min-average" type="number" value="45" className="w-20" />
                       <span className="text-sm">%</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Label htmlFor="min-subjects" className="min-w-40">
                         Minimum subjects to pass:
                       </Label>
-                      <Input id="min-subjects" type="number" defaultValue="6" className="w-20" />
+                      <Input id="min-subjects" type="number" value="6" className="w-20" />
                     </div>
                   </div>
                 </div>
@@ -470,28 +484,28 @@ export default function SettingsPage() {
                         <Label htmlFor="email-results">Result Publication</Label>
                         <p className="text-sm text-muted-foreground">Notify when results are published</p>
                       </div>
-                      <Switch id="email-results" defaultChecked />
+                      <Switch id="email-results" checked={settings?.settings.enable_email_notifications} />
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label htmlFor="email-fees">Fee Reminders</Label>
                         <p className="text-sm text-muted-foreground">Send fee payment reminders</p>
                       </div>
-                      <Switch id="email-fees" defaultChecked />
+                      <Switch id="email-fees" checked={settings?.settings.enable_fee_reminders} />
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label htmlFor="email-attendance">Attendance Alerts</Label>
                         <p className="text-sm text-muted-foreground">Notify about student absences</p>
                       </div>
-                      <Switch id="email-attendance" defaultChecked />
+                      <Switch id="email-attendance" checked={settings?.settings.enable_auto_reminders} />
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label htmlFor="email-events">School Events</Label>
                         <p className="text-sm text-muted-foreground">Notify about upcoming school events</p>
                       </div>
-                      <Switch id="email-events" defaultChecked />
+                      <Switch id="email-events" checked={settings?.settings.enable_email_notifications} />
                     </div>
                   </div>
                 </div>
@@ -506,28 +520,28 @@ export default function SettingsPage() {
                         <Label htmlFor="sms-results">Result Publication</Label>
                         <p className="text-sm text-muted-foreground">Notify when results are published</p>
                       </div>
-                      <Switch id="sms-results" defaultChecked />
+                      <Switch id="sms-results" checked={settings?.settings.enable_sms_notifications} />
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label htmlFor="sms-fees">Fee Reminders</Label>
                         <p className="text-sm text-muted-foreground">Send fee payment reminders</p>
                       </div>
-                      <Switch id="sms-fees" defaultChecked />
+                      <Switch id="sms-fees" checked={settings?.settings.enable_sms_notifications} />
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label htmlFor="sms-attendance">Attendance Alerts</Label>
                         <p className="text-sm text-muted-foreground">Notify about student absences</p>
                       </div>
-                      <Switch id="sms-attendance" defaultChecked />
+                      <Switch id="sms-attendance" checked={settings?.settings.enable_sms_notifications} />
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label htmlFor="sms-events">School Events</Label>
                         <p className="text-sm text-muted-foreground">Notify about upcoming school events</p>
                       </div>
-                      <Switch id="sms-events" />
+                      <Switch id="sms-events" checked={settings?.settings.enable_sms_notifications} />
                     </div>
                   </div>
                 </div>
@@ -542,35 +556,35 @@ export default function SettingsPage() {
                         <Label htmlFor="app-results">Result Publication</Label>
                         <p className="text-sm text-muted-foreground">Notify when results are published</p>
                       </div>
-                      <Switch id="app-results" defaultChecked />
+                      <Switch id="app-results" checked={settings?.settings.enable_push_notifications} />
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label htmlFor="app-fees">Fee Reminders</Label>
                         <p className="text-sm text-muted-foreground">Send fee payment reminders</p>
                       </div>
-                      <Switch id="app-fees" defaultChecked />
+                      <Switch id="app-fees" checked={settings?.settings.enable_push_notifications} />
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label htmlFor="app-attendance">Attendance Alerts</Label>
                         <p className="text-sm text-muted-foreground">Notify about student absences</p>
                       </div>
-                      <Switch id="app-attendance" defaultChecked />
+                      <Switch id="app-attendance" checked={settings?.settings.enable_push_notifications} />
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label htmlFor="app-events">School Events</Label>
                         <p className="text-sm text-muted-foreground">Notify about upcoming school events</p>
                       </div>
-                      <Switch id="app-events" defaultChecked />
+                      <Switch id="app-events" checked={settings?.settings.enable_push_notifications} />
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label htmlFor="app-messages">New Messages</Label>
                         <p className="text-sm text-muted-foreground">Notify about new messages</p>
                       </div>
-                      <Switch id="app-messages" defaultChecked />
+                      <Switch id="app-messages" checked={settings?.settings.enable_push_notifications} />
                     </div>
                   </div>
                 </div>
@@ -588,7 +602,7 @@ export default function SettingsPage() {
                     <Label htmlFor="template-result">Result Publication Template</Label>
                     <Textarea
                       id="template-result"
-                      defaultValue="Dear [PARENT_NAME], the [TERM] results for [STUDENT_NAME] are now available. Please log in to the portal to view them. Thank you."
+                      value={settings?.settings.report_disclaimer}
                       className="min-h-[100px]"
                     />
                     <p className="text-xs text-muted-foreground">
@@ -599,7 +613,7 @@ export default function SettingsPage() {
                     <Label htmlFor="template-fee">Fee Reminder Template</Label>
                     <Textarea
                       id="template-fee"
-                      defaultValue="Dear [PARENT_NAME], this is a reminder that [STUDENT_NAME]'s fees for [TERM] (₦[AMOUNT]) are due on [DUE_DATE]. Please make payment to avoid late charges. Thank you."
+                      value="Dear [PARENT_NAME], this is a reminder that [STUDENT_NAME]'s fees for [TERM] (₦[AMOUNT]) are due on [DUE_DATE]. Please make payment to avoid late charges. Thank you."
                       className="min-h-[100px]"
                     />
                     <p className="text-xs text-muted-foreground">
@@ -610,7 +624,7 @@ export default function SettingsPage() {
                     <Label htmlFor="template-attendance">Attendance Alert Template</Label>
                     <Textarea
                       id="template-attendance"
-                      defaultValue="Dear [PARENT_NAME], please note that [STUDENT_NAME] was absent from school today ([DATE]). If this was not authorized, please contact the school administration. Thank you."
+                      value="Dear [PARENT_NAME], please note that [STUDENT_NAME] was absent from school today ([DATE]). If this was not authorized, please contact the school administration. Thank you."
                       className="min-h-[100px]"
                     />
                     <p className="text-xs text-muted-foreground">
@@ -642,46 +656,46 @@ export default function SettingsPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="timezone">Timezone</Label>
-                      <Select defaultValue="africa-lagos">
+                      <Select value={settings?.settings.timezone}>
                         <SelectTrigger id="timezone">
                           <SelectValue placeholder="Select timezone" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="africa-lagos">Africa/Lagos (GMT+1)</SelectItem>
-                          <SelectItem value="africa-cairo">Africa/Cairo (GMT+2)</SelectItem>
-                          <SelectItem value="europe-london">Europe/London (GMT+0)</SelectItem>
-                          <SelectItem value="america-new_york">America/New_York (GMT-5)</SelectItem>
+                          <SelectItem value="Africa/Lagos">Africa/Lagos (GMT+1)</SelectItem>
+                          <SelectItem value="Africa/Cairo">Africa/Cairo (GMT+2)</SelectItem>
+                          <SelectItem value="Europe/London">Europe/London (GMT+0)</SelectItem>
+                          <SelectItem value="America/New_York">America/New_York (GMT-5)</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="date-format">Date Format</Label>
-                      <Select defaultValue="dd-mm-yyyy">
+                      <Select value={settings?.settings.date_format}>
                         <SelectTrigger id="date-format">
                           <SelectValue placeholder="Select date format" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="dd-mm-yyyy">DD-MM-YYYY</SelectItem>
-                          <SelectItem value="mm-dd-yyyy">MM-DD-YYYY</SelectItem>
-                          <SelectItem value="yyyy-mm-dd">YYYY-MM-DD</SelectItem>
+                          <SelectItem value="d/m/Y">DD-MM-YYYY</SelectItem>
+                          <SelectItem value="m/d/Y">MM-DD-YYYY</SelectItem>
+                          <SelectItem value="Y/m/d">YYYY-MM-DD</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="time-format">Time Format</Label>
-                      <Select defaultValue="24h">
+                      <Select value={settings?.settings.time_format}>
                         <SelectTrigger id="time-format">
                           <SelectValue placeholder="Select time format" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="12h">12-hour (AM/PM)</SelectItem>
-                          <SelectItem value="24h">24-hour</SelectItem>
+                          <SelectItem value="h:i A">12-hour (AM/PM)</SelectItem>
+                          <SelectItem value="H:i">24-hour</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="first-day">First Day of Week</Label>
-                      <Select defaultValue="monday">
+                      <Select value="monday">
                         <SelectTrigger id="first-day">
                           <SelectValue placeholder="Select first day" />
                         </SelectTrigger>
@@ -704,13 +718,13 @@ export default function SettingsPage() {
                         <Label htmlFor="auto-backup">Automatic Backups</Label>
                         <p className="text-sm text-muted-foreground">Schedule regular database backups</p>
                       </div>
-                      <Switch id="auto-backup" defaultChecked />
+                      <Switch id="auto-backup" checked={true} />
                     </div>
                     <div className="flex items-center space-x-2">
                       <Label htmlFor="backup-frequency" className="min-w-40">
                         Backup Frequency:
                       </Label>
-                      <Select defaultValue="daily">
+                      <Select value="daily">
                         <SelectTrigger id="backup-frequency" className="w-40">
                           <SelectValue placeholder="Select frequency" />
                         </SelectTrigger>
@@ -725,13 +739,13 @@ export default function SettingsPage() {
                       <Label htmlFor="backup-time" className="min-w-40">
                         Backup Time:
                       </Label>
-                      <Input id="backup-time" type="time" defaultValue="02:00" className="w-40" />
+                      <Input id="backup-time" type="time" value="02:00" className="w-40" />
                     </div>
                     <div className="flex items-center space-x-2">
                       <Label htmlFor="backup-retention" className="min-w-40">
                         Retention Period:
                       </Label>
-                      <Input id="backup-retention" type="number" defaultValue="30" className="w-20" />
+                      <Input id="backup-retention" type="number" value="30" className="w-20" />
                       <span className="text-sm">days</span>
                     </div>
                     <div className="pt-2">
@@ -750,13 +764,13 @@ export default function SettingsPage() {
                         <Label htmlFor="maintenance-mode">Maintenance Mode</Label>
                         <p className="text-sm text-muted-foreground">Put the system in maintenance mode</p>
                       </div>
-                      <Switch id="maintenance-mode" />
+                      <Switch id="maintenance-mode" checked={settings?.settings.maintenance_mode} />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="maintenance-message">Maintenance Message</Label>
                       <Textarea
                         id="maintenance-message"
-                        defaultValue="The system is currently undergoing scheduled maintenance. Please check back later."
+                        value={settings?.settings.maintenance_message}
                         className="min-h-[100px]"
                       />
                     </div>
@@ -780,13 +794,13 @@ export default function SettingsPage() {
                         <Label htmlFor="enable-logs">Enable System Logs</Label>
                         <p className="text-sm text-muted-foreground">Record system activities and errors</p>
                       </div>
-                      <Switch id="enable-logs" defaultChecked />
+                      <Switch id="enable-logs" checked={true} />
                     </div>
                     <div className="flex items-center space-x-2">
                       <Label htmlFor="log-level" className="min-w-40">
                         Log Level:
                       </Label>
-                      <Select defaultValue="info">
+                      <Select value="info">
                         <SelectTrigger id="log-level" className="w-40">
                           <SelectValue placeholder="Select log level" />
                         </SelectTrigger>
@@ -802,7 +816,7 @@ export default function SettingsPage() {
                       <Label htmlFor="log-retention" className="min-w-40">
                         Log Retention:
                       </Label>
-                      <Input id="log-retention" type="number" defaultValue="90" className="w-20" />
+                      <Input id="log-retention" type="number" value="90" className="w-20" />
                       <span className="text-sm">days</span>
                     </div>
                     <div className="pt-2">
